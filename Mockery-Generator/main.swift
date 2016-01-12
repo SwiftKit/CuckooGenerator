@@ -10,6 +10,7 @@
 import Foundation
 import SourceKittenFramework
 import SwiftXPC
+import Commandant
 
 let testableFrameworks: [String] = ["UIKit"]
 let source: String = [
