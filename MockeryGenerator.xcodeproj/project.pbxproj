@@ -17,7 +17,7 @@
 		18E16D831C45D8B30084EF54 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D511C45A6890084EF54 /* Utils.swift */; };
 		18E16D841C45D8B30084EF54 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D531C45A6AF0084EF54 /* Parser.swift */; };
 		18E16D851C45D8B30084EF54 /* SourceDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D551C45A6C40084EF54 /* SourceDefinitions.swift */; };
-		18E16D861C45D8B30084EF54 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D571C45A70D0084EF54 /* Generator.swift */; };
+		18E16D861C45D8B30084EF54 /* Generator_r0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D571C45A70D0084EF54 /* Generator_r0.swift */; };
 		18E16D871C45D8B30084EF54 /* FileHeaderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */; };
 		18E16D891C45D8F50084EF54 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D5B1C45CCEA0084EF54 /* FileKit.framework */; };
 		18E16D8A1C45D8F50084EF54 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D4C1C4595FF0084EF54 /* Result.framework */; };
@@ -33,6 +33,8 @@
 		18E16D951C45D9B80084EF54 /* SWXMLHash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B19D1C457ABD0036E924 /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D961C45D9B80084EF54 /* SourceKittenFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B1991C457AB70036E924 /* SourceKittenFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D991C45DF7F0084EF54 /* Components.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E16D981C45DF7F0084EF54 /* Components.plist */; };
+		18F2BC1A1C46E6C50015A95F /* MockeryRuntimeVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC191C46E6C50015A95F /* MockeryRuntimeVersion.swift */; };
+		18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC1B1C46E8760015A95F /* Generator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +104,7 @@
 		18E16D511C45A6890084EF54 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		18E16D531C45A6AF0084EF54 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		18E16D551C45A6C40084EF54 /* SourceDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceDefinitions.swift; sourceTree = "<group>"; };
-		18E16D571C45A70D0084EF54 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
+		18E16D571C45A70D0084EF54 /* Generator_r0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r0.swift; sourceTree = "<group>"; };
 		18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHeaderHandler.swift; sourceTree = "<group>"; };
 		18E16D5B1C45CCEA0084EF54 /* FileKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileKit.framework; path = Carthage/Build/Mac/FileKit.framework; sourceTree = "<group>"; };
 		18E16D5F1C45CE990084EF54 /* MockeryGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockeryGeneratorError.swift; sourceTree = "<group>"; };
@@ -113,6 +115,8 @@
 		18E16D761C45D8280084EF54 /* MockeryGeneratorFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockeryGeneratorFrameworkTests.swift; sourceTree = "<group>"; };
 		18E16D781C45D8280084EF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18E16D981C45DF7F0084EF54 /* Components.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Components.plist; sourceTree = "<group>"; };
+		18F2BC191C46E6C50015A95F /* MockeryRuntimeVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockeryRuntimeVersion.swift; path = MockeryGeneratorFramework/MockeryRuntimeVersion.swift; sourceTree = "<group>"; };
+		18F2BC1B1C46E8760015A95F /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +179,7 @@
 				18E16D671C45D8280084EF54 /* MockeryGeneratorFramework */,
 				18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */,
 				18E16D5F1C45CE990084EF54 /* MockeryGeneratorError.swift */,
+				18F2BC191C46E6C50015A95F /* MockeryRuntimeVersion.swift */,
 				1808B1AA1C4581070036E924 /* main.swift */,
 			);
 			path = Source;
@@ -197,12 +202,13 @@
 			isa = PBXGroup;
 			children = (
 				18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */,
-				18E16D571C45A70D0084EF54 /* Generator.swift */,
+				18E16D571C45A70D0084EF54 /* Generator_r0.swift */,
 				18E16D6A1C45D8280084EF54 /* Info.plist */,
 				18E16D681C45D8280084EF54 /* MockeryGeneratorFramework.h */,
 				18E16D531C45A6AF0084EF54 /* Parser.swift */,
 				18E16D551C45A6C40084EF54 /* SourceDefinitions.swift */,
 				18E16D511C45A6890084EF54 /* Utils.swift */,
+				18F2BC1B1C46E8760015A95F /* Generator.swift */,
 			);
 			name = MockeryGeneratorFramework;
 			path = Source/MockeryGeneratorFramework;
@@ -371,6 +377,7 @@
 			files = (
 				18E16D501C4599FB0084EF54 /* GenerateMocksCommand.swift in Sources */,
 				1808B1AB1C4581070036E924 /* main.swift in Sources */,
+				18F2BC1A1C46E6C50015A95F /* MockeryRuntimeVersion.swift in Sources */,
 				18E16D8F1C45D9380084EF54 /* MockeryGeneratorError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,8 +387,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				18E16D841C45D8B30084EF54 /* Parser.swift in Sources */,
-				18E16D861C45D8B30084EF54 /* Generator.swift in Sources */,
+				18E16D861C45D8B30084EF54 /* Generator_r0.swift in Sources */,
 				18E16D851C45D8B30084EF54 /* SourceDefinitions.swift in Sources */,
+				18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */,
 				18E16D831C45D8B30084EF54 /* Utils.swift in Sources */,
 				18E16D871C45D8B30084EF54 /* FileHeaderHandler.swift in Sources */,
 			);

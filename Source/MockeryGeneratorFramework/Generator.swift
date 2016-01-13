@@ -1,79 +1,52 @@
 //
-//  Generator.swift
-//  Mockery-Generator
+//  GeneratorHelpers.swift
+//  MockeryGenerator
 //
-//  Created by Tadeas Kriz on 12/01/16.
+//  Created by Tadeas Kriz on 13/01/16.
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
+typealias Parameter = (name: String, type: String)
 
-public struct Generator {
-    typealias Parameter = (name: String, type: String)
+public protocol Generator {
+    
+    static func generate(file: FileRepresentation) -> [String]
+    
+    static func generate(parts: [Declaration]) -> [String]
+    
+    static func generate(part: Declaration) -> [String]
+
+    static func generateWithIndentation(indentation: String)(_ parts: [Declaration]) -> [String]
+    
+    static func generateWithIndentation(indentation: String)(_ part: Declaration) -> [String]
+}
+
+extension Generator {
     
     public static func generate(file: FileRepresentation) -> [String] {
-        return file.declarations.flatMap(generate())
+        return file.declarations.flatMap(generate)
     }
     
-    public static func generate(indentation: String = "")(_ parts: [Declaration]) -> [String] {
-        return parts.flatMap(generate(indentation))
+    public static func generate(parts: [Declaration]) -> [String] {
+        return parts.flatMap(generate)
     }
     
-    public static func generate(indentation: String = "")(_ part: Declaration) -> [String] {
-        var output: [String] = []
-        
-        switch part {
-        case .ProtocolDeclaration(let name, let accessibility, _, _, _, let children):
-            guard accessibility != .Private else { return [] }
-            
-            output += "\(accessibility.sourceName) class Mock_\(name): \(name) {"
-            output += ""
-            output += "    let wrapped: \(name)"
-            output += ""
-            output += "    \(accessibility.sourceName) init(wrapped: \(name)) {"
-            output += "        self.wrapped = wrapped"
-            output += "    }"
-            output += generate(indentation + "    ")(children)
-            output += "}"
-            
-        case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameters):
-            guard accessibility != .Private else { return [] }
-            let rawName = name.takeUntilStringOccurs("(")
-            
-            let unlabeledParameters: [Parameter] = keyValueArrayToTupleArray(generate()(parameters)).map { $0 }
-            let fullyQualifiedName = rawName + fullyQualifiedMethodName(name, parameters: unlabeledParameters)
-            let parametersString = prependParametersWithLabels(name, parameters: unlabeledParameters).joinWithSeparator(", ")
-            let shouldTry: String
-            if returnSignature.containsString("throws") {
-                shouldTry = "try "
-            } else {
-                shouldTry = ""
-            }
-            
-            output += ""
-            output += "\(accessibility.sourceName) var allow_\(fullyQualifiedName): Bool = false"
-            output += "\(accessibility.sourceName) private(set) var timesCalled_\(fullyQualifiedName): Int = 0"
-            output += "\(accessibility.sourceName) func \(rawName)(\(parametersString))\(returnSignature) {"
-            output += "    assert(allow_\(fullyQualifiedName), \"This method was not allowed to be called!\")"
-            output += "    timesCalled_\(fullyQualifiedName) += 1"
-            output += "    return \(shouldTry)wrapped.\(rawName)(\(prependParameterCallsWithLabels(name, parameters: unlabeledParameters).joinWithSeparator(", ")))"
-            output += "}"
-        case .MethodParameter(let name, let type, _, _):
-            output += "\(name)"
-            output += "\(type)"
-        }
-        
-        return output.map { "\(indentation)\($0)" }
+    public static func generate(part: Declaration) -> [String] {
+        return generateWithIndentation("")(part)
     }
     
+    public static func generateWithIndentation(indentation: String)(_ parts: [Declaration]) -> [String] {
+        return parts.flatMap(generateWithIndentation(indentation))
+    }
     
-    private static func parameterLabels(methodName: String) -> [String] {
+    internal static func parameterLabels(methodName: String) -> [String] {
         // Takes the string between `(` and `)`
         let parameters = methodName.componentsSeparatedByString("(").last?.characters.dropLast(1).map { "\($0)" }.joinWithSeparator("")
-        
+            
         return parameters!.componentsSeparatedByString(":")
     }
-    
-    private static func prependParametersWithLabels(methodName: String, parameters: [Parameter]) -> [String] {
+        
+    internal static func prependParametersWithLabels(methodName: String, parameters: [Parameter]) -> [String] {
         let labels = parameterLabels(methodName)
         
         return parameters.enumerate().map { index, parameter in
@@ -92,7 +65,7 @@ public struct Generator {
         }
     }
     
-    private static func prependParameterCallsWithLabels(methodName: String, parameters: [Parameter]) -> [String] {
+    internal static func prependParameterCallsWithLabels(methodName: String, parameters: [Parameter]) -> [String] {
         let labels = parameterLabels(methodName)
         
         return parameters.enumerate().map { index, parameter in
@@ -111,7 +84,7 @@ public struct Generator {
         }
     }
     
-    private static func fullyQualifiedMethodName(name: String, parameters: [Parameter]) -> String {
+    internal static func fullyQualifiedMethodName(name: String, parameters: [Parameter]) -> String {
         let labels = parameterLabels(name)
         
         return parameters.enumerate().map { index, parameter in
@@ -130,8 +103,9 @@ public struct Generator {
             }.joinWithSeparator("")
     }
     
-    private static func safeTypeName(typeName: String) -> String {
+    internal static func safeTypeName(typeName: String) -> String {
         let charactersToRemove = NSCharacterSet.alphanumericCharacterSet().invertedSet
         return typeName.componentsSeparatedByCharactersInSet(charactersToRemove).joinWithSeparator("")
     }
+    
 }
