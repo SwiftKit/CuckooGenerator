@@ -1,15 +1,15 @@
 //
-//  Mockery_GeneratorTests.swift
-//  Mockery-GeneratorTests
+//  MockeryGeneratorFrameworkTests.swift
+//  MockeryGeneratorFrameworkTests
 //
-//  Created by Tadeas Kriz on 12/01/16.
+//  Created by Tadeas Kriz on 13/01/16.
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
 import XCTest
-@testable import Mockery_Generator
+@testable import MockeryGeneratorFramework
 
-class Mockery_GeneratorTests: XCTestCase {
+class MockeryGeneratorFrameworkTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

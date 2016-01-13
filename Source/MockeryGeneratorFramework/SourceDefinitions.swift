@@ -9,29 +9,6 @@
 import SourceKittenFramework
 import SwiftXPC
 
-enum Kinds: String {
-    case ProtocolDeclaration = "source.lang.swift.decl.protocol"
-    case InstanceMethod = "source.lang.swift.decl.function.method.instance"
-    case MethodParameter = "source.lang.swift.decl.var.parameter"
-}
-
-enum Accessibility: String {
-    case Public = "source.lang.swift.accessibility.public"
-    case Internal = "source.lang.swift.accessibility.internal"
-    case Private = "source.lang.swift.accessibility.private"
-    
-    var sourceName: String {
-        switch self {
-        case .Public:
-            return "public"
-        case .Internal:
-            return "internal"
-        case .Private:
-            return "private"
-        }
-    }
-}
-
 enum Key: String {
     case Substructure = "key.substructure"
     case Kind = "key.kind"
@@ -49,12 +26,35 @@ enum Key: String {
     case BodyOffset = "key.bodyoffset"
 }
 
-struct FileRepresentation {
+enum Kinds: String {
+    case ProtocolDeclaration = "source.lang.swift.decl.protocol"
+    case InstanceMethod = "source.lang.swift.decl.function.method.instance"
+    case MethodParameter = "source.lang.swift.decl.var.parameter"
+}
+
+public enum Accessibility: String {
+    case Public = "source.lang.swift.accessibility.public"
+    case Internal = "source.lang.swift.accessibility.internal"
+    case Private = "source.lang.swift.accessibility.private"
+    
+    var sourceName: String {
+        switch self {
+        case .Public:
+            return "public"
+        case .Internal:
+            return "internal"
+        case .Private:
+            return "private"
+        }
+    }
+}
+
+public struct FileRepresentation {
     let sourceFile: File
     let declarations: [Declaration]
 }
 
-indirect enum Declaration {
+public indirect enum Declaration {
     case ProtocolDeclaration(
         name: String,
         accessibility: Accessibility,
@@ -110,7 +110,14 @@ indirect enum Declaration {
                 Declaration(representable: $0, source: source)
             }.filterNil()
             
-            let returnSignature = source[nameRange!.endIndex..<bodyRange!.endIndex]
+            
+            // FIXME When bodyRange != nil, we need to create .Method instead of .ProtocolMethod
+            let returnSignature: String
+            if let bodyRange = bodyRange {
+                returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex]
+            } else {
+                returnSignature = source[nameRange!.endIndex..<range!.endIndex]
+            }
             
             self = .ProtocolMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, parameters: parameters)
         case Kinds.MethodParameter.rawValue:

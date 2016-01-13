@@ -58,7 +58,21 @@ func keyValueArrayToDict(keyValueArray: [String]) -> [String: String] {
     return output
 }
 
-protocol _OptionalProtocol {
+func keyValueArrayToTupleArray(keyValueArray: [String]) -> [(String, String)] {
+    var output: [(String, String)] = []
+    var current: (key: String, value: String) = ("", "")
+    for (index, keyValue) in keyValueArray.enumerate() {
+        if index % 2 == 0 {
+            current = (keyValue, "")
+        } else {
+            current.value = keyValue
+            output.append(current)
+        }
+    }
+    return output
+}
+
+public protocol _OptionalProtocol {
     typealias WrappedType
     
     @warn_unused_result
@@ -81,9 +95,9 @@ extension Optional where Wrapped: _OptionalProtocol {
     }
 }
 
-extension Array where Element: _OptionalProtocol {
+public extension Array where Element: _OptionalProtocol {
     @warn_unused_result
-    func filterNil() -> Array<Element.WrappedType> {
+    public func filterNil() -> Array<Element.WrappedType> {
         return map { $0.optionalValue() }.filter { $0 != nil }.map { $0! }
     }
 }

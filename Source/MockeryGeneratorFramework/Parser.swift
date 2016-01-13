@@ -9,9 +9,9 @@
 import SourceKittenFramework
 import SwiftXPC
 
-struct Parser {
+public struct Parser {
     
-    static func parse(sourceFile: File) -> FileRepresentation {
+    public static func parse(sourceFile: File) -> FileRepresentation {
         let structure = Structure(file: sourceFile)
         
         let declarations = (structure.dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {

@@ -10,6 +10,7 @@ import Commandant
 import Result
 import SourceKittenFramework
 import FileKit
+import MockeryGeneratorFramework
 
 struct GenerateMocksCommand: CommandType {
     
@@ -17,7 +18,7 @@ struct GenerateMocksCommand: CommandType {
     let function = "Generates mock files"
     
     func run(options: Options) -> Result<(), MockeryGeneratorError> {
-        let parsedFiles = options.files.map(File.init).map(Parser.parse)
+        let parsedFiles = options.files.map { File(path: $0) }.filterNil().map(Parser.parse)
         let headers = parsedFiles.map(FileHeaderHandler.getHeader(options.testableFrameworks))
         let mocks = parsedFiles.map(Generator.generate)
         let mergedFiles = zip(headers, mocks).map { $0 + $1.joinWithSeparator("\n") }
@@ -26,9 +27,10 @@ struct GenerateMocksCommand: CommandType {
         
         do {
             if outputPath.isDirectory {
-                let inputPaths = parsedFiles.map(Path.init)
+                let inputPaths = options.files.map { Path($0) }
                 for (inputPath, outputText) in zip(inputPaths, mergedFiles) {
                     let outputFile = TextFile(path: outputPath + inputPath.fileName)
+                    print(outputText, outputFile)
                     try outputText |> outputFile
                 }
             } else {
@@ -50,15 +52,15 @@ struct GenerateMocksCommand: CommandType {
         let output: String
         let testableFrameworks: [String]
         
-        static func create(files: [String])(output: String)(testableFrameworks: String) -> Options {
-            return Options(files: files, output: output, testableFrameworks: testableFrameworks.componentsSeparatedByString(","))
+        static func create(output: String)(testableFrameworks: String)(files: [String]) -> Options {
+            return Options(files: files, output: output, testableFrameworks: testableFrameworks.componentsSeparatedByString(",").filter { !$0.isEmpty })
         }
         
         static func evaluate(m: CommandMode) -> Result<Options, CommandantError<MockeryGeneratorError>> {
             return create
-                <*> m <| Argument(usage: "Files to parse")
-                <*> m <| Option(key: "output", usage: "Where to put the generated mocks. If a path to a directory is supplied, each input file will have a respective output file with mocks. If a path to a Swift file is supplied, all mocks will be in a single file.")
-                <*> m <| Option(key: "testable", defaultValue: "", usage: "A comma separated list of frameworks that should be marked as @testable in the mock files.")
+                <*> m <| Option(key: "output", usage: "Where to put the generated mocks.\nIf a path to a directory is supplied, each input file will have a respective output file with mocks.\nIf a path to a Swift file is supplied, all mocks will be in a single file.")
+                <*> m <| Option(key: "testable", defaultValue: "", usage: "A comma separated list of frameworks that should be imported as @testable in the mock files.")
+                <*> m <| Argument(usage: "Files to parse and generate mocks for")
         }
     }
 }
