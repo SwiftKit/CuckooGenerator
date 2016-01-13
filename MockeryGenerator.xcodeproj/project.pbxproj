@@ -115,7 +115,7 @@
 		18E16D761C45D8280084EF54 /* MockeryGeneratorFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockeryGeneratorFrameworkTests.swift; sourceTree = "<group>"; };
 		18E16D781C45D8280084EF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18E16D981C45DF7F0084EF54 /* Components.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Components.plist; sourceTree = "<group>"; };
-		18F2BC191C46E6C50015A95F /* MockeryRuntimeVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockeryRuntimeVersion.swift; path = MockeryGeneratorFramework/MockeryRuntimeVersion.swift; sourceTree = "<group>"; };
+		18F2BC191C46E6C50015A95F /* MockeryRuntimeVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockeryRuntimeVersion.swift; sourceTree = "<group>"; };
 		18F2BC1B1C46E8760015A95F /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
