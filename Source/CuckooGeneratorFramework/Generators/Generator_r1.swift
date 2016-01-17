@@ -50,7 +50,7 @@ struct Generator_r1: Generator {
             if !parameters.isEmpty {
                 managerCall += ", parameters: \(prepareEscapingParameters(parameters))"
             }
-            managerCall += ", original: observed?.rawName)(\(methodForwardingCallParameters(parameters)))"
+            managerCall += ", original: observed?.\(rawName))(\(methodForwardingCallParameters(parameters)))"
             
             output += ""
             output += "\(accessibility.sourceName) func \(rawName)(\(parametersSignature))\(returnSignature) {"
