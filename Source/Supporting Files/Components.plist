@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
    Components.plist
-   MockeryGenerator
+   CuckooGenerator
 
    Created by Tadeas Kriz on 13/01/16.
    Copyright (c) 2016 Brightify. All rights reserved.
@@ -20,41 +20,41 @@
     				<key>BundleOverwriteAction</key>
     				<string></string>
     				<key>RootRelativeBundlePath</key>
-    				<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework/Versions/A/Frameworks/FileKit.framework</string>
+    				<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework/Versions/A/Frameworks/FileKit.framework</string>
     			</dict>
     			<dict>
     				<key>BundleOverwriteAction</key>
     				<string></string>
     				<key>RootRelativeBundlePath</key>
-    				<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework/Versions/A/Frameworks/Result.framework</string>
+    				<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework/Versions/A/Frameworks/Result.framework</string>
     			</dict>
     			<dict>
     				<key>BundleOverwriteAction</key>
     				<string></string>
     				<key>RootRelativeBundlePath</key>
-    				<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework/Versions/A/Frameworks/Commandant.framework</string>
+    				<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework/Versions/A/Frameworks/Commandant.framework</string>
     			</dict>
     			<dict>
     				<key>BundleOverwriteAction</key>
     				<string></string>
     				<key>RootRelativeBundlePath</key>
-    				<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework/Versions/A/Frameworks/SwiftXPC.framework</string>
+    				<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework/Versions/A/Frameworks/SwiftXPC.framework</string>
     			</dict>
     			<dict>
     				<key>BundleOverwriteAction</key>
     				<string></string>
     				<key>RootRelativeBundlePath</key>
-    				<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework/Versions/A/Frameworks/SWXMLHash.framework</string>
+    				<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework/Versions/A/Frameworks/SWXMLHash.framework</string>
     			</dict>
                 <dict>
     				<key>BundleOverwriteAction</key>
     				<string></string>
     				<key>RootRelativeBundlePath</key>
-    				<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework/Versions/A/Frameworks/SourceKittenFramework.framework</string>
+    				<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework/Versions/A/Frameworks/SourceKittenFramework.framework</string>
     			</dict>
     		</array>
     		<key>RootRelativeBundlePath</key>
-    		<string>/usr/local/Frameworks/MockeryGeneratorFramework.framework</string>
+    		<string>/usr/local/Frameworks/CuckooGeneratorFramework.framework</string>
     	</dict>
     </array>
 </plist>

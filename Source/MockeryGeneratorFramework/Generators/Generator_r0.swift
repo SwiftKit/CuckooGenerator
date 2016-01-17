@@ -6,13 +6,12 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-
-public struct Generator_r0: Generator {
+struct Generator_r0: Generator {
     
-    public static func generateWithIndentation(indentation: String)(_ part: Declaration) -> [String] {
+    static func generateWithIndentation(indentation: String)(token: Token) -> [String] {
         var output: [String] = []
         
-        switch part {
+        switch token {
         case .ProtocolDeclaration(let name, let accessibility, _, _, _, let children):
             guard accessibility != .Private else { return [] }
             
@@ -23,7 +22,7 @@ public struct Generator_r0: Generator {
             output += "    \(accessibility.sourceName) init(wrapped: \(name)) {"
             output += "        self.wrapped = wrapped"
             output += "    }"
-            output += generateWithIndentation(indentation + "    ")(children)
+            output += generateWithIndentation(indentation + "    ")(tokens: children)
             output += "}"
             
         case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameters):

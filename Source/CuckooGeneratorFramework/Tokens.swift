@@ -24,12 +24,18 @@ enum Key: String {
     
     case BodyLength = "key.bodylength"
     case BodyOffset = "key.bodyoffset"
+    
+    case Attributes = "key.attributes"
+    case Attribute = "key.attribute"
 }
 
 enum Kinds: String {
     case ProtocolDeclaration = "source.lang.swift.decl.protocol"
     case InstanceMethod = "source.lang.swift.decl.function.method.instance"
     case MethodParameter = "source.lang.swift.decl.var.parameter"
+
+    case NoescapeAttribute = "source.decl.attribute.noescape"
+    case AutoclosureAttribute = "source.decl.attribute.autoclosure"
 }
 
 public enum Accessibility: String {
@@ -49,19 +55,61 @@ public enum Accessibility: String {
     }
 }
 
-public struct FileRepresentation {
-    let sourceFile: File
-    let declarations: [Declaration]
+public struct Attributes: OptionSetType {
+    static let none = Attributes(rawValue: 0)
+    static let noescape = Attributes(rawValue: 1 << 0)
+    static let autoclosure = Attributes(rawValue: 1 << 1)
+    static let escaping = Attributes(rawValue: 1 << 2)
+    
+    static let escapingAutoclosure: Attributes = [autoclosure, escaping]
+    
+    public let rawValue : Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    var sourceRepresentation: String {
+        return !self.isEmpty ? sourceRepresentations.joinWithSeparator(" ") + " " : ""
+    }
+    
+    var sourceRepresentations: [String] {
+        var mutableCopy = self
+        var representation: [String] = []
+        
+        if let _ = mutableCopy.remove(Attributes.escapingAutoclosure) {
+            representation += "@autoclosure(escaping)"
+        }
+        
+        if let _ = mutableCopy.remove(Attributes.autoclosure) {
+            representation += "@autoclosure"
+        }
+        
+        if let _ = mutableCopy.remove(Attributes.noescape) {
+            representation += "@noescape"
+        }
+        
+        if !mutableCopy.isEmpty {
+            fputs("Unknown attributes: \(mutableCopy.rawValue)\n", stderr)
+        }
+        
+        return representation
+    }
 }
 
-public indirect enum Declaration {
+public struct FileRepresentation {
+    let sourceFile: File
+    let declarations: [Token]
+}
+
+public indirect enum Token {
     case ProtocolDeclaration(
         name: String,
         accessibility: Accessibility,
         range: Range<Int>,
         nameRange: Range<Int>,
         bodyRange: Range<Int>,
-        children: [Declaration])
+        children: [Token])
 
     case ProtocolMethod(
         name: String,
@@ -69,20 +117,23 @@ public indirect enum Declaration {
         returnSignature: String,
         range: Range<Int>,
         nameRange: Range<Int>,
-        parameters: [Declaration])
+        parameters: [Token])
 
     case MethodParameter(
         name: String,
         type: String,
         range: Range<Int>,
-        nameRange: Range<Int>)
+        nameRange: Range<Int>,
+        attributes: [Token])
+    
+    case Attribute(type: Attributes)
     
     init?(representable: XPCRepresentable, source: String) {
         guard let dictionary = representable as? XPCDictionary else { return nil }
         
         // Common fields
-        let name = dictionary[Key.Name.rawValue] as! String
-        let kind = dictionary[Key.Kind.rawValue] as! String
+        let name = dictionary[Key.Name.rawValue] as? String ?? "name not set"
+        let kind = dictionary[Key.Kind.rawValue] as? String ?? dictionary[Key.Attribute.rawValue] as? String ?? "unknown type"
         
         
         // Optional fields
@@ -93,39 +144,52 @@ public indirect enum Declaration {
         let accessibility = (dictionary[Key.Accessibility.rawValue] as? String).flatMap(Accessibility.init)
         let type = dictionary[Key.TypeName.rawValue] as? String
         
-        //        if offset < fileHeaderLength {
-        //            fileHeaderLength = offset
-        //        }
-        //
-        
         switch kind {
         case Kinds.ProtocolDeclaration.rawValue:
             let children = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
-                Declaration(representable: $0, source: source)
+                Token(representable: $0, source: source)
             }.filterNil()
             
             self = .ProtocolDeclaration(name: name, accessibility: accessibility!, range: range!, nameRange: nameRange!, bodyRange: bodyRange!, children: children)
         case Kinds.InstanceMethod.rawValue:
             let parameters = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
-                Declaration(representable: $0, source: source)
+                Token(representable: $0, source: source)
             }.filterNil()
             
             
             // FIXME When bodyRange != nil, we need to create .Method instead of .ProtocolMethod
             let returnSignature: String
             if let bodyRange = bodyRange {
-                returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex]
+                returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].trimmed
             } else {
-                returnSignature = source[nameRange!.endIndex..<range!.endIndex]
+                returnSignature = source[nameRange!.endIndex..<range!.endIndex].trimmed
             }
             
             self = .ProtocolMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, parameters: parameters)
         case Kinds.MethodParameter.rawValue:
-            self = .MethodParameter(name: name, type: type!, range: range!, nameRange: nameRange!)
+            let attributes: [Token]
+            if let attributeDictionaries = dictionary[Key.Attributes.rawValue] as? XPCArray {
+                attributes = attributeDictionaries.map {
+                    Token(representable: $0, source: source)
+                }.filterNil()
+            } else {
+                attributes = []
+            }
+            
+            self = .MethodParameter(name: name, type: type!, range: range!, nameRange: nameRange!, attributes: attributes)
+        case Kinds.AutoclosureAttribute.rawValue:
+            let autoclosure = "@autoclosure" + source[0..<range!.startIndex].lookBackUntilStringOccurs("@autoclosure")!
+            let escaping = autoclosure.containsString("escaping")
+            if escaping {
+                self = .Attribute(type: .escapingAutoclosure)
+            } else {
+                self = .Attribute(type: .autoclosure)
+            }
+        case Kinds.NoescapeAttribute.rawValue:
+            self = .Attribute(type: .noescape)
         default:
             fputs("Unknown kind: \(kind)", stderr)
             return nil
         }
-        
     }
 }

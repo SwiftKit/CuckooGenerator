@@ -9,8 +9,9 @@
 
 import Commandant
 
-let registry = CommandRegistry<MockeryGeneratorError>()
+let registry = CommandRegistry<CuckooGeneratorError>()
 registry.register(GenerateMocksCommand())
+registry.register(RuntimeCommand())
 
 let helpCommand = HelpCommand(registry: registry)
 registry.register(helpCommand)

@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import MockeryGeneratorFramework
+@testable import CuckooGeneratorFramework
 
-class MockeryGeneratorFrameworkTests: XCTestCase {
+class CuckooGeneratorFrameworkTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -1,19 +1,19 @@
-TEMPORARY_FOLDER?=/tmp/MockeryGenerator.dst
+TEMPORARY_FOLDER?=/tmp/CuckooGenerator.dst
 PREFIX?=/usr/local
 BUILD_TOOL?=xcodebuild
 
-XCODEFLAGS=-project 'MockeryGenerator.xcodeproj' -scheme 'MockeryGenerator' DSTROOT=$(TEMPORARY_FOLDER)
+XCODEFLAGS=-project 'CuckooGenerator.xcodeproj' -scheme 'CuckooGenerator' DSTROOT=$(TEMPORARY_FOLDER)
 
-BUILT_BUNDLE=$(TEMPORARY_FOLDER)/Applications/mockery.app
-MOCKERYGENERATOR_FRAMEWORK_BUNDLE=$(BUILT_BUNDLE)/Contents/Frameworks/MockeryGeneratorFramework.framework
-MOCKERYGENERATOR_EXECUTABLE=$(BUILT_BUNDLE)/Contents/MacOS/mockery
+BUILT_BUNDLE=$(TEMPORARY_FOLDER)/Applications/cuckoo.app
+CUCKOOGENERATOR_FRAMEWORK_BUNDLE=$(BUILT_BUNDLE)/Contents/Frameworks/CuckooGeneratorFramework.framework
+CUCKOOGENERATOR_EXECUTABLE=$(BUILT_BUNDLE)/Contents/MacOS/cuckoo
 
 FRAMEWORKS_FOLDER=$(PREFIX)/Frameworks
 BINARIES_FOLDER=$(PREFIX)/bin
 
-OUTPUT_PACKAGE=MockeryGenerator.pkg
+OUTPUT_PACKAGE=CuckooGenerator.pkg
 VERSION_STRING=$(shell agvtool what-marketing-version -terse1)
-COMPONENTS_PLIST=Source/Components.plist
+COMPONENTS_PLIST=Source/Supporting Files/Components.plist
 
 .PHONY: all bootstrap clean install package test uninstall
 
@@ -32,29 +32,29 @@ clean:
 	$(BUILD_TOOL) $(XCODEFLAGS) clean
 
 install: package
-	sudo installer -pkg MockeryGenerator.pkg -target /
+	sudo installer -pkg CuckooGenerator.pkg -target /
 
 uninstall:
-	rm -rf "$(FRAMEWORKS_FOLDER)/MockeryGeneratorFramework.framework"
-	rm -f "$(BINARIES_FOLDER)/mockery"
+	rm -rf "$(FRAMEWORKS_FOLDER)/CuckooGeneratorFramework.framework"
+	rm -f "$(BINARIES_FOLDER)/cuckoo"
 
 installables: clean bootstrap
 	$(BUILD_TOOL) $(XCODEFLAGS) install
 
 	mkdir -p "$(TEMPORARY_FOLDER)$(FRAMEWORKS_FOLDER)" "$(TEMPORARY_FOLDER)$(BINARIES_FOLDER)"
-	mv -f "$(MOCKERYGENERATOR_FRAMEWORK_BUNDLE)" "$(TEMPORARY_FOLDER)$(FRAMEWORKS_FOLDER)/MockeryGeneratorFramework.framework"
-	mv -f "$(MOCKERYGENERATOR_EXECUTABLE)" "$(TEMPORARY_FOLDER)$(BINARIES_FOLDER)/mockery"
+	mv -f "$(CUCKOOGENERATOR_FRAMEWORK_BUNDLE)" "$(TEMPORARY_FOLDER)$(FRAMEWORKS_FOLDER)/CuckooGeneratorFramework.framework"
+	mv -f "$(CUCKOOGENERATOR_EXECUTABLE)" "$(TEMPORARY_FOLDER)$(BINARIES_FOLDER)/cuckoo"
 	rm -rf "$(BUILT_BUNDLE)"
 
 prefix_install: installables
 	mkdir -p "$(FRAMEWORKS_FOLDER)" "$(BINARIES_FOLDER)"
-	cp -Rf "$(TEMPORARY_FOLDER)$(FRAMEWORKS_FOLDER)/MockeryGeneratorFramework.framework" "$(FRAMEWORKS_FOLDER)"
-	cp -f "$(TEMPORARY_FOLDER)$(BINARIES_FOLDER)/mockery" "$(BINARIES_FOLDER)/"
+	cp -Rf "$(TEMPORARY_FOLDER)$(FRAMEWORKS_FOLDER)/CuckooGeneratorFramework.framework" "$(FRAMEWORKS_FOLDER)"
+	cp -f "$(TEMPORARY_FOLDER)$(BINARIES_FOLDER)/cuckoo" "$(BINARIES_FOLDER)/"
 
 package: installables
 	pkgbuild \
 		--component-plist "$(COMPONENTS_PLIST)" \
-		--identifier "org.brightify.MockeryGenerator" \
+		--identifier "org.brightify.CuckooGenerator" \
 		--install-location "/" \
 		--root "$(TEMPORARY_FOLDER)" \
 		--version "$(VERSION_STRING)" \
@@ -62,6 +62,6 @@ package: installables
 
 archive:
 	carthage build --no-skip-current --platform mac
-	carthage archive MockeryGeneratorFramework
+	carthage archive CuckooGeneratorFramework
 
 release: package archive

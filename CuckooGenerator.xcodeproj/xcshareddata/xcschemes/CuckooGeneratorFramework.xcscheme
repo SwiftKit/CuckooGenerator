@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "18E16D651C45D8280084EF54"
-               BuildableName = "MockeryGeneratorFramework.framework"
-               BlueprintName = "MockeryGeneratorFramework"
-               ReferencedContainer = "container:MockeryGenerator.xcodeproj">
+               BuildableName = "CuckooGeneratorFramework.framework"
+               BlueprintName = "CuckooGeneratorFramework"
+               ReferencedContainer = "container:CuckooGenerator.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18E16D651C45D8280084EF54"
-            BuildableName = "MockeryGeneratorFramework.framework"
-            BlueprintName = "MockeryGeneratorFramework"
-            ReferencedContainer = "container:MockeryGenerator.xcodeproj">
+            BuildableName = "CuckooGeneratorFramework.framework"
+            BlueprintName = "CuckooGeneratorFramework"
+            ReferencedContainer = "container:CuckooGenerator.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18E16D651C45D8280084EF54"
-            BuildableName = "MockeryGeneratorFramework.framework"
-            BlueprintName = "MockeryGeneratorFramework"
-            ReferencedContainer = "container:MockeryGenerator.xcodeproj">
+            BuildableName = "CuckooGeneratorFramework.framework"
+            BlueprintName = "CuckooGeneratorFramework"
+            ReferencedContainer = "container:CuckooGenerator.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

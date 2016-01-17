@@ -6,6 +6,7 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
+import Foundation
 import SwiftXPC
 
 func += <T>(inout lhs: [T], rhs: T) {
@@ -16,14 +17,35 @@ extension String {
     var first: String {
         return String(characters.prefix(1))
     }
+    
     var last: String {
         return String(characters.suffix(1))
     }
+    
     var uppercaseFirst: String {
         return first.uppercaseString + String(characters.dropFirst())
     }
-    func takeUntilStringOccurs(occurence: String) -> String {
-        return self.componentsSeparatedByString(occurence).first ?? ""
+    
+    var trimmed: String {
+        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    }
+    
+    func takeUntilStringOccurs(occurence: String) -> String? {
+        return self.componentsSeparatedByString(occurence).first
+    }
+    
+    func takeAfterStringOccurs(occurence: String) -> String? {
+        let output = self.componentsSeparatedByString(occurence).dropFirst().joinWithSeparator(occurence)
+        return output.isEmpty ? nil : output
+    }
+    
+    func lookBackUntilStringOccurs(occurence: String) -> String? {
+        return self.componentsSeparatedByString(occurence).last
+    }
+    
+    func lookBackAfterStringOccurs(occurence: String) -> String? {
+        let output = self.componentsSeparatedByString(occurence).dropLast().joinWithSeparator(occurence)
+        return output.isEmpty ? nil : output
     }
     
     subscript(range: Range<Int>) -> String {
