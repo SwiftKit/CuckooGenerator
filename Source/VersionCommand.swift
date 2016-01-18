@@ -11,8 +11,10 @@ import Result
 import CuckooGeneratorFramework
 
 struct VersionCommand: CommandType {
-    static let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String ?? ""
-    
+    static let appVersion = NSBundle.allFrameworks().filter {
+        $0.bundleIdentifier == "org.brightify.CuckooGeneratorFramework"
+    }.first?.objectForInfoDictionaryKey("CFBundleShortVersionString") as? String ?? ""
+
     let verb = "version"
     let function = "Prints the version of this generator."
     

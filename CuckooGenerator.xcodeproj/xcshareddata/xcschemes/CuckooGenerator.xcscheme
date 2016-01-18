@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "18E16D6E1C45D8280084EF54"
-               BuildableName = "CuckooGeneratorFramework.xctest"
+               BuildableName = "CuckooGeneratorFrameworkTests.xctest"
                BlueprintName = "CuckooGeneratorFrameworkTests"
                ReferencedContainer = "container:CuckooGenerator.xcodeproj">
             </BuildableReference>
@@ -83,8 +83,8 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "generate --testable tootoot_ios --output /Users/TadeasKriz/Development/Sources/tootoot-ios/AcceptanceTests/Supporting\ Files/NavigatorCountingWrapper.swift /Users/TadeasKriz/Development/Sources/tootoot-ios/Tootoot/Classes/Util/Navigator.swift"
-            isEnabled = "YES">
+            argument = "version"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

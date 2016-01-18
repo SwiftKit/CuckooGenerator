@@ -52,7 +52,10 @@ extension Generator {
         return parameters?.componentsSeparatedByString(":").map { $0 != "_" ? $0 : nil } ?? []
     }
     
-    internal static func methodForwardingCallParameters(parameters: [Parameter]) -> String {
+    internal static func methodForwardingCallParameters(parameters: [Parameter], ignoreSingleLabel: Bool = false) -> String {
+        if let firstParameter = parameters.first where parameters.count == 1 && ignoreSingleLabel {
+            return firstParameter.name
+        }
         return methodCall(parameters, andValues: parameters.map { $0.name })
     }
     

@@ -21,8 +21,7 @@ enum CuckooGeneratorError: ErrorType {
         case .UnknownError(let error):
             return "\(error)"
         case .RuntimeNotSupported(let runtime):
-            
-            return "Requested runtime version \(runtime) is not supported by this generator version \(VersionCommand.appVersion)."
+            return "Requested runtime version \(runtime) is not supported by this generator version \(VersionCommand.appVersion). Please try updating the generator."
         }
     }
 }

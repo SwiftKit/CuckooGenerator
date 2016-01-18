@@ -14,8 +14,8 @@ struct Generator_r1: Generator {
         switch token {
         case .ProtocolDeclaration(let name, let accessibility, _, _, _, let children):
             guard accessibility != .Private else { return [] }
-            
-            output += "\(accessibility.sourceName) class \(mockWrapperClassName(name)): \(name), Cuckoo.Mock {"
+            output += ""
+            output += "\(accessibility.sourceName) class \(mockClassName(name)): \(name), Cuckoo.Mock {"
             output += "    \(accessibility.sourceName) let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
             output += ""
             output += "    private let observed: \(name)?"
@@ -42,15 +42,19 @@ struct Generator_r1: Generator {
             let parametersSignature = methodParametersSignature(parameters)
             
             var managerCall: String
+            let tryIfThrowing: String
             if returnSignature.containsString("throws") {
                 managerCall = "try manager.callThrows(\"\(fullyQualifiedName)\""
+                tryIfThrowing = "try "
             } else {
                 managerCall = "manager.call(\"\(fullyQualifiedName)\""
+                tryIfThrowing = ""
             }
             if !parameters.isEmpty {
                 managerCall += ", parameters: \(prepareEscapingParameters(parameters))"
             }
-            managerCall += ", original: observed?.\(rawName))(\(methodForwardingCallParameters(parameters)))"
+            managerCall += ", original: observed.map { o in return { (\(parametersSignature))\(returnSignature) in \(tryIfThrowing)o.\(rawName)(\(methodForwardingCallParameters(parameters))) } })"
+            managerCall += "(\(methodForwardingCallParameters(parameters, ignoreSingleLabel: true)))"
             
             output += ""
             output += "\(accessibility.sourceName) func \(rawName)(\(parametersSignature))\(returnSignature) {"
@@ -154,11 +158,11 @@ struct Generator_r1: Generator {
             
             let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
             let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
-            let parametersSignature = prepareMatchableParameterSignature(parameters)
+            let parametersSignature = prepareMatchableParameterSignature(parameters, addBeforeLastClosure: "__file: String = __FILE__, __line: UInt = __LINE__")
             
             let returnType = "Cuckoo.__DoNotUse<" + (extractReturnType(returnSignature) ?? "Void") + ">"
             
-            var verifyCall = "handler.verify(\"\(fullyQualifiedName)\""
+            var verifyCall = "handler.verify(\"\(fullyQualifiedName)\", file: __file, line: __line"
             if !parameters.isEmpty {
                 verifyCall += ", parameterMatchers: matchers"
             }
@@ -178,10 +182,6 @@ struct Generator_r1: Generator {
     
     private static func mockClassName(originalName: String) -> String {
         return "Mock" + originalName
-    }
-    
-    private static func mockWrapperClassName(originalName: String) -> String {
-        return mockClassName(originalName) + "Wrapper"
     }
     
     private static func stubbingProxyName(originalName: String) -> String {
@@ -216,6 +216,10 @@ struct Generator_r1: Generator {
             }
         }
         
+        if let firstParameter = escapingParameters.first where escapingParameters.count == 1 {
+            return "(" + firstParameter + ")"
+        }
+        
         return "(" + methodCall(parameters, andValues: escapingParameters) + ")"
     }
     
@@ -233,10 +237,19 @@ struct Generator_r1: Generator {
         return "<\(genericParameters) where \(whereClause)>"
     }
     
-    private static func prepareMatchableParameterSignature(parameters: [Parameter]) -> String {
-        return parameters.enumerate().map {
+    private static func prepareMatchableParameterSignature(parameters: [Parameter], addBeforeLastClosure: String? = nil) -> String {
+        guard parameters.isEmpty == false else { return addBeforeLastClosure ?? "" }
+        var labelAndType = parameters.enumerate().map {
             "\($1.labelAndNameAtPosition($0)): M\($0 + 1)"
-        }.joinWithSeparator(", ")
+        }
+        if let addBeforeLastClosure = addBeforeLastClosure {
+            if let last = labelAndType.last where last.containsString("->") {
+                labelAndType.insert(addBeforeLastClosure, atIndex: labelAndType.endIndex.predecessor().predecessor())
+            } else {
+                labelAndType.append(addBeforeLastClosure)
+            }
+        }
+        return labelAndType.joinWithSeparator(", ")
     }
     
     private static func prepareParameterMatchers(parameters: [Parameter]) -> String {

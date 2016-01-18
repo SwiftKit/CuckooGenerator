@@ -156,13 +156,23 @@ public indirect enum Token {
                 Token(representable: $0, source: source)
             }.filterNil()
             
-            
             // FIXME When bodyRange != nil, we need to create .Method instead of .ProtocolMethod
-            let returnSignature: String
+            var returnSignature: String
             if let bodyRange = bodyRange {
                 returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].trimmed
             } else {
                 returnSignature = source[nameRange!.endIndex..<range!.endIndex].trimmed
+                if returnSignature.isEmpty {
+                    let returns = " -> Void"
+                    let untilThrows = String(source.utf8.dropFirst(nameRange!.endIndex))?.takeUntilStringOccurs("throws").map {
+                        $0 + "throws"
+                    }?.trimmed
+                    
+                    if let untilThrows = untilThrows where untilThrows == "throws" || untilThrows == "rethrows" {
+                        returnSignature = " \(untilThrows)"
+                    }
+                    returnSignature += returns
+                }
             }
             
             self = .ProtocolMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, parameters: parameters)
