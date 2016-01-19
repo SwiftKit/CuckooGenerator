@@ -569,7 +569,6 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks/CuckooGeneratorFramework.framework/Versions/Current/Frameworks @executable_path/../Frameworks";
-				OTHER_LDFLAGS = "-F../Carthage/Build/Mac";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGenerator;
 				PRODUCT_NAME = cuckoo;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -590,7 +589,6 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks/CuckooGeneratorFramework.framework/Versions/Current/Frameworks @executable_path/../Frameworks";
-				OTHER_LDFLAGS = "-F../Carthage/Build/Mac";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGenerator;
 				PRODUCT_NAME = cuckoo;
 			};
@@ -654,6 +652,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					XCTest,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGeneratorFrameworkTests;
 				PRODUCT_NAME = CuckooGeneratorFrameworkTests;
 			};
@@ -665,6 +667,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					XCTest,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGeneratorFrameworkTests;
 				PRODUCT_NAME = CuckooGeneratorFrameworkTests;
 			};
