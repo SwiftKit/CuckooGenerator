@@ -6,6 +6,7 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
+import Foundation
 import SourceKittenFramework
 import SwiftXPC
 
@@ -33,6 +34,7 @@ enum Kinds: String {
     case ProtocolDeclaration = "source.lang.swift.decl.protocol"
     case InstanceMethod = "source.lang.swift.decl.function.method.instance"
     case MethodParameter = "source.lang.swift.decl.var.parameter"
+    case ClassDeclaration = "source.lang.swift.decl.class"
 
     case NoescapeAttribute = "source.decl.attribute.noescape"
     case AutoclosureAttribute = "source.decl.attribute.autoclosure"
@@ -111,6 +113,15 @@ public indirect enum Token {
         bodyRange: Range<Int>,
         children: [Token])
 
+    case ClassDeclaration(
+        name: String,
+        accessibility: Accessibility,
+        range: Range<Int>,
+        nameRange: Range<Int>,
+        bodyRange: Range<Int>,
+        hasNoArgInit: Bool,
+        children: [Token])
+    
     case ProtocolMethod(
         name: String,
         accessibility: Accessibility,
@@ -118,7 +129,16 @@ public indirect enum Token {
         range: Range<Int>,
         nameRange: Range<Int>,
         parameters: [Token])
-
+    
+    case ClassMethod(
+        name: String,
+        accessibility: Accessibility,
+        returnSignature: String,
+        range: Range<Int>,
+        nameRange: Range<Int>,
+        bodyRange: Range<Int>,
+        parameters: [Token])
+    
     case MethodParameter(
         name: String,
         type: String,
@@ -151,6 +171,35 @@ public indirect enum Token {
             }.filterNil()
             
             self = .ProtocolDeclaration(name: name, accessibility: accessibility!, range: range!, nameRange: nameRange!, bodyRange: bodyRange!, children: children)
+        case Kinds.ClassDeclaration.rawValue:
+            let children = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
+                Token(representable: $0, source: source)
+            }.filterNil()
+            let initializers = children.map { child -> String? in
+                    if case .ClassMethod(let name, _, _, _, _, _, _) = child {
+                        return name
+                    } else {
+                        return nil
+                    }
+                }.filterNil().filter { $0.hasPrefix("init(") }
+            let childrenWithoutInitializers = children.filter {
+                if case .ClassMethod(let name, _, _, _, _, _, _) = $0 {
+                    return !name.hasPrefix("init(")
+                } else {
+                    return true
+                }
+            }
+            
+            let hasNoArgInit = initializers.isEmpty || initializers.filter { $0 == "init()" }.isEmpty == false
+            self = .ClassDeclaration(
+                name: name,
+                accessibility: accessibility!,
+                range: range!,
+                nameRange: nameRange!,
+                bodyRange: bodyRange!,
+                hasNoArgInit: hasNoArgInit,
+                children: childrenWithoutInitializers)
+            
         case Kinds.InstanceMethod.rawValue:
             let parameters = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
                 Token(representable: $0, source: source)
@@ -159,7 +208,7 @@ public indirect enum Token {
             // FIXME When bodyRange != nil, we need to create .Method instead of .ProtocolMethod
             var returnSignature: String
             if let bodyRange = bodyRange {
-                returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].trimmed
+                returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].takeUntilStringOccurs("{")?.trimmed ?? ""
             } else {
                 returnSignature = source[nameRange!.endIndex..<range!.endIndex].trimmed
                 if returnSignature.isEmpty {
@@ -175,7 +224,11 @@ public indirect enum Token {
                 }
             }
             
-            self = .ProtocolMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, parameters: parameters)
+            if let bodyRange = bodyRange {
+                self = .ClassMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, bodyRange: bodyRange, parameters: parameters)
+            } else {
+                self = .ProtocolMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, parameters: parameters)
+            }
         case Kinds.MethodParameter.rawValue:
             let attributes: [Token]
             if let attributeDictionaries = dictionary[Key.Attributes.rawValue] as? XPCArray {

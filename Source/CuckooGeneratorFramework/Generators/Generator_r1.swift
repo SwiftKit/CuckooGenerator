@@ -13,59 +13,82 @@ struct Generator_r1: Generator {
         
         switch token {
         case .ProtocolDeclaration(let name, let accessibility, _, _, _, let children):
-            guard accessibility != .Private else { return [] }
-            output += ""
-            output += "\(accessibility.sourceName) class \(mockClassName(name)): \(name), Cuckoo.Mock {"
-            output += "    \(accessibility.sourceName) let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
-            output += ""
-            output += "    private let observed: \(name)?"
-            output += ""
-            output += "    \(accessibility.sourceName) required init() {"
-            output += "        observed = nil"
-            output += "    }"
-            output += ""
-            output += "    \(accessibility.sourceName) required init(spyOn victim: \(name)) {"
-            output += "        observed = victim"
-            output += "    }"
-            output += generateWithIndentation("    ")(tokens: children)
-            output += ""
-            output += generateStubbingWithIndentation("    ")(token: token)
-            output += ""
-            output += generateVerificationWithIndentation("    ")(token: token)
-            output += "}"
-        case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameterTokens):
-            guard accessibility != .Private else { return [] }
-            let rawName = name.takeUntilStringOccurs("(") ?? ""
+            output += generateMockingClass(token, name: name, accessibility: accessibility, hasNoArgInit: false, children: children)
             
-            let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
-            let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
-            let parametersSignature = methodParametersSignature(parameters)
+        case .ClassDeclaration(let name, let accessibility, _, _, _, let hasNoArgInit, let children):
+            output += generateMockingClass(token, name: name, accessibility: accessibility, hasNoArgInit: hasNoArgInit, children: children)
             
-            var managerCall: String
-            let tryIfThrowing: String
-            if returnSignature.containsString("throws") {
-                managerCall = "try manager.callThrows(\"\(fullyQualifiedName)\""
-                tryIfThrowing = "try "
-            } else {
-                managerCall = "manager.call(\"\(fullyQualifiedName)\""
-                tryIfThrowing = ""
-            }
-            if !parameters.isEmpty {
-                managerCall += ", parameters: \(prepareEscapingParameters(parameters))"
-            }
-            managerCall += ", original: observed.map { o in return { (\(parametersSignature))\(returnSignature) in \(tryIfThrowing)o.\(rawName)(\(methodForwardingCallParameters(parameters))) } })"
-            managerCall += "(\(methodForwardingCallParameters(parameters, ignoreSingleLabel: true)))"
+        case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameters):
+            output += generateMockingMethod(name, accessibility: accessibility, returnSignature: returnSignature, isOverriding: false, parameterTokens: parameters)
             
-            output += ""
-            output += "\(accessibility.sourceName) func \(rawName)(\(parametersSignature))\(returnSignature) {"
-            output += "    return \(managerCall)"
-            output += "}"
+        case .ClassMethod(let name, let accessibility, let returnSignature, _, _, _, let parameters):
+            output += generateMockingMethod(name, accessibility: accessibility, returnSignature: returnSignature, isOverriding: true, parameterTokens: parameters)
+            
         case .MethodParameter, .Attribute: // Don't use default to make sure we handle future cases
             break
+            
         }
         
         return output.map { "\(indentation)\($0)" }
     }
+    
+    private static func generateMockingClass(token: Token, name: String, accessibility: Accessibility, hasNoArgInit: Bool, children: [Token]) -> [String] {
+        guard accessibility != .Private else { return [] }
+        
+        var output: [String] = []
+        output += ""
+        output += "\(accessibility.sourceName) class \(mockClassName(name)): \(name), Cuckoo.Mock {"
+        output += "    \(accessibility.sourceName) let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
+        output += ""
+        output += "    private let observed: \(name)?"
+        output += ""
+        output += "    \(accessibility.sourceName) required\(hasNoArgInit ? " override" : "") init() {"
+        output += "        observed = nil"
+        output += "    }"
+        output += ""
+        output += "    \(accessibility.sourceName) required init(spyOn victim: \(name)) {"
+        output += "        observed = victim"
+        output += "    }"
+        output += generateWithIndentation("    ")(tokens: children)
+        output += ""
+        output += generateStubbingWithIndentation("    ")(token: token)
+        output += ""
+        output += generateVerificationWithIndentation("    ")(token: token)
+        output += "}"
+        return output
+    }
+    
+    private static func generateMockingMethod(name: String, accessibility: Accessibility, returnSignature: String, isOverriding: Bool, parameterTokens: [Token]) -> [String] {
+        guard accessibility != .Private else { return [] }
+        var output: [String] = []
+        let rawName = name.takeUntilStringOccurs("(") ?? ""
+        
+        let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
+        let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
+        let parametersSignature = methodParametersSignature(parameters)
+        
+        var managerCall: String
+        let tryIfThrowing: String
+        if returnSignature.containsString("throws") {
+            managerCall = "try manager.callThrows(\"\(fullyQualifiedName)\""
+            tryIfThrowing = "try "
+        } else {
+            managerCall = "manager.call(\"\(fullyQualifiedName)\""
+            tryIfThrowing = ""
+        }
+        if !parameters.isEmpty {
+            managerCall += ", parameters: \(prepareEscapingParameters(parameters))"
+        }
+        managerCall += ", original: observed.map { o in return { (\(parametersSignature))\(returnSignature) in \(tryIfThrowing)o.\(rawName)(\(methodForwardingCallParameters(parameters))) } })"
+        managerCall += "(\(methodForwardingCallParameters(parameters, ignoreSingleLabel: true)))"
+        
+        output += ""
+        output += "\(accessibility.sourceName)\(isOverriding ? " override" : "") func \(rawName)(\(parametersSignature))\(returnSignature) {"
+        output += "    return \(managerCall)"
+        output += "}"
+        return output
+    }
+    
     
     private static func generateStubbingWithIndentation(indentation: String = "")(tokens: [Token]) -> [String] {
         return tokens.flatMap(generateStubbingWithIndentation(indentation))
@@ -76,60 +99,78 @@ struct Generator_r1: Generator {
         
         switch token {
         case .ProtocolDeclaration(let name, let accessibility, _, _, _, let children):
-            guard accessibility != .Private else { return [] }
-            
-            output += "\(accessibility.sourceName) struct \(stubbingProxyName(name)): Cuckoo.StubbingProxy {"
-            output += "    let handler: Cuckoo.StubbingHandler"
-            output += ""
-            output += "    \(accessibility.sourceName) init(handler: Cuckoo.StubbingHandler) {"
-            output += "        self.handler = handler"
-            output += "    }"
-            output += generateStubbingWithIndentation(indentation)(tokens: children)
-            output += ""
-            output += "}"
-        case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameterTokens):
-            guard accessibility != .Private else { return [] }
-            let rawName = name.takeUntilStringOccurs("(") ?? ""
-            
-            let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
-            let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
-            let parametersSignature = prepareMatchableParameterSignature(parameters)
-            let throwing = returnSignature.containsString("throws")
-            
-            var returnType: String
-            if throwing {
-                returnType = "Cuckoo.ToBeStubbedThrowingFunction"
-            } else {
-                returnType = "Cuckoo.ToBeStubbedFunction"
-            }
-            returnType += "<"
-            returnType += "(\(parametersTupleType(parameters)))"
-            returnType += ", "
-            returnType += extractReturnType(returnSignature) ?? "Void"
-            returnType += ">"
-            
-            var stubCall: String
-            if throwing {
-                stubCall = "handler.stubThrowing(\"\(fullyQualifiedName)\""
-            } else {
-                stubCall = "handler.stub(\"\(fullyQualifiedName)\""
-            }
-            if !parameters.isEmpty {
-                stubCall += ", parameterMatchers: matchers"
-            }
-            stubCall += ")"
-            
-            output += ""
-            output += "@warn_unused_result"
-            output += "\(accessibility.sourceName) func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType) {"
-            output += "    \(prepareParameterMatchers(parameters))"
-            output += "    return \(stubCall)"
-            output += "}"
+            output += generateStubbingClass(token, name: name, accessibility: accessibility, children: children)
+        case .ClassDeclaration(let name, let accessibility, _, _, _, _, let children):
+            output += generateStubbingClass(token, name: name, accessibility: accessibility, children: children)
+        case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameters):
+            output += generateStubbingMethod(name, accessibility: accessibility, returnSignature: returnSignature, parameterTokens: parameters)
+        case .ClassMethod(let name, let accessibility, let returnSignature, _, _, _, let parameters):
+            output += generateStubbingMethod(name, accessibility: accessibility, returnSignature: returnSignature, parameterTokens: parameters)
         case .MethodParameter, .Attribute: // Don't use default to make sure we handle future cases
             break
         }
         
         return output.map { "\(indentation)\($0)" }
+    }
+    
+    private static func generateStubbingClass(token: Token, name: String, accessibility: Accessibility, children: [Token]) -> [String] {
+        guard accessibility != .Private else { return [] }
+        var output: [String] = []
+        
+        output += "\(accessibility.sourceName) struct \(stubbingProxyName(name)): Cuckoo.StubbingProxy {"
+        output += "    let handler: Cuckoo.StubbingHandler"
+        output += ""
+        output += "    \(accessibility.sourceName) init(handler: Cuckoo.StubbingHandler) {"
+        output += "        self.handler = handler"
+        output += "    }"
+        output += generateStubbingWithIndentation("    ")(tokens: children)
+        output += ""
+        output += "}"
+        
+        return output
+    }
+    
+    private static func generateStubbingMethod(name: String, accessibility: Accessibility, returnSignature: String, parameterTokens: [Token]) -> [String] {
+        guard accessibility != .Private else { return [] }
+        var output: [String] = []
+        let rawName = name.takeUntilStringOccurs("(") ?? ""
+        
+        let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
+        let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
+        let parametersSignature = prepareMatchableParameterSignature(parameters)
+        let throwing = returnSignature.containsString("throws")
+        
+        var returnType: String
+        if throwing {
+            returnType = "Cuckoo.ToBeStubbedThrowingFunction"
+        } else {
+            returnType = "Cuckoo.ToBeStubbedFunction"
+        }
+        returnType += "<"
+        returnType += "(\(parametersTupleType(parameters)))"
+        returnType += ", "
+        returnType += extractReturnType(returnSignature) ?? "Void"
+        returnType += ">"
+        
+        var stubCall: String
+        if throwing {
+            stubCall = "handler.stubThrowing(\"\(fullyQualifiedName)\""
+        } else {
+            stubCall = "handler.stub(\"\(fullyQualifiedName)\""
+        }
+        if !parameters.isEmpty {
+            stubCall += ", parameterMatchers: matchers"
+        }
+        stubCall += ")"
+        
+        output += ""
+        output += "@warn_unused_result"
+        output += "\(accessibility.sourceName) func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType) {"
+        output += "    \(prepareParameterMatchers(parameters))"
+        output += "    return \(stubCall)"
+        output += "}"
+        
+        return output
     }
     
     private static func generateVerificationWithIndentation(indentation: String = "")(tokens: [Token]) -> [String] {
@@ -141,43 +182,58 @@ struct Generator_r1: Generator {
         
         switch token {
         case .ProtocolDeclaration(let name, let accessibility, _, _, _, let children):
-            guard accessibility != .Private else { return [] }
-            
-            output += "\(accessibility.sourceName) struct \(verificationProxyName(name)): Cuckoo.VerificationProxy {"
-            output += "    let handler: Cuckoo.VerificationHandler"
-            output += ""
-            output += "    \(accessibility.sourceName) init(handler: Cuckoo.VerificationHandler) {"
-            output += "        self.handler = handler"
-            output += "    }"
-            output += generateVerificationWithIndentation("    ")(tokens: children)
-            output += ""
-            output += "}"
+            output += generateVerificationClass(name, accessibility: accessibility, children: children)
+        case .ClassDeclaration(let name, let accessibility, _, _, _, _, let children):
+            output += generateVerificationClass(name, accessibility: accessibility, children: children)
         case .ProtocolMethod(let name, let accessibility, let returnSignature, _, _, let parameterTokens):
-            guard accessibility != .Private else { return [] }
-            let rawName = name.takeUntilStringOccurs("(") ?? ""
-            
-            let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
-            let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
-            let parametersSignature = prepareMatchableParameterSignature(parameters, addBeforeLastClosure: "__file: String = __FILE__, __line: UInt = __LINE__")
-            
-            let returnType = "Cuckoo.__DoNotUse<" + (extractReturnType(returnSignature) ?? "Void") + ">"
-            
-            var verifyCall = "handler.verify(\"\(fullyQualifiedName)\", file: __file, line: __line"
-            if !parameters.isEmpty {
-                verifyCall += ", parameterMatchers: matchers"
-            }
-            verifyCall += ")"
-            
-            output += ""
-            output += "\(accessibility.sourceName) func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType){"
-            output += "    \(prepareParameterMatchers(parameters))"
-            output += "    return \(verifyCall)"
-            output += "}"
+            output += generateVerificationMethod(name, accessibility: accessibility, returnSignature: returnSignature, parameterTokens: parameterTokens)
+        case .ClassMethod(let name, let accessibility, let returnSignature, _, _, _, let parameterTokens):
+            output += generateVerificationMethod(name, accessibility: accessibility, returnSignature: returnSignature, parameterTokens: parameterTokens)
         case .MethodParameter, .Attribute: // Don't use default to make sure we handle future cases
             break
         }
         
         return output.map { "\(indentation)\($0)" }
+    }
+    
+    private static func generateVerificationClass(name: String, accessibility: Accessibility, children: [Token]) -> [String] {
+        guard accessibility != .Private else { return [] }
+        var output: [String] = []
+        output += "\(accessibility.sourceName) struct \(verificationProxyName(name)): Cuckoo.VerificationProxy {"
+        output += "    let handler: Cuckoo.VerificationHandler"
+        output += ""
+        output += "    \(accessibility.sourceName) init(handler: Cuckoo.VerificationHandler) {"
+        output += "        self.handler = handler"
+        output += "    }"
+        output += generateVerificationWithIndentation("    ")(tokens: children)
+        output += ""
+        output += "}"
+        return output
+    }
+    
+    private static func generateVerificationMethod(name: String, accessibility: Accessibility, returnSignature: String, parameterTokens: [Token]) -> [String] {
+        guard accessibility != .Private else { return [] }
+        var output: [String] = []
+        let rawName = name.takeUntilStringOccurs("(") ?? ""
+        
+        let parameters = extractParameters(parameterLabels(name), tokens: parameterTokens)
+        let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
+        let parametersSignature = prepareMatchableParameterSignature(parameters, addBeforeLastClosure: "__file: String = __FILE__, __line: UInt = __LINE__")
+        
+        let returnType = "Cuckoo.__DoNotUse<" + (extractReturnType(returnSignature) ?? "Void") + ">"
+        
+        var verifyCall = "handler.verify(\"\(fullyQualifiedName)\", file: __file, line: __line"
+        if !parameters.isEmpty {
+            verifyCall += ", parameterMatchers: matchers"
+        }
+        verifyCall += ")"
+        
+        output += ""
+        output += "\(accessibility.sourceName) func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType){"
+        output += "    \(prepareParameterMatchers(parameters))"
+        output += "    return \(verifyCall)"
+        output += "}"
+        return output
     }
     
     private static func mockClassName(originalName: String) -> String {
