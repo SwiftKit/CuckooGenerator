@@ -14,6 +14,7 @@ enum Key: String {
     case Substructure = "key.substructure"
     case Kind = "key.kind"
     case Accessibility = "key.accessibility"
+    case SetterAccessibility = "key.setter_accessibility"
     case Name = "key.name"
     case TypeName = "key.typename"
     
@@ -35,7 +36,8 @@ enum Kinds: String {
     case InstanceMethod = "source.lang.swift.decl.function.method.instance"
     case MethodParameter = "source.lang.swift.decl.var.parameter"
     case ClassDeclaration = "source.lang.swift.decl.class"
-
+    case InstanceVariable = "source.lang.swift.decl.var.instance"
+    
     case NoescapeAttribute = "source.decl.attribute.noescape"
     case AutoclosureAttribute = "source.decl.attribute.autoclosure"
 }
@@ -104,155 +106,137 @@ public struct FileRepresentation {
     let declarations: [Token]
 }
 
-public indirect enum Token {
-    case ProtocolDeclaration(
-        name: String,
-        accessibility: Accessibility,
-        range: Range<Int>,
-        nameRange: Range<Int>,
-        bodyRange: Range<Int>,
-        children: [Token])
+public protocol Token { }
 
-    case ClassDeclaration(
-        name: String,
-        accessibility: Accessibility,
-        range: Range<Int>,
-        nameRange: Range<Int>,
-        bodyRange: Range<Int>,
-        hasNoArgInit: Bool,
-        children: [Token])
+public protocol ContainerToken: Token {
+    var name: String { get }
+    var accessibility: Accessibility { get }
+    var range: Range<Int> { get }
+    var nameRange: Range<Int> { get }
+    var bodyRange: Range<Int> { get }
+    var initializers: [Initializer] { get }
+    var children: [Token] { get }
+    var implementation: Bool { get }
+}
+
+public struct ProtocolDeclaration: ContainerToken {
+    // MARK: ContainerToken
+    public let name: String
+    public let accessibility: Accessibility
+    public let range: Range<Int>
+    public let nameRange: Range<Int>
+    public let bodyRange: Range<Int>
+    public let initializers: [Initializer]
+    public let children: [Token]
+    public let implementation: Bool = false
+}
+
+public struct ClassDeclaration: ContainerToken {
+    // MARK: ContainerToken
+    public let name: String
+    public let accessibility: Accessibility
+    public let range: Range<Int>
+    public let nameRange: Range<Int>
+    public let bodyRange: Range<Int>
+    public let initializers: [Initializer]
+    public let children: [Token]
+    public let implementation: Bool = true
     
-    case ProtocolMethod(
-        name: String,
-        accessibility: Accessibility,
-        returnSignature: String,
-        range: Range<Int>,
-        nameRange: Range<Int>,
-        parameters: [Token])
+    // MARK: Class declaration
+    public var hasNoArgInit: Bool {
+        return initializers.filter { $0.parameters.isEmpty }.isEmpty
+    }
+}
+
+public protocol Method: Token {
+    var name: String { get }
+    var accessibility: Accessibility { get }
+    var returnSignature: String { get }
+    var range: Range<Int> { get }
+    var nameRange: Range<Int> { get }
+    var parameters: [MethodParameter] { get }
+}
+
+public struct ProtocolMethod: Method {
+    // MARK: Method
+    public let name: String
+    public let accessibility: Accessibility
+    public let returnSignature: String
+    public let range: Range<Int>
+    public let nameRange: Range<Int>
+    public let parameters: [MethodParameter]
+}
+
+public struct Initializer: Method {
+    // MARK: Method
+    public let name: String
+    public let accessibility: Accessibility
+    public let returnSignature: String
+    public let range: Range<Int>
+    public let nameRange: Range<Int>
+    public let parameters: [MethodParameter]
     
-    case ClassMethod(
-        name: String,
-        accessibility: Accessibility,
-        returnSignature: String,
-        range: Range<Int>,
-        nameRange: Range<Int>,
-        bodyRange: Range<Int>,
-        parameters: [Token])
+    // MARK: Initializer
+    public let required: Bool
+}
+
+public struct ClassMethod: Method {
+    // MARK: Method
+    public let name: String
+    public let accessibility: Accessibility
+    public let returnSignature: String
+    public let range: Range<Int>
+    public let nameRange: Range<Int>
+    public let parameters: [MethodParameter]
+
+    // MARK: Class method
+    public let bodyRange: Range<Int>
+}
+
+public struct InstanceVariable: Token {
+    public var name: String
+    public var type: String
+    public var accessibility: Accessibility
+    public var setterAccessibility: Accessibility?
+    public var range: Range<Int>
+    public var nameRange: Range<Int>
+    public var overriding: Bool
     
-    case MethodParameter(
-        name: String,
-        type: String,
-        range: Range<Int>,
-        nameRange: Range<Int>,
-        attributes: [Token])
+    public var readOnly: Bool {
+        return setterAccessibility == nil
+    }
+}
+
+public struct MethodParameter: Token {
+    public let label: String?
+    public let name: String
+    public let type: String
+    public let range: Range<Int>
+    public let nameRange: Range<Int>
+    public let attributes: Attributes
     
-    case Attribute(type: Attributes)
-    
-    init?(representable: XPCRepresentable, source: String) {
-        guard let dictionary = representable as? XPCDictionary else { return nil }
-        
-        // Common fields
-        let name = dictionary[Key.Name.rawValue] as? String ?? "name not set"
-        let kind = dictionary[Key.Kind.rawValue] as? String ?? dictionary[Key.Attribute.rawValue] as? String ?? "unknown type"
-        
-        
-        // Optional fields
-        let range = extractRange(dictionary, offsetKey: .Offset, lengthKey: .Length)
-        let nameRange = extractRange(dictionary, offsetKey: .NameOffset, lengthKey: .NameLength)
-        let bodyRange = extractRange(dictionary, offsetKey: .BodyOffset, lengthKey: .BodyLength)
-        
-        let accessibility = (dictionary[Key.Accessibility.rawValue] as? String).flatMap(Accessibility.init)
-        let type = dictionary[Key.TypeName.rawValue] as? String
-        
-        switch kind {
-        case Kinds.ProtocolDeclaration.rawValue:
-            let children = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
-                Token(representable: $0, source: source)
-            }.filterNil()
-            
-            self = .ProtocolDeclaration(name: name, accessibility: accessibility!, range: range!, nameRange: nameRange!, bodyRange: bodyRange!, children: children)
-        case Kinds.ClassDeclaration.rawValue:
-            let children = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
-                Token(representable: $0, source: source)
-            }.filterNil()
-            let initializers = children.map { child -> String? in
-                    if case .ClassMethod(let name, _, _, _, _, _, _) = child {
-                        return name
-                    } else {
-                        return nil
-                    }
-                }.filterNil().filter { $0.hasPrefix("init(") }
-            let childrenWithoutInitializers = children.filter {
-                if case .ClassMethod(let name, _, _, _, _, _, _) = $0 {
-                    return !name.hasPrefix("init(")
-                } else {
-                    return true
-                }
-            }
-            
-            let hasNoArgInit = initializers.isEmpty || initializers.filter { $0 == "init()" }.isEmpty == false
-            self = .ClassDeclaration(
-                name: name,
-                accessibility: accessibility!,
-                range: range!,
-                nameRange: nameRange!,
-                bodyRange: bodyRange!,
-                hasNoArgInit: hasNoArgInit,
-                children: childrenWithoutInitializers)
-            
-        case Kinds.InstanceMethod.rawValue:
-            let parameters = (dictionary[Key.Substructure.rawValue] as? XPCArray ?? []).map {
-                Token(representable: $0, source: source)
-            }.filterNil()
-            
-            // FIXME When bodyRange != nil, we need to create .Method instead of .ProtocolMethod
-            var returnSignature: String
-            if let bodyRange = bodyRange {
-                returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].takeUntilStringOccurs("{")?.trimmed ?? ""
-            } else {
-                returnSignature = source[nameRange!.endIndex..<range!.endIndex].trimmed
-                if returnSignature.isEmpty {
-                    let returns = " -> Void"
-                    let untilThrows = String(source.utf8.dropFirst(nameRange!.endIndex))?.takeUntilStringOccurs("throws").map {
-                        $0 + "throws"
-                    }?.trimmed
-                    
-                    if let untilThrows = untilThrows where untilThrows == "throws" || untilThrows == "rethrows" {
-                        returnSignature = " \(untilThrows)"
-                    }
-                    returnSignature += returns
-                }
-            }
-            
-            if let bodyRange = bodyRange {
-                self = .ClassMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, bodyRange: bodyRange, parameters: parameters)
-            } else {
-                self = .ProtocolMethod(name: name, accessibility: accessibility!, returnSignature: returnSignature, range: range!, nameRange: nameRange!, parameters: parameters)
-            }
-        case Kinds.MethodParameter.rawValue:
-            let attributes: [Token]
-            if let attributeDictionaries = dictionary[Key.Attributes.rawValue] as? XPCArray {
-                attributes = attributeDictionaries.map {
-                    Token(representable: $0, source: source)
-                }.filterNil()
-            } else {
-                attributes = []
-            }
-            
-            self = .MethodParameter(name: name, type: type!, range: range!, nameRange: nameRange!, attributes: attributes)
-        case Kinds.AutoclosureAttribute.rawValue:
-            let autoclosure = "@autoclosure" + source[0..<range!.startIndex].lookBackUntilStringOccurs("@autoclosure")!
-            let escaping = autoclosure.containsString("escaping")
-            if escaping {
-                self = .Attribute(type: .escapingAutoclosure)
-            } else {
-                self = .Attribute(type: .autoclosure)
-            }
-        case Kinds.NoescapeAttribute.rawValue:
-            self = .Attribute(type: .noescape)
-        default:
-            fputs("Unknown kind: \(kind)", stderr)
-            return nil
+    func labelAndNameAtPosition(position: Int) -> String {
+        let isFirst = position == 0
+        if let label = label {
+            return label != name || isFirst ? "\(label) \(name)" : name
+        } else {
+            return isFirst ? name : "_ \(name)"
         }
+    }
+    
+    func labelOrNameAtPosition(position: Int) -> String {
+        let isFirst = position == 0
+        if let label = label {
+            return label
+        } else if isFirst {
+            return ""
+        } else {
+            return name
+        }
+    }
+    
+    func labelNameOrPositionAtPosition(position: Int) -> String {
+        let label = labelOrNameAtPosition(position)
+        return label.isEmpty ? "\(position)" : label
     }
 }

@@ -30,6 +30,11 @@ extension String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
     }
     
+    func containsWord(word: String) -> Bool {
+        let separated = componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return separated.contains(word)
+    }
+    
     func takeUntilStringOccurs(occurence: String) -> String? {
         return self.componentsSeparatedByString(occurence).first
     }
@@ -55,7 +60,14 @@ extension String {
 }
 
 extension SequenceType {
-
+    
+    func only<T>(type: T.Type) -> [T] {
+        return map { $0 as? T }.filterNil()
+    }
+    
+    func noneOf<T>(type: T.Type) -> [Generator.Element] {
+        return filter { !($0 is T) }
+    }
 }
 
 func extractRange(dictionary: XPCDictionary, offsetKey: Key, lengthKey: Key) -> Range<Int>? {

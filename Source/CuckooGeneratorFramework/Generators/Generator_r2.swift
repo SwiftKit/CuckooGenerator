@@ -1,23 +1,26 @@
 //
-//  Generator_r1.swift
+//  Generator_r2.swift
 //  CuckooGenerator
 //
-//  Created by Tadeas Kriz on 13/01/16.
+//  Created by Tadeas Kriz on 10/02/16.
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-struct Generator_r1: Generator {
-
+struct Generator_r2: Generator {
+    
     static func generateWithIndentation(indentation: String)(token: Token) -> [String] {
         var output: [String] = []
         
         switch token {
         case let containerToken as ContainerToken:
             output += generateMockingClass(containerToken)
-    
+            
+        case let property as InstanceVariable:
+            output += generateMockingProperty(property)
+            
         case let method as Method:
             output += generateMockingMethod(method)
-            
+    
         default:
             break
             
@@ -39,7 +42,7 @@ struct Generator_r1: Generator {
         output += "\(accessibility.sourceName) class \(mockClassName(name)): \(name), Cuckoo.Mock {"
         output += "    \(accessibility.sourceName) let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
         output += ""
-        output += "    private let observed: \(name)?"
+        output += "    private var observed: \(name)?"
         output += ""
         output += "    \(accessibility.sourceName) required\(implementation ? " override" : "") init() {"
         output += "        observed = nil"
@@ -54,6 +57,28 @@ struct Generator_r1: Generator {
         output += ""
         output += generateVerificationWithIndentation("    ")(token: token)
         output += "}"
+        return output
+    }
+    
+    private static func generateMockingProperty(token: InstanceVariable) -> [String] {
+        
+        guard token.accessibility != .Private else { return [] }
+        
+        var output: [String] = []
+        
+        output += "\(token.accessibility.sourceName) \(token.overriding ? "override " : "")var \(token.name): \(token.type) {"
+        output += "    get {"
+        output += "        return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })()"
+        output += "    }"
+        
+        if token.readOnly == false {
+            output += "    set(newValue) {"
+            output += "        manager.setter(\"\(token.name)\", value: newValue, original: { self.observed?.\(token.name) = $0 })(newValue)"
+            output += "    }"
+        }
+        
+        output += "}"
+        
         return output
     }
     
@@ -105,6 +130,9 @@ struct Generator_r1: Generator {
         case let containerToken as ContainerToken:
             output += generateStubbingClass(containerToken)
             
+        case let property as InstanceVariable:
+            output += generateStubbingProperty(property)
+            
         case let method as Method:
             output += generateStubbingMethod(method)
             
@@ -131,6 +159,21 @@ struct Generator_r1: Generator {
         output += "    }"
         output += generateStubbingWithIndentation("    ")(tokens: children)
         output += ""
+        output += "}"
+        
+        return output
+    }
+    
+    private static func generateStubbingProperty(token: InstanceVariable) -> [String] {
+        guard token.accessibility != .Private else { return [] }
+        
+        var output: [String] = []
+        
+        let propertyType = token.readOnly ? "ToBeStubbedReadOnlyProperty" : "ToBeStubbedProperty"
+        let stubbingFunction = token.readOnly ? "stubReadOnlyProperty" : "stubProperty"
+        
+        output += "var \(token.name): \(propertyType)<\(token.type)> {"
+        output += "    return handler.\(stubbingFunction)(\"\(token.name)\")"
         output += "}"
         
         return output
@@ -194,9 +237,12 @@ struct Generator_r1: Generator {
         case let containerToken as ContainerToken:
             output += generateVerificationClass(containerToken)
             
+        case let property as InstanceVariable:
+            output += generateVerificationProperty(property)
+            
         case let method as Method:
             output += generateVerificationMethod(method)
-
+            
         default:
             break
         }
@@ -223,6 +269,21 @@ struct Generator_r1: Generator {
         return output
     }
     
+    private static func generateVerificationProperty(token: InstanceVariable) -> [String] {
+        guard token.accessibility != .Private else { return [] }
+        
+        var output: [String] = []
+        
+        let propertyType = token.readOnly ? "VerifyReadOnlyProperty" : "VerifyProperty"
+        let verificationFunction = token.readOnly ? "verifyReadOnlyProperty" : "verifyProperty"
+        
+        output += "var \(token.name): \(propertyType)<\(token.type)> {"
+        output += "    return handler.\(verificationFunction)(\"\(token.name)\")"
+        output += "}"
+        
+        return output
+    }
+    
     private static func generateVerificationMethod(token: Method) -> [String] {
         let name = token.name
         let accessibility = token.accessibility
@@ -234,11 +295,11 @@ struct Generator_r1: Generator {
         let rawName = name.takeUntilStringOccurs("(") ?? ""
         
         let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
-        let parametersSignature = prepareMatchableParameterSignature(parameters, addBeforeLastClosure: "__file: String = __FILE__, __line: UInt = __LINE__")
+        let parametersSignature = prepareMatchableParameterSignature(parameters)
         
         let returnType = "Cuckoo.__DoNotUse<" + (extractReturnType(returnSignature) ?? "Void") + ">"
         
-        var verifyCall = "handler.verify(\"\(fullyQualifiedName)\", file: __file, line: __line"
+        var verifyCall = "handler.verify(\"\(fullyQualifiedName)\""
         if !parameters.isEmpty {
             verifyCall += ", parameterMatchers: matchers"
         }
@@ -298,30 +359,22 @@ struct Generator_r1: Generator {
     private static func prepareMatchableGenerics(parameters: [MethodParameter]) -> String {
         guard parameters.isEmpty == false else { return "" }
         
-        let genericParameters = (1...parameters.count).map {
-            "M\($0): Cuckoo.Matchable"
-        }.joinWithSeparator(", ")
+        let genericParameters = (1...parameters.count)
+            .map { "M\($0): Cuckoo.Matchable" }
+            .joinWithSeparator(", ")
         
-        let whereClause = parameters.enumerate().map {
-            "M\($0 + 1).MatchedType == (\($1.type))"
-        }.joinWithSeparator(", ")
+        let whereClause = parameters.enumerate()
+            .map { "M\($0 + 1).MatchedType == (\($1.type))" }
+            .joinWithSeparator(", ")
         
         return "<\(genericParameters) where \(whereClause)>"
     }
     
-    private static func prepareMatchableParameterSignature(parameters: [MethodParameter], addBeforeLastClosure: String? = nil) -> String {
-        guard parameters.isEmpty == false else { return addBeforeLastClosure ?? "" }
-        var labelAndType = parameters.enumerate().map {
-            "\($1.labelAndNameAtPosition($0)): M\($0 + 1)"
-        }
-        if let addBeforeLastClosure = addBeforeLastClosure {
-            if let last = labelAndType.last where last.containsString("->") {
-                labelAndType.insert(addBeforeLastClosure, atIndex: labelAndType.endIndex.predecessor().predecessor())
-            } else {
-                labelAndType.append(addBeforeLastClosure)
-            }
-        }
-        return labelAndType.joinWithSeparator(", ")
+    private static func prepareMatchableParameterSignature(parameters: [MethodParameter]) -> String {
+        guard parameters.isEmpty == false else { return "" }
+        return parameters.enumerate()
+            .map { "\($1.labelAndNameAtPosition($0)): M\($0 + 1)" }
+            .joinWithSeparator(", ")
     }
     
     private static func prepareParameterMatchers(parameters: [MethodParameter]) -> String {

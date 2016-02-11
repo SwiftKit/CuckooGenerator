@@ -4,18 +4,21 @@ Generator of Mocks for [Cuckoo](https://github.com/SwiftKit/Cuckoo).
 ## What is supported
   - `protocol` mocking
     - Instance methods
+    - Instance properties
+  - `class` mocking
+    - Instance methods
+    - Instance properties
   - Copy file header (everything before first protocol/class/struct = imports, comments etc.)
   - `throws` and `rethrows`
   - Add specified `@testable import` statements to the generated files.
   - Selecting which files to mock
 
 ## What is not yet supported
-  - `class` mocking
-  - both instance and static variables
+  - static variables
   - Static methods
   - Generics
   - global functions
-  
+
 ## What will not be supported
   - `struct` mocking
       - workaround is to use a common protocol
@@ -24,8 +27,8 @@ Generator of Mocks for [Cuckoo](https://github.com/SwiftKit/Cuckoo).
   - global constants
 
 ## Installation
-To 
-  
+To
+
 ## How to run
 
 First you need to run:

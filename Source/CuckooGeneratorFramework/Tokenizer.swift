@@ -9,7 +9,9 @@
 import SourceKittenFramework
 
 public protocol Tokenizer {
+
+    init(sourceFile: File)
     
-    static func tokenize(sourceFile: File) -> FileRepresentation
+    func tokenize() -> FileRepresentation
     
 }

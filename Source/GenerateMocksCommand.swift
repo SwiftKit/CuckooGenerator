@@ -18,7 +18,7 @@ struct GenerateMocksCommand: CommandType {
     let function = "Generates mock files"
     
     func run(options: Options) -> Result<Void, CuckooGeneratorError> {
-        let parsedFiles = options.files.map { File(path: $0) }.filterNil().map(options.runtime.tokenizer.tokenize)
+        let parsedFiles = options.files.map { File(path: $0) }.filterNil().map { options.runtime.tokenizer.init(sourceFile: $0).tokenize() }
         let headers = parsedFiles.map(options.runtime.fileHeaderHandler.getHeader(options.testableFrameworks))
         let mocks = parsedFiles.map(options.runtime.generator.generate)
         let mergedFiles = zip(headers, mocks).map { $0 + $1 }.map { $0.joinWithSeparator("\n") }

@@ -9,28 +9,31 @@
 import Commandant
 
 public enum CuckooRuntimeVersion: String {
-    public static let latest: CuckooRuntimeVersion = .v0_1_0
-    public static let all: [CuckooRuntimeVersion] = [.v0_1_0]
+    public static let latest: CuckooRuntimeVersion = .v0_3_0
+    public static let all: [CuckooRuntimeVersion] = [.v0_1_0, .v0_3_0]
     
     case v0_1_0 = "0.1.0"
+    case v0_3_0 = "0.3.0"
     
     public var generator: Generator.Type {
         switch self {
         case .v0_1_0:
             return Generator_r1.self
+        case .v0_3_0:
+            return Generator_r2.self
         }
     }
     
     public var tokenizer: Tokenizer.Type {
         switch self {
-        case .v0_1_0:
+        case .v0_1_0, .v0_3_0:
             return Tokenizer_r1.self
         }
     }
     
     public var fileHeaderHandler: FileHeaderHandler.Type {
         switch self {
-        case .v0_1_0:
+        case .v0_1_0, .v0_3_0:
             return FileHeaderHandler_r1.self
         }
     }

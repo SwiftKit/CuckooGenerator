@@ -15,17 +15,11 @@ extension FileHeaderHandler {
     static func minimumIndex(currentValue: Int, declarations: [Token]) -> Int {
         return declarations.reduce(currentValue) { minimum, declaration in
             switch declaration {
-            case .ProtocolDeclaration(_, _, let range, _, _, let children):
-                return minimumIndex(min(minimum, range.startIndex), declarations: children)
-            case .ClassDeclaration(_,_, let range, _, _, _, let children):
-                return minimumIndex(min(minimum, range.startIndex), declarations: children)
-            case .ProtocolMethod(_, _, _, let range, _, let parameters):
-                return minimumIndex(min(minimum, range.startIndex), declarations: parameters)
-            case .ClassMethod(_, _, _, let range, _, _, let parameters):
-                return minimumIndex(min(minimum, range.startIndex), declarations: parameters)
-            case .MethodParameter(_, _, let range, _, _):
-                return min(minimum, range.startIndex)
-            case .Attribute(_):
+            case let containerToken as ContainerToken:
+                return containerToken.range.startIndex
+            case let method as Method:
+                return method.range.startIndex
+            default:
                 return minimum
             }
         }

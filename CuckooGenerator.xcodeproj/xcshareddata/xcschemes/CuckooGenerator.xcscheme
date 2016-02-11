@@ -86,6 +86,10 @@
             argument = "version"
             isEnabled = "NO">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "generate --runtime 0.3.0 --output &quot;/Users/TadeasKriz/Development/Sources/Cuckoo/Tests/GeneratedMocks.swift&quot; &quot;/Users/TadeasKriz/Development/Sources/Cuckoo/Tests/TestedProtocol.swift&quot; &quot;/Users/TadeasKriz/Development/Sources/Cuckoo/Tests/TestedClass.swift&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
