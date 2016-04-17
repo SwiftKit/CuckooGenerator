@@ -28,14 +28,12 @@
 		18E16D891C45D8F50084EF54 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D5B1C45CCEA0084EF54 /* FileKit.framework */; };
 		18E16D8A1C45D8F50084EF54 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D4C1C4595FF0084EF54 /* Result.framework */; };
 		18E16D8B1C45D8F50084EF54 /* Commandant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D461C4593F90084EF54 /* Commandant.framework */; };
-		18E16D8C1C45D8F50084EF54 /* SwiftXPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B19C1C457ABD0036E924 /* SwiftXPC.framework */; };
 		18E16D8D1C45D8F50084EF54 /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B19D1C457ABD0036E924 /* SWXMLHash.framework */; };
 		18E16D8E1C45D8F50084EF54 /* SourceKittenFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B1991C457AB70036E924 /* SourceKittenFramework.framework */; };
 		18E16D8F1C45D9380084EF54 /* CuckooGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */; };
 		18E16D911C45D9B70084EF54 /* FileKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D5B1C45CCEA0084EF54 /* FileKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D921C45D9B70084EF54 /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D4C1C4595FF0084EF54 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D931C45D9B80084EF54 /* Commandant.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D461C4593F90084EF54 /* Commandant.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		18E16D941C45D9B80084EF54 /* SwiftXPC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B19C1C457ABD0036E924 /* SwiftXPC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D951C45D9B80084EF54 /* SWXMLHash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B19D1C457ABD0036E924 /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D961C45D9B80084EF54 /* SourceKittenFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B1991C457AB70036E924 /* SourceKittenFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D991C45DF7F0084EF54 /* Components.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E16D981C45DF7F0084EF54 /* Components.plist */; };
@@ -87,7 +85,6 @@
 				18E16D911C45D9B70084EF54 /* FileKit.framework in Embed Frameworks */,
 				18E16D921C45D9B70084EF54 /* Result.framework in Embed Frameworks */,
 				18E16D931C45D9B80084EF54 /* Commandant.framework in Embed Frameworks */,
-				18E16D941C45D9B80084EF54 /* SwiftXPC.framework in Embed Frameworks */,
 				18E16D951C45D9B80084EF54 /* SWXMLHash.framework in Embed Frameworks */,
 				18E16D961C45D9B80084EF54 /* SourceKittenFramework.framework in Embed Frameworks */,
 			);
@@ -145,7 +142,6 @@
 				18E16D891C45D8F50084EF54 /* FileKit.framework in Frameworks */,
 				18E16D8A1C45D8F50084EF54 /* Result.framework in Frameworks */,
 				18E16D8B1C45D8F50084EF54 /* Commandant.framework in Frameworks */,
-				18E16D8C1C45D8F50084EF54 /* SwiftXPC.framework in Frameworks */,
 				18E16D8D1C45D8F50084EF54 /* SWXMLHash.framework in Frameworks */,
 				18E16D8E1C45D8F50084EF54 /* SourceKittenFramework.framework in Frameworks */,
 			);

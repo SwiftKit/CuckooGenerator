@@ -8,7 +8,7 @@
 
 struct Generator_r2: Generator {
     
-    static func generateWithIndentation(indentation: String)(token: Token) -> [String] {
+    static func generateWithIndentation(indentation: String, token: Token) -> [String] {
         var output: [String] = []
         
         switch token {
@@ -51,11 +51,11 @@ struct Generator_r2: Generator {
         output += "    \(accessibility.sourceName) required init(spyOn victim: \(name)) {"
         output += "        observed = victim"
         output += "    }"
-        output += generateWithIndentation("    ")(tokens: children)
+        output += generateWithIndentation("    ", tokens: children)
         output += ""
-        output += generateStubbingWithIndentation("    ")(token: token)
+        output += generateStubbingWithIndentation("    ", token: token)
         output += ""
-        output += generateVerificationWithIndentation("    ")(token: token)
+        output += generateVerificationWithIndentation("    ", token: token)
         output += "}"
         return output
     }
@@ -119,11 +119,11 @@ struct Generator_r2: Generator {
     }
     
     
-    private static func generateStubbingWithIndentation(indentation: String = "")(tokens: [Token]) -> [String] {
-        return tokens.flatMap(generateStubbingWithIndentation(indentation))
+    private static func generateStubbingWithIndentation(indentation: String = "", tokens: [Token]) -> [String] {
+      return tokens.flatMap({ t in generateStubbingWithIndentation(indentation, token: t) })
     }
     
-    private static func generateStubbingWithIndentation(indentation: String = "")(token: Token) -> [String] {
+    private static func generateStubbingWithIndentation(indentation: String = "", token: Token) -> [String] {
         var output: [String] = []
         
         switch token {
@@ -157,7 +157,7 @@ struct Generator_r2: Generator {
         output += "    \(accessibility.sourceName) init(handler: Cuckoo.StubbingHandler) {"
         output += "        self.handler = handler"
         output += "    }"
-        output += generateStubbingWithIndentation("    ")(tokens: children)
+        output += generateStubbingWithIndentation("    ", tokens: children)
         output += ""
         output += "}"
         
@@ -226,11 +226,11 @@ struct Generator_r2: Generator {
         return output
     }
     
-    private static func generateVerificationWithIndentation(indentation: String = "")(tokens: [Token]) -> [String] {
-        return tokens.flatMap(generateVerificationWithIndentation(indentation))
+    private static func generateVerificationWithIndentation(indentation: String = "", tokens: [Token]) -> [String] {
+      return tokens.flatMap({ t in generateVerificationWithIndentation(indentation, token: t) })
     }
     
-    private static func generateVerificationWithIndentation(indentation: String = "")(token: Token) -> [String] {
+    private static func generateVerificationWithIndentation(indentation: String = "", token: Token) -> [String] {
         var output: [String] = []
         
         switch token {
@@ -263,7 +263,7 @@ struct Generator_r2: Generator {
         output += "    \(accessibility.sourceName) init(handler: Cuckoo.VerificationHandler) {"
         output += "        self.handler = handler"
         output += "    }"
-        output += generateVerificationWithIndentation("    ")(tokens: children)
+        output += generateVerificationWithIndentation("    ", tokens: children)
         output += ""
         output += "}"
         return output

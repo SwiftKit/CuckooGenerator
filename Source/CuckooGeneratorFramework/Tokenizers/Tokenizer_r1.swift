@@ -7,7 +7,6 @@
 //
 
 import SourceKittenFramework
-import SwiftXPC
 
 struct Tokenizer_r1: Tokenizer {
     private let file: File
@@ -22,17 +21,17 @@ struct Tokenizer_r1: Tokenizer {
     func tokenize() -> FileRepresentation {
         let structure = Structure(file: file)
         
-        let declarations = tokenize(structure.dictionary[Key.Substructure.rawValue] as? XPCArray ?? [])
+        let declarations = tokenize(structure.dictionary[Key.Substructure.rawValue] as? [SourceKitRepresentable] ?? [])
         
         return FileRepresentation(sourceFile: file, declarations: declarations)
     }
     
-    private func tokenize(representables: XPCArray) -> [Token] {
+    private func tokenize(representables: [SourceKitRepresentable]) -> [Token] {
         return representables.map(tokenize).filterNil()
     }
     
-    private func tokenize(representable: XPCRepresentable) -> Token? {
-        guard let dictionary = representable as? XPCDictionary else { return nil }
+    private func tokenize(representable: SourceKitRepresentable) -> Token? {
+        guard let dictionary = representable as? [String: SourceKitRepresentable] else { return nil }
         
         // Common fields
         let name = dictionary[Key.Name.rawValue] as? String ?? "name not set"
@@ -48,7 +47,7 @@ struct Tokenizer_r1: Tokenizer {
         
         switch kind {
         case Kinds.ProtocolDeclaration.rawValue:
-            let subtokens = tokenize(dictionary[Key.Substructure.rawValue] as? XPCArray ?? [])
+            let subtokens = tokenize(dictionary[Key.Substructure.rawValue] as? [SourceKitRepresentable] ?? [])
             let initializers = subtokens.only(Initializer)
             let children = subtokens.noneOf(Initializer)
             
@@ -62,7 +61,7 @@ struct Tokenizer_r1: Tokenizer {
                 children: children)
             
         case Kinds.ClassDeclaration.rawValue:
-            let subtokens = tokenize(dictionary[Key.Substructure.rawValue] as? XPCArray ?? [])
+            let subtokens = tokenize(dictionary[Key.Substructure.rawValue] as? [SourceKitRepresentable] ?? [])
             let initializers = subtokens.only(Initializer)
             let children = subtokens.noneOf(Initializer).map { child -> Token in
                 if var property = child as? InstanceVariable {
@@ -100,7 +99,7 @@ struct Tokenizer_r1: Tokenizer {
                 overriding: false)
             
         case Kinds.InstanceMethod.rawValue:
-            let parameters = tokenizeMethodParameters(name, dictionary[Key.Substructure.rawValue] as? XPCArray ?? [])
+            let parameters = tokenizeMethodParameters(name, dictionary[Key.Substructure.rawValue] as? [SourceKitRepresentable] ?? [])
             
             var returnSignature: String
             if let bodyRange = bodyRange {
@@ -146,7 +145,7 @@ struct Tokenizer_r1: Tokenizer {
         }
     }
     
-    private func tokenizeMethodParameters(methodName: String, _ representables: XPCArray) -> [MethodParameter] {
+    private func tokenizeMethodParameters(methodName: String, _ representables: [SourceKitRepresentable]) -> [MethodParameter] {
         // Takes the string between `(` and `)`
         let parameters = methodName.componentsSeparatedByString("(").last?.characters.dropLast(1).map { "\($0)" }.joinWithSeparator("")
         let parameterLabels: [String?] = parameters?.componentsSeparatedByString(":").map { $0 != "_" ? $0 : nil } ?? []
@@ -154,8 +153,8 @@ struct Tokenizer_r1: Tokenizer {
         return zip(parameterLabels, representables).map(tokenizeMethodParameter).filterNil()
     }
     
-    private func tokenizeMethodParameter(label: String?, _ representable: XPCRepresentable) -> MethodParameter? {
-        guard let dictionary = representable as? XPCDictionary else { return nil }
+    private func tokenizeMethodParameter(label: String?, _ representable: SourceKitRepresentable) -> MethodParameter? {
+      guard let dictionary = representable as? [String: SourceKitRepresentable] else { return nil }
         
         let name = dictionary[Key.Name.rawValue] as? String ?? "name not set"
         let kind = dictionary[Key.Kind.rawValue] as? String ?? dictionary[Key.Attribute.rawValue] as? String ?? "unknown type"
@@ -165,7 +164,7 @@ struct Tokenizer_r1: Tokenizer {
 
         switch kind {
         case Kinds.MethodParameter.rawValue:
-            let attributes = tokenizeAttributes(dictionary[Key.Attributes.rawValue] as? XPCArray ?? [])
+            let attributes = tokenizeAttributes(dictionary[Key.Attributes.rawValue] as? [SourceKitRepresentable] ?? [])
             return MethodParameter(label: label, name: name, type: type!, range: range!, nameRange: nameRange!, attributes: attributes)
             
         default:
@@ -174,12 +173,12 @@ struct Tokenizer_r1: Tokenizer {
         }
     }
     
-    private func tokenizeAttributes(representables: XPCArray) -> Attributes {
+    private func tokenizeAttributes(representables: [SourceKitRepresentable]) -> Attributes {
         return representables.map(tokenizeAttribute).reduce(Attributes.none) { $0.union($1) }
     }
     
-    private func tokenizeAttribute(representable: XPCRepresentable) -> Attributes {
-        guard let dictionary = representable as? XPCDictionary else { return Attributes.none }
+    private func tokenizeAttribute(representable: SourceKitRepresentable) -> Attributes {
+      guard let dictionary = representable as? [String: SourceKitRepresentable] else { return Attributes.none }
         
         let kind = dictionary[Key.Kind.rawValue] as? String ?? dictionary[Key.Attribute.rawValue] as? String ?? "unknown type"
         let range = extractRange(dictionary, offsetKey: .Offset, lengthKey: .Length)

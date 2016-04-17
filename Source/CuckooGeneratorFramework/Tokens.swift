@@ -8,7 +8,6 @@
 
 import Foundation
 import SourceKittenFramework
-import SwiftXPC
 
 enum Key: String {
     case Substructure = "key.substructure"

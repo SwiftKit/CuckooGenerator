@@ -19,7 +19,7 @@ struct GenerateMocksCommand: CommandType {
     
     func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         let parsedFiles = options.files.map { File(path: $0) }.filterNil().map { options.runtime.tokenizer.init(sourceFile: $0).tokenize() }
-        let headers = parsedFiles.map(options.runtime.fileHeaderHandler.getHeader(options.testableFrameworks))
+      let headers = parsedFiles.map { f in options.runtime.fileHeaderHandler.getHeader(options.testableFrameworks, file: f) }
         let mocks = parsedFiles.map(options.runtime.generator.generate)
         let mergedFiles = zip(headers, mocks).map { $0 + $1 }.map { $0.joinWithSeparator("\n") }
         
@@ -60,7 +60,7 @@ struct GenerateMocksCommand: CommandType {
         static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
             return create
                 <*> m <| Option(key: "runtime", defaultValue: CuckooRuntimeVersion.latest, usage: "Version of Mockery runtime your project uses. This will make sure that the generated files are compatible with the selected version.")
-                <*> m <| Option(key: "output", usage: "Where to put the generated mocks.\nIf a path to a directory is supplied, each input file will have a respective output file with mocks.\nIf a path to a Swift file is supplied, all mocks will be in a single file.")
+                <*> m <| Option(key: "output", defaultValue: "GeneratedMocks.swift", usage: "Where to put the generated mocks.\nIf a path to a directory is supplied, each input file will have a respective output file with mocks.\nIf a path to a Swift file is supplied, all mocks will be in a single file.")
                 <*> m <| Option(key: "testable", defaultValue: "", usage: "A comma separated list of frameworks that should be imported as @testable in the mock files.")
                 <*> m <| Argument(usage: "Files to parse and generate mocks for.")
         }

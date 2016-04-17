@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftXPC
+import SourceKittenFramework
 
 func += <T>(inout lhs: [T], rhs: T) {
     lhs.append(rhs)
@@ -70,7 +70,7 @@ extension SequenceType {
     }
 }
 
-func extractRange(dictionary: XPCDictionary, offsetKey: Key, lengthKey: Key) -> Range<Int>? {
+func extractRange(dictionary: [String: SourceKitRepresentable], offsetKey: Key, lengthKey: Key) -> Range<Int>? {
     guard let
         offset = (dictionary[offsetKey.rawValue] as? Int64).map({ Int($0) }),
         length = (dictionary[lengthKey.rawValue] as? Int64).map({ Int($0) })
@@ -107,7 +107,7 @@ func keyValueArrayToTupleArray(keyValueArray: [String]) -> [(String, String)] {
 }
 
 public protocol _OptionalProtocol {
-    typealias WrappedType
+    associatedtype WrappedType
     
     @warn_unused_result
     func optionalValue() -> WrappedType?

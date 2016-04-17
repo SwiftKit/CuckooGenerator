@@ -21,7 +21,7 @@ all: bootstrap
 	$(BUILD_TOOL) $(XCODEFLAGS) build
 
 bootstrap:
-	carthage bootstrap --platform mac
+	carthage update --no-use-binaries --platform mac
 
 test: clean bootstrap
 	$(BUILD_TOOL) $(XCODEFLAGS) test

@@ -7,11 +7,10 @@
 //
 
 import SourceKittenFramework
-import SwiftXPC
 
 struct FileHeaderHandler_r1: FileHeaderHandler {
     
-    static func getHeader(testableFrameworks: [String])(file: FileRepresentation) -> [String] {
+    static func getHeader(testableFrameworks: [String], file: FileRepresentation) -> [String] {
         let generationInfo = "// MARK: - Mocks generated from file: \(file.sourceFile.path ?? "unknown") at \(NSDate())\n"
         let imports = testableFrameworks.map { "@testable import \($0)" }
         

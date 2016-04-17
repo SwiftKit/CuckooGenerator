@@ -16,9 +16,9 @@ public protocol Generator {
     
     static func generate(token: Token) -> [String]
 
-    static func generateWithIndentation(indentation: String)(tokens: [Token]) -> [String]
+    static func generateWithIndentation(indentation: String, tokens: [Token]) -> [String]
     
-    static func generateWithIndentation(indentation: String)(token: Token) -> [String]
+    static func generateWithIndentation(indentation: String, token: Token) -> [String]
 }
 
 // MARK: - Overloads
@@ -33,11 +33,11 @@ extension Generator {
     }
     
     public static func generate(token: Token) -> [String] {
-        return generateWithIndentation("")(token: token)
+        return generateWithIndentation("", token: token)
     }
     
-    public static func generateWithIndentation(indentation: String)(tokens: [Token]) -> [String] {
-        return tokens.flatMap(generateWithIndentation(indentation))
+    public static func generateWithIndentation(indentation: String, tokens: [Token]) -> [String] {
+      return tokens.flatMap({ t in generateWithIndentation(indentation, token: t) })
     }
 
 }
