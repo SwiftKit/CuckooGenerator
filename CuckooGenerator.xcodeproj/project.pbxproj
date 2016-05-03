@@ -567,7 +567,7 @@
 					"@executable_path/../Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks/CuckooGeneratorFramework.framework/Versions/Current/Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGenerator;
 				PRODUCT_NAME = cuckoo;
@@ -587,7 +587,7 @@
 					"@executable_path/../Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks/CuckooGeneratorFramework.framework/Versions/Current/Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGenerator;
 				PRODUCT_NAME = cuckoo;
@@ -609,7 +609,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/CuckooGeneratorFramework/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "Source/CuckooGeneratorFramework/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGeneratorFramework;
@@ -635,7 +635,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/CuckooGeneratorFramework/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "Source/CuckooGeneratorFramework/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGeneratorFramework;

@@ -5,4 +5,5 @@ before_script:
     # - brew install carthage
 script:
     - make test
+    - make package
     - sleep 5
