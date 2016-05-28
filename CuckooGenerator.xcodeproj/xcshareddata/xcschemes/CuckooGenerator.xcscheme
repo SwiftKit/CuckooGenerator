@@ -32,19 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1808B16E1C4575AA0036E924"
-               BuildableName = "Mockery-GeneratorTests.xctest"
-               BlueprintName = "Mockery-GeneratorTests"
-               ReferencedContainer = "container:CuckooGenerator.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "18E16D6E1C45D8280084EF54"
-               BuildableName = "CuckooGeneratorFrameworkTests.xctest"
-               BlueprintName = "CuckooGeneratorFrameworkTests"
+               BlueprintIdentifier = "DC8C4EC91CF9AD7D005213F8"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:CuckooGenerator.xcodeproj">
             </BuildableReference>
          </TestableReference>

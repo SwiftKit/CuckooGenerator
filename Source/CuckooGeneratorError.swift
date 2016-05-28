@@ -9,12 +9,12 @@
 import Foundation
 import FileKit
 
-enum CuckooGeneratorError: ErrorType {
+public enum CuckooGeneratorError: ErrorType {
     case IOError(FileKitError)
     case UnknownError(ErrorType)
     case RuntimeNotSupported(String)
     
-    var description: String {
+    public var description: String {
         switch self {
         case .IOError(let error):
             return error.description

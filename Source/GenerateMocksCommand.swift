@@ -10,14 +10,16 @@ import Commandant
 import Result
 import SourceKittenFramework
 import FileKit
-import CuckooGeneratorFramework
 
-struct GenerateMocksCommand: CommandType {
+public struct GenerateMocksCommand: CommandType {
     
-    let verb = "generate"
-    let function = "Generates mock files"
+    public let verb = "generate"
+    public let function = "Generates mock files"
     
-    func run(options: Options) -> Result<Void, CuckooGeneratorError> {
+    public init() {
+    }
+    
+    public func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         let parsedFiles = options.files.map { File(path: $0) }.filterNil().map { options.runtime.tokenizer.init(sourceFile: $0).tokenize() }
       let headers = parsedFiles.map { f in options.runtime.fileHeaderHandler.getHeader(options.testableFrameworks, file: f) }
         let mocks = parsedFiles.map(options.runtime.generator.generate)
@@ -47,17 +49,17 @@ struct GenerateMocksCommand: CommandType {
     }
     
     
-    struct Options: OptionsType {
+    public struct Options: OptionsType {
         let runtime: CuckooRuntimeVersion
         let files: [String]
         let output: String
         let testableFrameworks: [String]
         
-        static func create(runtime: CuckooRuntimeVersion)(output: String)(testableFrameworks: String)(files: [String]) -> Options {
+        public static func create(runtime: CuckooRuntimeVersion)(output: String)(testableFrameworks: String)(files: [String]) -> Options {
             return Options(runtime: runtime, files: files, output: output, testableFrameworks: testableFrameworks.componentsSeparatedByString(",").filter { !$0.isEmpty })
         }
         
-        static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
+        public static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
             return create
                 <*> m <| Option(key: "runtime", defaultValue: CuckooRuntimeVersion.latest, usage: "Version of Mockery runtime your project uses. This will make sure that the generated files are compatible with the selected version.")
                 <*> m <| Option(key: "output", defaultValue: "GeneratedMocks.swift", usage: "Where to put the generated mocks.\nIf a path to a directory is supplied, each input file will have a respective output file with mocks.\nIf a path to a Swift file is supplied, all mocks will be in a single file.")

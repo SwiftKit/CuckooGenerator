@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char CuckooGeneratorFrameworkVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CuckooGeneratorFramework/PublicHeader.h>
 
-
+#define PROJECT_DIR PROJECT_DIR

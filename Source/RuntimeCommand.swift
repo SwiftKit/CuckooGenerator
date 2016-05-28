@@ -8,14 +8,16 @@
 
 import Commandant
 import Result
-import CuckooGeneratorFramework
 
-struct RuntimeCommand: CommandType {
+public struct RuntimeCommand: CommandType {
     
-    let verb = "runtime"
-    let function = "Prints supported runtime versions, or checks if a desired runtime is supported."
+    public let verb = "runtime"
+    public let function = "Prints supported runtime versions, or checks if a desired runtime is supported."
     
-    func run(options: Options) -> Result<Void, CuckooGeneratorError> {
+    public init() {
+    }
+    
+    public func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         if options.check.isEmpty == false {
             if let version = CuckooRuntimeVersion.fromString(options.check) {
                 print("Requested runtime version \(version) is supported.")
@@ -32,10 +34,10 @@ struct RuntimeCommand: CommandType {
         }
     }
     
-    struct Options: OptionsType {
+    public struct Options: OptionsType {
         let check: String
         
-        static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
+        public static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
             return Options.init
                 <*> m <| Option(key: "check", defaultValue: "", usage: "Version of the Cuckoo runtime your project uses. Specify this option if you want to check if you need to update generator.")
         }

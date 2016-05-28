@@ -12,15 +12,8 @@
 		18601E831C46F44A00693A66 /* CuckooRuntimeVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC191C46E6C50015A95F /* CuckooRuntimeVersion.swift */; };
 		18601E861C46F63300693A66 /* Tokenizer_r1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18601E851C46F63300693A66 /* Tokenizer_r1.swift */; };
 		18601E8C1C47007900693A66 /* FileHeaderHandler_r1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18601E8B1C47007900693A66 /* FileHeaderHandler_r1.swift */; };
-		189029871C4C1F6C002FF826 /* RuntimeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189029861C4C1F6C002FF826 /* RuntimeCommand.swift */; };
-		189029891C4C2475002FF826 /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189029881C4C2475002FF826 /* VersionCommand.swift */; };
 		18BFD8E21C6BE11900DFB519 /* Generator_r2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BFD8E01C6BE10900DFB519 /* Generator_r2.swift */; };
-		18E16D501C4599FB0084EF54 /* GenerateMocksCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */; };
 		18E16D691C45D8280084EF54 /* CuckooGeneratorFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E16D681C45D8280084EF54 /* CuckooGeneratorFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		18E16D701C45D8280084EF54 /* CuckooGeneratorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; };
-		18E16D771C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D761C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift */; };
-		18E16D7B1C45D8280084EF54 /* CuckooGeneratorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; };
-		18E16D7C1C45D8280084EF54 /* CuckooGeneratorFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D831C45D8B30084EF54 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D511C45A6890084EF54 /* Utils.swift */; };
 		18E16D841C45D8B30084EF54 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D531C45A6AF0084EF54 /* Tokenizer.swift */; };
 		18E16D851C45D8B30084EF54 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D551C45A6C40084EF54 /* Tokens.swift */; };
@@ -30,7 +23,6 @@
 		18E16D8B1C45D8F50084EF54 /* Commandant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D461C4593F90084EF54 /* Commandant.framework */; };
 		18E16D8D1C45D8F50084EF54 /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B19D1C457ABD0036E924 /* SWXMLHash.framework */; };
 		18E16D8E1C45D8F50084EF54 /* SourceKittenFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B1991C457AB70036E924 /* SourceKittenFramework.framework */; };
-		18E16D8F1C45D9380084EF54 /* CuckooGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */; };
 		18E16D911C45D9B70084EF54 /* FileKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D5B1C45CCEA0084EF54 /* FileKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D921C45D9B70084EF54 /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D4C1C4595FF0084EF54 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D931C45D9B80084EF54 /* Commandant.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D461C4593F90084EF54 /* Commandant.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -38,44 +30,38 @@
 		18E16D961C45D9B80084EF54 /* SourceKittenFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B1991C457AB70036E924 /* SourceKittenFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D991C45DF7F0084EF54 /* Components.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E16D981C45DF7F0084EF54 /* Components.plist */; };
 		18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC1B1C46E8760015A95F /* Generator.swift */; };
+		DC8C4E591CF99237005213F8 /* Generator_r3.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C4E571CF99222005213F8 /* Generator_r3.swift */; };
+		DC8C4EC21CF9ABED005213F8 /* GenerateMocksCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */; };
+		DC8C4EC31CF9ABED005213F8 /* CuckooGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */; };
+		DC8C4EC41CF9ABED005213F8 /* RuntimeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189029861C4C1F6C002FF826 /* RuntimeCommand.swift */; };
+		DC8C4EC51CF9ABED005213F8 /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189029881C4C2475002FF826 /* VersionCommand.swift */; };
+		DC8C4ED51CF9AD92005213F8 /* TestedClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C4E531CF9921B005213F8 /* TestedClass.swift */; };
+		DC8C4ED61CF9AD92005213F8 /* TestedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C4E541CF9921B005213F8 /* TestedProtocol.swift */; };
+		DC8C4ED71CF9AD92005213F8 /* CuckooGeneratorFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D761C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift */; };
+		DC8C4EE01CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; };
+		DC8C4EE11CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DC8C4EE81CF9B241005213F8 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D4C1C4595FF0084EF54 /* Result.framework */; };
+		DC8C4EFC1CF9F31F005213F8 /* output.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C4EFB1CF9F31F005213F8 /* output.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		18E16D711C45D8280084EF54 /* PBXContainerItemProxy */ = {
+		DC8C4ED01CF9AD7D005213F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1808B1581C4575AA0036E924 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 18E16D651C45D8280084EF54;
-			remoteInfo = MockeryGeneratorFramework;
+			remoteInfo = CuckooGeneratorFramework;
 		};
-		18E16D731C45D8280084EF54 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1808B1581C4575AA0036E924 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1808B15F1C4575AA0036E924;
-			remoteInfo = "Mockery-Generator";
-		};
-		18E16D791C45D8280084EF54 /* PBXContainerItemProxy */ = {
+		DC8C4EE21CF9AF1C005213F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1808B1581C4575AA0036E924 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 18E16D651C45D8280084EF54;
-			remoteInfo = MockeryGeneratorFramework;
+			remoteInfo = CuckooGeneratorFramework;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1808B1A91C457B690036E924 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				18E16D7C1C45D8280084EF54 /* CuckooGeneratorFramework.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		18E16D901C45D9A40084EF54 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -87,6 +73,17 @@
 				18E16D931C45D9B80084EF54 /* Commandant.framework in Embed Frameworks */,
 				18E16D951C45D9B80084EF54 /* SWXMLHash.framework in Embed Frameworks */,
 				18E16D961C45D9B80084EF54 /* SourceKittenFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC8C4EE41CF9AF1C005213F8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DC8C4EE11CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,27 +100,39 @@
 		18601E811C46F19500693A66 /* Generator_r1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r1.swift; sourceTree = "<group>"; };
 		18601E851C46F63300693A66 /* Tokenizer_r1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer_r1.swift; sourceTree = "<group>"; };
 		18601E8B1C47007900693A66 /* FileHeaderHandler_r1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHeaderHandler_r1.swift; sourceTree = "<group>"; };
-		189029861C4C1F6C002FF826 /* RuntimeCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuntimeCommand.swift; sourceTree = "<group>"; };
-		189029881C4C2475002FF826 /* VersionCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
+		189029861C4C1F6C002FF826 /* RuntimeCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RuntimeCommand.swift; path = ../RuntimeCommand.swift; sourceTree = "<group>"; };
+		189029881C4C2475002FF826 /* VersionCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VersionCommand.swift; path = ../VersionCommand.swift; sourceTree = "<group>"; };
 		18BFD8E01C6BE10900DFB519 /* Generator_r2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r2.swift; sourceTree = "<group>"; };
 		18E16D461C4593F90084EF54 /* Commandant.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Commandant.framework; path = Carthage/Build/Mac/Commandant.framework; sourceTree = "<group>"; };
 		18E16D4C1C4595FF0084EF54 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
-		18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMocksCommand.swift; sourceTree = "<group>"; };
+		18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenerateMocksCommand.swift; path = ../GenerateMocksCommand.swift; sourceTree = "<group>"; };
 		18E16D511C45A6890084EF54 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		18E16D531C45A6AF0084EF54 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 		18E16D551C45A6C40084EF54 /* Tokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHeaderHandler.swift; sourceTree = "<group>"; };
 		18E16D5B1C45CCEA0084EF54 /* FileKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileKit.framework; path = Carthage/Build/Mac/FileKit.framework; sourceTree = "<group>"; };
-		18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CuckooGeneratorError.swift; sourceTree = "<group>"; };
+		18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CuckooGeneratorError.swift; path = ../CuckooGeneratorError.swift; sourceTree = "<group>"; };
 		18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CuckooGeneratorFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E16D681C45D8280084EF54 /* CuckooGeneratorFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CuckooGeneratorFramework.h; sourceTree = "<group>"; };
 		18E16D6A1C45D8280084EF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		18E16D6F1C45D8280084EF54 /* CuckooGeneratorFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CuckooGeneratorFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E16D761C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuckooGeneratorFrameworkTests.swift; sourceTree = "<group>"; };
-		18E16D781C45D8280084EF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18E16D981C45DF7F0084EF54 /* Components.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Components.plist; sourceTree = "<group>"; };
 		18F2BC191C46E6C50015A95F /* CuckooRuntimeVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CuckooRuntimeVersion.swift; sourceTree = "<group>"; };
 		18F2BC1B1C46E8760015A95F /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
+		DC8C4E531CF9921B005213F8 /* TestedClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestedClass.swift; sourceTree = "<group>"; };
+		DC8C4E541CF9921B005213F8 /* TestedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestedProtocol.swift; sourceTree = "<group>"; };
+		DC8C4E571CF99222005213F8 /* Generator_r3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r3.swift; sourceTree = "<group>"; };
+		DC8C4E701CF99C6B005213F8 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
+		DC8C4E771CF99C89005213F8 /* Commandant.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Commandant.framework.dSYM; path = Carthage/Build/Mac/Commandant.framework.dSYM; sourceTree = "<group>"; };
+		DC8C4E781CF99C89005213F8 /* FileKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FileKit.framework.dSYM; path = Carthage/Build/Mac/FileKit.framework.dSYM; sourceTree = "<group>"; };
+		DC8C4E791CF99C89005213F8 /* Result.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Result.framework.dSYM; path = Carthage/Build/Mac/Result.framework.dSYM; sourceTree = "<group>"; };
+		DC8C4E7A1CF99C89005213F8 /* SourceKittenFramework.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SourceKittenFramework.framework.dSYM; path = Carthage/Build/Mac/SourceKittenFramework.framework.dSYM; sourceTree = "<group>"; };
+		DC8C4E7B1CF99C89005213F8 /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = Carthage/Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
+		DC8C4EA91CF9A272005213F8 /* CuckooGenerator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CuckooGenerator.xcodeproj; sourceTree = "<group>"; };
+		DC8C4ECA1CF9AD7D005213F8 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC8C4ECE1CF9AD7D005213F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC8C4EE51CF9B15E005213F8 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		DC8C4EFB1CF9F31F005213F8 /* output.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = output.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18E16D7B1C45D8280084EF54 /* CuckooGeneratorFramework.framework in Frameworks */,
+				DC8C4EE01CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,11 +156,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		18E16D6C1C45D8280084EF54 /* Frameworks */ = {
+		DC8C4EC71CF9AD7D005213F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18E16D701C45D8280084EF54 /* CuckooGeneratorFramework.framework in Frameworks */,
+				DC8C4EE81CF9B241005213F8 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,9 +170,9 @@
 		1808B1571C4575AA0036E924 = {
 			isa = PBXGroup;
 			children = (
+				DC8C4ECB1CF9AD7D005213F8 /* Tests */,
 				1808B1A21C457B160036E924 /* Frameworks */,
 				1808B1621C4575AA0036E924 /* Source */,
-				18E16D751C45D8280084EF54 /* Tests */,
 				1808B1611C4575AA0036E924 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -173,7 +182,7 @@
 			children = (
 				1808B1601C4575AA0036E924 /* cuckoo.app */,
 				18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */,
-				18E16D6F1C45D8280084EF54 /* CuckooGeneratorFrameworkTests.xctest */,
+				DC8C4ECA1CF9AD7D005213F8 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,11 +192,7 @@
 			children = (
 				18E16D971C45DF600084EF54 /* Supporting Files */,
 				18E16D671C45D8280084EF54 /* CuckooGeneratorFramework */,
-				18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */,
-				18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */,
 				1808B1AA1C4581070036E924 /* main.swift */,
-				189029861C4C1F6C002FF826 /* RuntimeCommand.swift */,
-				189029881C4C2475002FF826 /* VersionCommand.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -195,6 +200,14 @@
 		1808B1A21C457B160036E924 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC8C4EE51CF9B15E005213F8 /* Result.framework */,
+				DC8C4EA91CF9A272005213F8 /* CuckooGenerator.xcodeproj */,
+				DC8C4E771CF99C89005213F8 /* Commandant.framework.dSYM */,
+				DC8C4E781CF99C89005213F8 /* FileKit.framework.dSYM */,
+				DC8C4E791CF99C89005213F8 /* Result.framework.dSYM */,
+				DC8C4E7A1CF99C89005213F8 /* SourceKittenFramework.framework.dSYM */,
+				DC8C4E7B1CF99C89005213F8 /* SWXMLHash.framework.dSYM */,
+				DC8C4E701CF99C6B005213F8 /* Mac */,
 				18E16D5B1C45CCEA0084EF54 /* FileKit.framework */,
 				18E16D4C1C4595FF0084EF54 /* Result.framework */,
 				18E16D461C4593F90084EF54 /* Commandant.framework */,
@@ -208,6 +221,7 @@
 		18601E801C46F16D00693A66 /* Generators */ = {
 			isa = PBXGroup;
 			children = (
+				DC8C4E571CF99222005213F8 /* Generator_r3.swift */,
 				18601E811C46F19500693A66 /* Generator_r1.swift */,
 				18BFD8E01C6BE10900DFB519 /* Generator_r2.swift */,
 			);
@@ -242,6 +256,7 @@
 		18E16D671C45D8280084EF54 /* CuckooGeneratorFramework */ = {
 			isa = PBXGroup;
 			children = (
+				DC8C4EBE1CF9ABBF005213F8 /* Api */,
 				18601E8A1C46FA7400693A66 /* Supporting Files */,
 				18601E871C46F83D00693A66 /* FileHeaderHandlers */,
 				18601E841C46F51C00693A66 /* Tokenizers */,
@@ -257,15 +272,6 @@
 			path = Source/CuckooGeneratorFramework;
 			sourceTree = SOURCE_ROOT;
 		};
-		18E16D751C45D8280084EF54 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				18E16D761C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift */,
-				18E16D781C45D8280084EF54 /* Info.plist */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 		18E16D971C45DF600084EF54 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +279,34 @@
 				18E16D981C45DF7F0084EF54 /* Components.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DC8C4EAA1CF9A272005213F8 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DC8C4EBE1CF9ABBF005213F8 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				18E16D4F1C4599FB0084EF54 /* GenerateMocksCommand.swift */,
+				18E16D5F1C45CE990084EF54 /* CuckooGeneratorError.swift */,
+				189029861C4C1F6C002FF826 /* RuntimeCommand.swift */,
+				189029881C4C2475002FF826 /* VersionCommand.swift */,
+			);
+			name = Api;
+			sourceTree = "<group>";
+		};
+		DC8C4ECB1CF9AD7D005213F8 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DC8C4EFB1CF9F31F005213F8 /* output.swift */,
+				DC8C4E531CF9921B005213F8 /* TestedClass.swift */,
+				DC8C4E541CF9921B005213F8 /* TestedProtocol.swift */,
+				18E16D761C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift */,
+				DC8C4ECE1CF9AD7D005213F8 /* Info.plist */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,12 +330,12 @@
 				1808B15C1C4575AA0036E924 /* Sources */,
 				1808B15D1C4575AA0036E924 /* Frameworks */,
 				1808B15E1C4575AA0036E924 /* Resources */,
-				1808B1A91C457B690036E924 /* Embed Frameworks */,
+				DC8C4EE41CF9AF1C005213F8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				18E16D7A1C45D8280084EF54 /* PBXTargetDependency */,
+				DC8C4EE31CF9AF1C005213F8 /* PBXTargetDependency */,
 			);
 			name = CuckooGenerator;
 			productName = "Mockery-Generator";
@@ -327,23 +361,23 @@
 			productReference = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		18E16D6E1C45D8280084EF54 /* CuckooGeneratorFrameworkTests */ = {
+		DC8C4EC91CF9AD7D005213F8 /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18E16D801C45D8280084EF54 /* Build configuration list for PBXNativeTarget "CuckooGeneratorFrameworkTests" */;
+			buildConfigurationList = DC8C4ED21CF9AD7D005213F8 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
-				18E16D6B1C45D8280084EF54 /* Sources */,
-				18E16D6C1C45D8280084EF54 /* Frameworks */,
-				18E16D6D1C45D8280084EF54 /* Resources */,
+				DC8C4EC61CF9AD7D005213F8 /* Sources */,
+				DC8C4EC71CF9AD7D005213F8 /* Frameworks */,
+				DC8C4EC81CF9AD7D005213F8 /* Resources */,
+				DC8C4EE71CF9B1E3005213F8 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				18E16D721C45D8280084EF54 /* PBXTargetDependency */,
-				18E16D741C45D8280084EF54 /* PBXTargetDependency */,
+				DC8C4ED11CF9AD7D005213F8 /* PBXTargetDependency */,
 			);
-			name = CuckooGeneratorFrameworkTests;
-			productName = MockeryGeneratorFrameworkTests;
-			productReference = 18E16D6F1C45D8280084EF54 /* CuckooGeneratorFrameworkTests.xctest */;
+			name = Tests;
+			productName = Tests;
+			productReference = DC8C4ECA1CF9AD7D005213F8 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -352,7 +386,7 @@
 		1808B1581C4575AA0036E924 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Brightify;
 				TargetAttributes = {
@@ -362,8 +396,8 @@
 					18E16D651C45D8280084EF54 = {
 						CreatedOnToolsVersion = 7.2;
 					};
-					18E16D6E1C45D8280084EF54 = {
-						CreatedOnToolsVersion = 7.2;
+					DC8C4EC91CF9AD7D005213F8 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -378,11 +412,17 @@
 			mainGroup = 1808B1571C4575AA0036E924;
 			productRefGroup = 1808B1611C4575AA0036E924 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DC8C4EAA1CF9A272005213F8 /* Products */;
+					ProjectRef = DC8C4EA91CF9A272005213F8 /* CuckooGenerator.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1808B15F1C4575AA0036E924 /* CuckooGenerator */,
 				18E16D651C45D8280084EF54 /* CuckooGeneratorFramework */,
-				18E16D6E1C45D8280084EF54 /* CuckooGeneratorFrameworkTests */,
+				DC8C4EC91CF9AD7D005213F8 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -403,7 +443,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		18E16D6D1C45D8280084EF54 /* Resources */ = {
+		DC8C4EC81CF9AD7D005213F8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -412,16 +452,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DC8C4EE71CF9B1E3005213F8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/Result.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1808B15C1C4575AA0036E924 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				189029891C4C2475002FF826 /* VersionCommand.swift in Sources */,
-				189029871C4C1F6C002FF826 /* RuntimeCommand.swift in Sources */,
-				18E16D501C4599FB0084EF54 /* GenerateMocksCommand.swift in Sources */,
 				1808B1AB1C4581070036E924 /* main.swift in Sources */,
-				18E16D8F1C45D9380084EF54 /* CuckooGeneratorError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,44 +482,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC8C4EC51CF9ABED005213F8 /* VersionCommand.swift in Sources */,
 				18E16D841C45D8B30084EF54 /* Tokenizer.swift in Sources */,
+				DC8C4E591CF99237005213F8 /* Generator_r3.swift in Sources */,
 				18601E821C46F19500693A66 /* Generator_r1.swift in Sources */,
 				18601E8C1C47007900693A66 /* FileHeaderHandler_r1.swift in Sources */,
+				DC8C4EC21CF9ABED005213F8 /* GenerateMocksCommand.swift in Sources */,
 				18E16D851C45D8B30084EF54 /* Tokens.swift in Sources */,
 				18601E831C46F44A00693A66 /* CuckooRuntimeVersion.swift in Sources */,
 				18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */,
 				18601E861C46F63300693A66 /* Tokenizer_r1.swift in Sources */,
 				18BFD8E21C6BE11900DFB519 /* Generator_r2.swift in Sources */,
+				DC8C4EC41CF9ABED005213F8 /* RuntimeCommand.swift in Sources */,
 				18E16D831C45D8B30084EF54 /* Utils.swift in Sources */,
 				18E16D871C45D8B30084EF54 /* FileHeaderHandler.swift in Sources */,
+				DC8C4EC31CF9ABED005213F8 /* CuckooGeneratorError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		18E16D6B1C45D8280084EF54 /* Sources */ = {
+		DC8C4EC61CF9AD7D005213F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18E16D771C45D8280084EF54 /* CuckooGeneratorFrameworkTests.swift in Sources */,
+				DC8C4EFC1CF9F31F005213F8 /* output.swift in Sources */,
+				DC8C4ED61CF9AD92005213F8 /* TestedProtocol.swift in Sources */,
+				DC8C4ED71CF9AD92005213F8 /* CuckooGeneratorFrameworkTests.swift in Sources */,
+				DC8C4ED51CF9AD92005213F8 /* TestedClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		18E16D721C45D8280084EF54 /* PBXTargetDependency */ = {
+		DC8C4ED11CF9AD7D005213F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 18E16D651C45D8280084EF54 /* CuckooGeneratorFramework */;
-			targetProxy = 18E16D711C45D8280084EF54 /* PBXContainerItemProxy */;
+			targetProxy = DC8C4ED01CF9AD7D005213F8 /* PBXContainerItemProxy */;
 		};
-		18E16D741C45D8280084EF54 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1808B15F1C4575AA0036E924 /* CuckooGenerator */;
-			targetProxy = 18E16D731C45D8280084EF54 /* PBXContainerItemProxy */;
-		};
-		18E16D7A1C45D8280084EF54 /* PBXTargetDependency */ = {
+		DC8C4EE31CF9AF1C005213F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 18E16D651C45D8280084EF54 /* CuckooGeneratorFramework */;
-			targetProxy = 18E16D791C45D8280084EF54 /* PBXContainerItemProxy */;
+			targetProxy = DC8C4EE21CF9AF1C005213F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -499,7 +555,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"PROJECT_DIR=@\\\"$(PROJECT_DIR)\\\"",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -513,6 +569,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -541,6 +598,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -646,33 +705,39 @@
 			};
 			name = Release;
 		};
-		18E16D811C45D8280084EF54 /* Debug */ = {
+		DC8C4ED31CF9AD7D005213F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-framework",
-					XCTest,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGeneratorFrameworkTests;
-				PRODUCT_NAME = CuckooGeneratorFrameworkTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TMSpark.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Debug;
 		};
-		18E16D821C45D8280084EF54 /* Release */ = {
+		DC8C4ED41CF9AD7D005213F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-framework",
-					XCTest,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.CuckooGeneratorFrameworkTests;
-				PRODUCT_NAME = CuckooGeneratorFrameworkTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TMSpark.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -706,14 +771,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18E16D801C45D8280084EF54 /* Build configuration list for PBXNativeTarget "CuckooGeneratorFrameworkTests" */ = {
+		DC8C4ED21CF9AD7D005213F8 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				18E16D811C45D8280084EF54 /* Debug */,
-				18E16D821C45D8280084EF54 /* Release */,
+				DC8C4ED31CF9AD7D005213F8 /* Debug */,
+				DC8C4ED41CF9AD7D005213F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

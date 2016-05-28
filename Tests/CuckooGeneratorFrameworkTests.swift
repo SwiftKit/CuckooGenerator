@@ -6,6 +6,7 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
+import Foundation
 import XCTest
 @testable import CuckooGeneratorFramework
 
@@ -21,16 +22,12 @@ class CuckooGeneratorFrameworkTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testGeneratingMocks() {
+        let options = GenerateMocksCommand.Options.create(.v0_4_1)(output: "\(PROJECT_DIR)/Tests/output.swift")(testableFrameworks: "CuckooGenerator")(files: ["\(PROJECT_DIR)/Tests/TestedClass.swift"
+, "\(PROJECT_DIR)/Tests/TestedProtocol.swift"])
+        let generator = GenerateMocksCommand()
+        generator.run(options)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+
+
 }

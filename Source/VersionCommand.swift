@@ -8,23 +8,26 @@
 
 import Commandant
 import Result
-import CuckooGeneratorFramework
 
-struct VersionCommand: CommandType {
+public struct VersionCommand: CommandType {
+    
     static let appVersion = NSBundle.allFrameworks().filter {
         $0.bundleIdentifier == "org.brightify.CuckooGeneratorFramework"
     }.first?.objectForInfoDictionaryKey("CFBundleShortVersionString") as? String ?? ""
 
-    let verb = "version"
-    let function = "Prints the version of this generator."
+    public let verb = "version"
+    public let function = "Prints the version of this generator."
     
-    func run(options: Options) -> Result<Void, CuckooGeneratorError> {
+    public init() {
+    }
+    
+    public func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         print(VersionCommand.appVersion)
         return .Success()
     }
     
-    struct Options: OptionsType {
-        static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
+    public struct Options: OptionsType {
+        public static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
             return .Success(Options())
         }
     }
