@@ -1,6 +1,6 @@
 //
-//  MockeryRuntimeVersion.swift
-//  MockeryGenerator
+//  CuckooRuntimeVersion.swift
+//  CuckooGenerator
 //
 //  Created by Tadeas Kriz on 13/01/16.
 //  Copyright © 2016 Brightify. All rights reserved.
@@ -50,7 +50,7 @@ extension CuckooRuntimeVersion: CustomStringConvertible {
 }
 
 extension CuckooRuntimeVersion: ArgumentType {
-    public static let name: String = "Mockery runtime version"
+    public static let name: String = "Cuckoo runtime version"
 
     public static func fromString(string: String) -> CuckooRuntimeVersion? {
         return CuckooRuntimeVersion(rawValue: string)

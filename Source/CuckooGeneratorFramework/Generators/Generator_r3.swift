@@ -14,16 +14,12 @@ struct Generator_r3: Generator {
         switch token {
         case let containerToken as ContainerToken:
             output += generateMockingClass(containerToken)
-            
         case let property as InstanceVariable:
             output += generateMockingProperty(property)
-            
         case let method as Method:
             output += generateMockingMethod(method)
-            
         default:
             break
-            
         }
         
         return output.map { "\(indentation)\($0)" }
