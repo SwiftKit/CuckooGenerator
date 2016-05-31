@@ -16,7 +16,7 @@ private let source = res + "source/"
 class CuckooGeneratorFrameworkTests: XCTestCase {
     
     func testGeneratingMocks() {
-        let options = GenerateMocksCommand.Options.create(.v0_4_1)(output: res + "actual.swift")(testableFrameworks: "CuckooGenerator")(files: [source + "TestedClass.swift", source + "TestedProtocol.swift"])
+        let options = GenerateMocksCommand.Options.create(.v0_4_1)(output: res + "actual.swift")(testableFrameworks: "")(files: [source + "TestedClass.swift", source + "TestedProtocol.swift"])
         let generator = GenerateMocksCommand()
         generator.run(options)
         

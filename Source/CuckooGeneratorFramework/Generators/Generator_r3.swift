@@ -35,16 +35,15 @@ struct Generator_r3: Generator {
         
         var output: [String] = []
         output += ""
-        output += "\(accessibility.sourceName) class \(mockClassName(name)): \(name), Cuckoo.Mock {"
-        output += "    \(accessibility.sourceName) let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
+        output += "\(getAccessibilitySourceName(accessibility))class \(mockClassName(name)): \(name), Cuckoo.Mock {"
+        output += "    \(getAccessibilitySourceName(accessibility))let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
         output += ""
         output += "    private var observed: \(name)?"
         output += ""
-        output += "    \(accessibility.sourceName) required\(implementation ? " override" : "") init() {"
-        output += "        observed = nil"
+        output += "    \(getAccessibilitySourceName(accessibility))required\(implementation ? " override" : "") init() {"
         output += "    }"
         output += ""
-        output += "    \(accessibility.sourceName) required init(spyOn victim: \(name)) {"
+        output += "    \(getAccessibilitySourceName(accessibility))required init(spyOn victim: \(name)) {"
         output += "        observed = victim"
         output += "    }"
         output += generateWithIndentation("    ", tokens: children)
@@ -61,14 +60,14 @@ struct Generator_r3: Generator {
         guard token.accessibility != .Private else { return [] }
         
         var output: [String] = []
-        
-        output += "\(token.accessibility.sourceName) \(token.overriding ? "override " : "")var \(token.name): \(token.type) {"
+        output += ""
+        output += "\(getAccessibilitySourceName(token.accessibility))\(token.overriding ? "override " : "")var \(token.name): \(token.type) {"
         output += "    get {"
         output += "        return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })()"
         output += "    }"
         
         if token.readOnly == false {
-            output += "    set(newValue) {"
+            output += "    set {"
             output += "        manager.setter(\"\(token.name)\", value: newValue, original: { self.observed?.\(token.name) = $0 })(newValue)"
             output += "    }"
         }
@@ -101,14 +100,14 @@ struct Generator_r3: Generator {
             managerCall = "manager.call(\"\(fullyQualifiedName)\""
             tryIfThrowing = ""
         }
-        if !parameters.isEmpty {
-            managerCall += ", parameters: \(prepareEscapingParametersForParameters(parameters))"
-        }
+        
+        managerCall += ", parameters: \(prepareEscapingParametersForParameters(parameters))"
+
         managerCall += ", original: observed.map { o in return { (\(parametersSignature))\(returnSignature) in \(tryIfThrowing)o.\(rawName)(\(methodForwardingCallParameters(parameters))) } })"
         managerCall += prepareEscapingParametersForMethodCall(parameters)
         
         output += ""
-        output += "\(accessibility.sourceName)\(isOverriding ? " override" : "") func \(rawName)(\(parametersSignature))\(returnSignature) {"
+        output += "\(getAccessibilitySourceName(accessibility))\(isOverriding ? "override " : "")func \(rawName)(\(parametersSignature))\(returnSignature) {"
         output += "    return \(managerCall)"
         output += "}"
         return output
@@ -147,9 +146,10 @@ struct Generator_r3: Generator {
         guard accessibility != .Private else { return [] }
         var output: [String] = []
         
-        output += "\(accessibility.sourceName) struct \(stubbingProxyName(name)): Cuckoo.StubbingProxy {"
+        output += "\(getAccessibilitySourceName(accessibility))struct \(stubbingProxyName(name)): Cuckoo.StubbingProxy {"
         output += "    let handler: Cuckoo.StubbingHandler"
-        output += "    \(accessibility.sourceName) init(handler: Cuckoo.StubbingHandler) {"
+        output += ""
+        output += "    \(getAccessibilitySourceName(accessibility))init(handler: Cuckoo.StubbingHandler) {"
         output += "        self.handler = handler"
         output += "    }"
         output += generateStubbingWithIndentation("    ", tokens: children)
@@ -166,6 +166,7 @@ struct Generator_r3: Generator {
         let propertyType = token.readOnly ? "ToBeStubbedReadOnlyProperty" : "ToBeStubbedProperty"
         let stubbingFunction = token.readOnly ? "stubReadOnlyProperty" : "stubProperty"
         
+        output += ""
         output += "var \(token.name): \(propertyType)<\(token.type)> {"
         output += "    return handler.\(stubbingFunction)(\"\(token.name)\")"
         output += "}"
@@ -212,7 +213,7 @@ struct Generator_r3: Generator {
         
         output += ""
         output += "@warn_unused_result"
-        output += "\(accessibility.sourceName) func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType) {"
+        output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType) {"
         if !parameters.isEmpty {
             output += "    \(prepareParameterMatchers(parameters))"
         }
@@ -253,14 +254,13 @@ struct Generator_r3: Generator {
         
         guard accessibility != .Private else { return [] }
         var output: [String] = []
-        output += "\(accessibility.sourceName) struct \(verificationProxyName(name)): Cuckoo.VerificationProxy {"
+        output += "\(getAccessibilitySourceName(accessibility))struct \(verificationProxyName(name)): Cuckoo.VerificationProxy {"
         output += "    let handler: Cuckoo.VerificationHandler"
         output += ""
-        output += "    \(accessibility.sourceName) init(handler: Cuckoo.VerificationHandler) {"
+        output += "    \(getAccessibilitySourceName(accessibility))init(handler: Cuckoo.VerificationHandler) {"
         output += "        self.handler = handler"
         output += "    }"
         output += generateVerificationWithIndentation("    ", tokens: children)
-        output += ""
         output += "}"
         return output
     }
@@ -273,6 +273,7 @@ struct Generator_r3: Generator {
         let propertyType = token.readOnly ? "VerifyReadOnlyProperty" : "VerifyProperty"
         let verificationFunction = token.readOnly ? "verifyReadOnlyProperty" : "verifyProperty"
         
+        output += ""
         output += "var \(token.name): \(propertyType)<\(token.type)> {"
         output += "    return handler.\(verificationFunction)(\"\(token.name)\")"
         output += "}"
@@ -302,8 +303,10 @@ struct Generator_r3: Generator {
         verifyCall += ")"
         
         output += ""
-        output += "\(accessibility.sourceName) func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType){"
-        output += "    \(prepareParameterMatchers(parameters))"
+        output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType){"
+        if !parameters.isEmpty {
+            output += "    \(prepareParameterMatchers(parameters))"
+        }
         output += "    return \(verifyCall)"
         output += "}"
         return output
@@ -336,9 +339,10 @@ struct Generator_r3: Generator {
     }
     
     private static func prepareEscapingParametersForParameters(parameters: [MethodParameter]) -> String {
-        return prepareEscapingParameters(parameters) {
+        let result = prepareEscapingParameters(parameters) {
             $0.contains(Attributes.noescape) || ($0.contains(Attributes.autoclosure) && !$0.contains(Attributes.escaping))
         }
+        return result == "()" ? "Void()" : result
     }
     
     private static func prepareEscapingParametersForMethodCall(parameters: [MethodParameter]) -> String {
@@ -392,5 +396,13 @@ struct Generator_r3: Generator {
         }
         
         return "let matchers: [Cuckoo.AnyMatcher<(\(parametersTupleType(parameters)))>] = [\(matchers.joinWithSeparator(", "))]"
+    }
+    
+    private static func getAccessibilitySourceName(accessibility: Accessibility) -> String {
+        if accessibility == .Internal {
+            return ""
+        } else {
+            return accessibility.sourceName + " "
+        }
     }
 }
