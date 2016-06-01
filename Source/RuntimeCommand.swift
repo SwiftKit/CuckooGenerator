@@ -8,6 +8,7 @@
 
 import Commandant
 import Result
+import CuckooGeneratorFramework
 
 public struct RuntimeCommand: CommandType {
     

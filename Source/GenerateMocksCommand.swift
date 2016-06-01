@@ -10,14 +10,12 @@ import Commandant
 import Result
 import SourceKittenFramework
 import FileKit
+import CuckooGeneratorFramework
 
 public struct GenerateMocksCommand: CommandType {
     
     public let verb = "generate"
     public let function = "Generates mock files"
-    
-    public init() {
-    }
     
     public func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         let parsedFiles = options.files.map { File(path: $0) }.flatMap { $0 }.map { options.runtime.tokenizer.init(sourceFile: $0).tokenize() }

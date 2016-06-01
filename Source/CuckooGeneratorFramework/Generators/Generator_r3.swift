@@ -115,7 +115,7 @@ struct Generator_r3: Generator {
     
     
     private static func generateStubbingWithIndentation(indentation: String = "", tokens: [Token]) -> [String] {
-        return tokens.flatMap({ t in generateStubbingWithIndentation(indentation, token: t) })
+        return tokens.flatMap { t in generateStubbingWithIndentation(indentation, token: t) }
     }
     
     private static func generateStubbingWithIndentation(indentation: String = "", token: Token) -> [String] {
@@ -224,7 +224,7 @@ struct Generator_r3: Generator {
     }
     
     private static func generateVerificationWithIndentation(indentation: String = "", tokens: [Token]) -> [String] {
-        return tokens.flatMap({ t in generateVerificationWithIndentation(indentation, token: t) })
+        return tokens.flatMap { t in generateVerificationWithIndentation(indentation, token: t) }
     }
     
     private static func generateVerificationWithIndentation(indentation: String = "", token: Token) -> [String] {

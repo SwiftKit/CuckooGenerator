@@ -27,7 +27,7 @@ struct Tokenizer_r1: Tokenizer {
     }
     
     private func tokenize(representables: [SourceKitRepresentable]) -> [Token] {
-        return representables.map(tokenize).flatMap { $0 }
+        return representables.flatMap(tokenize)
     }
     
     private func tokenize(representable: SourceKitRepresentable) -> Token? {
@@ -150,7 +150,7 @@ struct Tokenizer_r1: Tokenizer {
         let parameters = methodName.componentsSeparatedByString("(").last?.characters.dropLast(1).map { "\($0)" }.joinWithSeparator("")
         let parameterLabels: [String?] = parameters?.componentsSeparatedByString(":").map { $0 != "_" ? $0 : nil } ?? []
         
-        return zip(parameterLabels, representables).map(tokenizeMethodParameter).flatMap { $0 }
+        return zip(parameterLabels, representables).flatMap(tokenizeMethodParameter)
     }
     
     private func tokenizeMethodParameter(label: String?, _ representable: SourceKitRepresentable) -> MethodParameter? {

@@ -8,7 +8,6 @@
 //
 
 import Commandant
-import CuckooGeneratorFramework
 
 let registry = CommandRegistry<CuckooGeneratorError>()
 registry.register(GenerateMocksCommand())
