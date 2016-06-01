@@ -52,6 +52,7 @@
 		DCDEE5151CFF124E007F18BC /* GenerateMocksCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */; };
 		DCDEE5161CFF124E007F18BC /* RuntimeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */; };
 		DCDEE5171CFF124E007F18BC /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5131CFF124E007F18BC /* VersionCommand.swift */; };
+		DCDEE5191CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5181CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,7 @@
 		DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMocksCommand.swift; sourceTree = "<group>"; };
 		DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuntimeCommand.swift; sourceTree = "<group>"; };
 		DCDEE5131CFF124E007F18BC /* VersionCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
+		DCDEE5181CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CuckooGeneratorFrameworkTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,6 +314,7 @@
 		DC8C4ECB1CF9AD7D005213F8 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				DCDEE5181CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift */,
 				DC8C4ECE1CF9AD7D005213F8 /* Info.plist */,
 			);
 			path = Tests;
@@ -548,6 +551,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCDEE5191CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +751,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -758,6 +763,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.TMSpark.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -765,6 +771,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
