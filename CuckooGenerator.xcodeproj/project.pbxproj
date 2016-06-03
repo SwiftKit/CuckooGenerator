@@ -32,7 +32,6 @@
 		DC8C4E591CF99237005213F8 /* Generator_r3.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C4E571CF99222005213F8 /* Generator_r3.swift */; };
 		DC8C4EE01CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; };
 		DC8C4EE11CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DC8C4EE81CF9B241005213F8 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D4C1C4595FF0084EF54 /* Result.framework */; };
 		DC9EFA721CFC4F4D0034DFE5 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9EFA581CFC4F420034DFE5 /* Key.swift */; };
 		DC9EFA731CFC4F4D0034DFE5 /* Kinds.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9EFA591CFC4F420034DFE5 /* Kinds.swift */; };
 		DC9EFA741CFC4F4D0034DFE5 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9EFA5A1CFC4F420034DFE5 /* Accessibility.swift */; };
@@ -52,17 +51,9 @@
 		DCDEE5151CFF124E007F18BC /* GenerateMocksCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */; };
 		DCDEE5161CFF124E007F18BC /* RuntimeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */; };
 		DCDEE5171CFF124E007F18BC /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5131CFF124E007F18BC /* VersionCommand.swift */; };
-		DCDEE5191CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5181CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		DC8C4ED01CF9AD7D005213F8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1808B1581C4575AA0036E924 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 18E16D651C45D8280084EF54;
-			remoteInfo = CuckooGeneratorFramework;
-		};
 		DC8C4EE21CF9AF1C005213F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1808B1581C4575AA0036E924 /* Project object */;
@@ -132,8 +123,6 @@
 		DC8C4E7A1CF99C89005213F8 /* SourceKittenFramework.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SourceKittenFramework.framework.dSYM; path = Carthage/Build/Mac/SourceKittenFramework.framework.dSYM; sourceTree = "<group>"; };
 		DC8C4E7B1CF99C89005213F8 /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = Carthage/Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
 		DC8C4EA91CF9A272005213F8 /* CuckooGenerator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CuckooGenerator.xcodeproj; sourceTree = "<group>"; };
-		DC8C4ECA1CF9AD7D005213F8 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC8C4ECE1CF9AD7D005213F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC8C4EE51CF9B15E005213F8 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		DC9EFA581CFC4F420034DFE5 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Tokens/Key.swift; sourceTree = "<group>"; };
 		DC9EFA591CFC4F420034DFE5 /* Kinds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Kinds.swift; path = Tokens/Kinds.swift; sourceTree = "<group>"; };
@@ -154,7 +143,6 @@
 		DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMocksCommand.swift; sourceTree = "<group>"; };
 		DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuntimeCommand.swift; sourceTree = "<group>"; };
 		DCDEE5131CFF124E007F18BC /* VersionCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
-		DCDEE5181CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CuckooGeneratorFrameworkTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,21 +166,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC8C4EC71CF9AD7D005213F8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DC8C4EE81CF9B241005213F8 /* Result.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1808B1571C4575AA0036E924 = {
 			isa = PBXGroup;
 			children = (
-				DC8C4ECB1CF9AD7D005213F8 /* Tests */,
 				1808B1A21C457B160036E924 /* Frameworks */,
 				1808B1621C4575AA0036E924 /* Source */,
 				1808B1611C4575AA0036E924 /* Products */,
@@ -204,7 +183,6 @@
 			children = (
 				1808B1601C4575AA0036E924 /* cuckoo.app */,
 				18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */,
-				DC8C4ECA1CF9AD7D005213F8 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -311,15 +289,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DC8C4ECB1CF9AD7D005213F8 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				DCDEE5181CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift */,
-				DC8C4ECE1CF9AD7D005213F8 /* Info.plist */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 		DC9EFA551CFC4EC10034DFE5 /* Tokens */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,25 +363,6 @@
 			productReference = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		DC8C4EC91CF9AD7D005213F8 /* Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DC8C4ED21CF9AD7D005213F8 /* Build configuration list for PBXNativeTarget "Tests" */;
-			buildPhases = (
-				DC8C4EC61CF9AD7D005213F8 /* Sources */,
-				DC8C4EC71CF9AD7D005213F8 /* Frameworks */,
-				DC8C4EC81CF9AD7D005213F8 /* Resources */,
-				DC8C4EE71CF9B1E3005213F8 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DC8C4ED11CF9AD7D005213F8 /* PBXTargetDependency */,
-			);
-			name = Tests;
-			productName = Tests;
-			productReference = DC8C4ECA1CF9AD7D005213F8 /* Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -428,9 +378,6 @@
 					};
 					18E16D651C45D8280084EF54 = {
 						CreatedOnToolsVersion = 7.2;
-					};
-					DC8C4EC91CF9AD7D005213F8 = {
-						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -455,7 +402,6 @@
 			targets = (
 				1808B15F1C4575AA0036E924 /* CuckooGenerator */,
 				18E16D651C45D8280084EF54 /* CuckooGeneratorFramework */,
-				DC8C4EC91CF9AD7D005213F8 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -476,31 +422,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC8C4EC81CF9AD7D005213F8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		DC8C4EE71CF9B1E3005213F8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/Mac/Result.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1808B15C1C4575AA0036E924 /* Sources */ = {
@@ -547,22 +469,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC8C4EC61CF9AD7D005213F8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DCDEE5191CFF2948007F18BC /* CuckooGeneratorFrameworkTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		DC8C4ED11CF9AD7D005213F8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 18E16D651C45D8280084EF54 /* CuckooGeneratorFramework */;
-			targetProxy = DC8C4ED01CF9AD7D005213F8 /* PBXContainerItemProxy */;
-		};
 		DC8C4EE31CF9AF1C005213F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 18E16D651C45D8280084EF54 /* CuckooGeneratorFramework */;
@@ -747,45 +656,6 @@
 			};
 			name = Release;
 		};
-		DC8C4ED31CF9AD7D005213F8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TMSpark.Tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		DC8C4ED41CF9AD7D005213F8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TMSpark.Tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -812,15 +682,6 @@
 			buildConfigurations = (
 				18E16D7E1C45D8280084EF54 /* Debug */,
 				18E16D7F1C45D8280084EF54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DC8C4ED21CF9AD7D005213F8 /* Build configuration list for PBXNativeTarget "Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DC8C4ED31CF9AD7D005213F8 /* Debug */,
-				DC8C4ED41CF9AD7D005213F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -28,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DC8C4EC91CF9AD7D005213F8"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
-               ReferencedContainer = "container:CuckooGenerator.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -71,16 +61,6 @@
             ReferencedContainer = "container:CuckooGenerator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "version"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "generate --runtime 0.3.0 --output &quot;/Users/TadeasKriz/Development/Sources/Cuckoo/Tests/GeneratedMocks.swift&quot; &quot;/Users/TadeasKriz/Development/Sources/Cuckoo/Tests/TestedProtocol.swift&quot; &quot;/Users/TadeasKriz/Development/Sources/Cuckoo/Tests/TestedClass.swift&quot;"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

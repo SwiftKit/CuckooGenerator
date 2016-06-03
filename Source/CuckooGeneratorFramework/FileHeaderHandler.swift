@@ -7,7 +7,9 @@
 //
 
 public protocol FileHeaderHandler {
-    static func getHeader(testableFrameworks: [String], file: FileRepresentation) -> [String]
+    static func getHeader(file: FileRepresentation) -> [String]
+    
+    static func getImports(testableFrameworks: [String]) -> [String]
 }
 
 extension FileHeaderHandler {
