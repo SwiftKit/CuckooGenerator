@@ -8,4 +8,5 @@ before_script:
 script:
     - make test
     - make package
+    - cd Tests; cucumber
     - sleep 5
