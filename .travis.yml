@@ -7,5 +7,5 @@ before_script:
     - gem install aruba
 script:
     - make package
-    - cd Tests; cucumber
+    - cd Tests; bash run_tests.sh
     - sleep 5
