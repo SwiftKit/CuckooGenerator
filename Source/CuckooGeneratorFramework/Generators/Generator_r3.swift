@@ -87,6 +87,7 @@ struct Generator_r3: Generator {
         guard accessibility != .Private else { return [] }
         var output: [String] = []
         let rawName = name.takeUntilStringOccurs("(") ?? ""
+        let isInitializer = rawName == "init"
         
         let fullyQualifiedName = fullyQualifiedMethodName(name, parameters: parameters, returnSignature: returnSignature)
         let parametersSignature = methodParametersSignature(parameters)
@@ -107,7 +108,7 @@ struct Generator_r3: Generator {
         managerCall += prepareEscapingParametersForMethodCall(parameters)
         
         output += ""
-        output += "\(getAccessibilitySourceName(accessibility))\(isOverriding ? "override " : "")func \(rawName)(\(parametersSignature))\(returnSignature) {"
+        output += "\(getAccessibilitySourceName(accessibility))\(isOverriding ? "override " : "")\(isInitializer ? "" : "func " )\(rawName)(\(parametersSignature))\(returnSignature) {"
         output += "    return \(managerCall)"
         output += "}"
         return output
