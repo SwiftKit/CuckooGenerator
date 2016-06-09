@@ -27,6 +27,15 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         }
     }
     
+    override var optionalProperty: Int? {
+        get {
+            return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })()
+        }
+        set {
+            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })(newValue)
+        }
+    }
+    
     override func noParameter() {
         return manager.call("noParameter()", parameters: Void(), original: observed.map { o in return { () in o.noParameter() } })()
     }
@@ -54,6 +63,10 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
     override func withNoescape(a: String, @noescape closure: String -> Void) {
         return manager.call("withNoescape(_:String, closure:String -> Void)", parameters: (a, closure: Cuckoo.markerFunction()), original: observed.map { o in return { (a: String, @noescape closure: String -> Void) in o.withNoescape(a, closure: closure) } })(a, closure: Cuckoo.markerFunction())
     }
+    
+    override func withOptionalClosure(a: String, closure: (String -> Void)?) {
+        return manager.call("withOptionalClosure(_:String, closure:(String -> Void)?)", parameters: (a, closure: closure), original: observed.map { o in return { (a: String, closure: (String -> Void)?) in o.withOptionalClosure(a, closure: closure) } })(a, closure: closure)
+    }
 
     struct __StubbingProxy_TestedClass: Cuckoo.StubbingProxy {
         let handler: Cuckoo.StubbingHandler
@@ -68,6 +81,10 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         
         var readWriteProperty: ToBeStubbedProperty<Int> {
             return handler.stubProperty("readWriteProperty")
+        }
+        
+        var optionalProperty: ToBeStubbedProperty<Int?> {
+            return handler.stubProperty("optionalProperty")
         }
         
         @warn_unused_result
@@ -108,6 +125,12 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
             let matchers: [Cuckoo.AnyMatcher<(String, closure: String -> Void)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
             return handler.stub("withNoescape(_:String, closure:String -> Void)", parameterMatchers: matchers)
         }
+        
+        @warn_unused_result
+        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.ToBeStubbedFunction<(String, closure: (String -> Void)?), Void> {
+            let matchers: [Cuckoo.AnyMatcher<(String, closure: (String -> Void)?)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
+            return handler.stub("withOptionalClosure(_:String, closure:(String -> Void)?)", parameterMatchers: matchers)
+        }
     }
 
     struct __VerificationProxy_TestedClass: Cuckoo.VerificationProxy {
@@ -123,6 +146,10 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         
         var readWriteProperty: VerifyProperty<Int> {
             return handler.verifyProperty("readWriteProperty")
+        }
+        
+        var optionalProperty: VerifyProperty<Int?> {
+            return handler.verifyProperty("optionalProperty")
         }
         
         func noParameter() -> Cuckoo.__DoNotUse<Void>{
@@ -156,6 +183,11 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
             let matchers: [Cuckoo.AnyMatcher<(String, closure: String -> Void)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
             return handler.verify("withNoescape(_:String, closure:String -> Void)", parameterMatchers: matchers)
         }
+        
+        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse<Void>{
+            let matchers: [Cuckoo.AnyMatcher<(String, closure: (String -> Void)?)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
+            return handler.verify("withOptionalClosure(_:String, closure:(String -> Void)?)", parameterMatchers: matchers)
+        }
     }
 }
 
@@ -188,6 +220,15 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
         }
     }
     
+    var optionalProperty: Int? {
+        get {
+            return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })()
+        }
+        set {
+            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })(newValue)
+        }
+    }
+    
     func noParameter() -> Void {
         return manager.call("noParameter() -> Void", parameters: Void(), original: observed.map { o in return { () -> Void in o.noParameter() } })()
     }
@@ -215,6 +256,10 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
     func withNoescape(a: String, @noescape closure: String -> Void) -> Void {
         return manager.call("withNoescape(_:String, closure:String -> Void) -> Void", parameters: (a, closure: Cuckoo.markerFunction()), original: observed.map { o in return { (a: String, @noescape closure: String -> Void) -> Void in o.withNoescape(a, closure: closure) } })(a, closure: Cuckoo.markerFunction())
     }
+    
+    func withOptionalClosure(a: String, closure: (String -> Void)?) -> Void {
+        return manager.call("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameters: (a, closure: closure), original: observed.map { o in return { (a: String, closure: (String -> Void)?) -> Void in o.withOptionalClosure(a, closure: closure) } })(a, closure: closure)
+    }
 
     struct __StubbingProxy_TestedProtocol: Cuckoo.StubbingProxy {
         let handler: Cuckoo.StubbingHandler
@@ -229,6 +274,10 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
         
         var readWriteProperty: ToBeStubbedProperty<Int> {
             return handler.stubProperty("readWriteProperty")
+        }
+        
+        var optionalProperty: ToBeStubbedProperty<Int?> {
+            return handler.stubProperty("optionalProperty")
         }
         
         @warn_unused_result
@@ -269,6 +318,12 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
             let matchers: [Cuckoo.AnyMatcher<(String, closure: String -> Void)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
             return handler.stub("withNoescape(_:String, closure:String -> Void) -> Void", parameterMatchers: matchers)
         }
+        
+        @warn_unused_result
+        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.ToBeStubbedFunction<(String, closure: (String -> Void)?),  Void> {
+            let matchers: [Cuckoo.AnyMatcher<(String, closure: (String -> Void)?)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
+            return handler.stub("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameterMatchers: matchers)
+        }
     }
 
     struct __VerificationProxy_TestedProtocol: Cuckoo.VerificationProxy {
@@ -284,6 +339,10 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
         
         var readWriteProperty: VerifyProperty<Int> {
             return handler.verifyProperty("readWriteProperty")
+        }
+        
+        var optionalProperty: VerifyProperty<Int?> {
+            return handler.verifyProperty("optionalProperty")
         }
         
         func noParameter() -> Cuckoo.__DoNotUse< Void>{
@@ -316,6 +375,11 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
         func withNoescape<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (String -> Void)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse< Void>{
             let matchers: [Cuckoo.AnyMatcher<(String, closure: String -> Void)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
             return handler.verify("withNoescape(_:String, closure:String -> Void) -> Void", parameterMatchers: matchers)
+        }
+        
+        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse< Void>{
+            let matchers: [Cuckoo.AnyMatcher<(String, closure: (String -> Void)?)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
+            return handler.verify("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameterMatchers: matchers)
         }
     }
 }

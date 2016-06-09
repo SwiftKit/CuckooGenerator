@@ -11,6 +11,8 @@ protocol TestedProtocol {
     
     var readWriteProperty: Int { get set }
     
+    var optionalProperty: Int? { get set }
+    
     func noParameter()
     
     func countCharacters(test: String) -> Int
@@ -24,4 +26,6 @@ protocol TestedProtocol {
     func withMultipleParameters(a: String, b: Int, c: Float)
     
     func withNoescape(a: String, @noescape closure: String -> Void)
+    
+    func withOptionalClosure(a: String, closure: (String -> Void)?)
 }
