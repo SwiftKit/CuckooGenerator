@@ -1,3 +1,0 @@
-github "jpsim/SourceKitten" == 0.12.2
-github "Carthage/Commandant"
-github "nvzqz/FileKit" ~> 2.0.0

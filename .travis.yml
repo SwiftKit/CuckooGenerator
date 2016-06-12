@@ -1,11 +1,8 @@
 language: objective-c
 osx_image: xcode7.3
 before_script:
-    - brew update
-    # - brew install carthage
     - gem install cucumber
     - gem install aruba
 script:
-    - make package
     - bash run_tests.sh
     - sleep 5

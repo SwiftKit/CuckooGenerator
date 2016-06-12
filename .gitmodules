@@ -1,0 +1,6 @@
+[submodule "Dependencies/SourceKitten"]
+	path = Dependencies/SourceKitten
+	url = https://github.com/jpsim/SourceKitten
+[submodule "Dependencies/FileKit"]
+	path = Dependencies/FileKit
+	url = https://github.com/nvzqz/FileKit
