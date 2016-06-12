@@ -11,8 +11,6 @@ import Commandant
 
 let registry = CommandRegistry<CuckooGeneratorError>()
 registry.register(GenerateMocksCommand())
-registry.register(RuntimeCommand())
-registry.register(VersionCommand())
 
 let helpCommand = HelpCommand(registry: registry)
 registry.register(helpCommand)

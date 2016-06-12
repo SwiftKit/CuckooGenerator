@@ -8,11 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1808B1AB1C4581070036E924 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1808B1AA1C4581070036E924 /* main.swift */; };
-		18601E821C46F19500693A66 /* Generator_r1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18601E811C46F19500693A66 /* Generator_r1.swift */; };
-		18601E831C46F44A00693A66 /* CuckooRuntimeVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC191C46E6C50015A95F /* CuckooRuntimeVersion.swift */; };
-		18601E861C46F63300693A66 /* Tokenizer_r1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18601E851C46F63300693A66 /* Tokenizer_r1.swift */; };
-		18601E8C1C47007900693A66 /* FileHeaderHandler_r1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18601E8B1C47007900693A66 /* FileHeaderHandler_r1.swift */; };
-		18BFD8E21C6BE11900DFB519 /* Generator_r2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BFD8E01C6BE10900DFB519 /* Generator_r2.swift */; };
 		18E16D691C45D8280084EF54 /* CuckooGeneratorFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E16D681C45D8280084EF54 /* CuckooGeneratorFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18E16D831C45D8B30084EF54 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D511C45A6890084EF54 /* Utils.swift */; };
 		18E16D841C45D8B30084EF54 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D531C45A6AF0084EF54 /* Tokenizer.swift */; };
@@ -29,7 +24,6 @@
 		18E16D961C45D9B80084EF54 /* SourceKittenFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1808B1991C457AB70036E924 /* SourceKittenFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18E16D991C45DF7F0084EF54 /* Components.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E16D981C45DF7F0084EF54 /* Components.plist */; };
 		18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC1B1C46E8760015A95F /* Generator.swift */; };
-		DC8C4E591CF99237005213F8 /* Generator_r3.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C4E571CF99222005213F8 /* Generator_r3.swift */; };
 		DC8C4EE01CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; };
 		DC8C4EE11CF9AF1C005213F8 /* CuckooGeneratorFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18E16D661C45D8280084EF54 /* CuckooGeneratorFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DC9EFA721CFC4F4D0034DFE5 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9EFA581CFC4F420034DFE5 /* Key.swift */; };
@@ -49,8 +43,6 @@
 		DC9EFA911CFC50070034DFE5 /* InstanceVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9EFA801CFC4FCF0034DFE5 /* InstanceVariable.swift */; };
 		DCDEE5141CFF124E007F18BC /* CuckooGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5101CFF124E007F18BC /* CuckooGeneratorError.swift */; };
 		DCDEE5151CFF124E007F18BC /* GenerateMocksCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */; };
-		DCDEE5161CFF124E007F18BC /* RuntimeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */; };
-		DCDEE5171CFF124E007F18BC /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDEE5131CFF124E007F18BC /* VersionCommand.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,10 +91,6 @@
 		1808B19C1C457ABD0036E924 /* SwiftXPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftXPC.framework; path = Carthage/Build/Mac/SwiftXPC.framework; sourceTree = "<group>"; };
 		1808B19D1C457ABD0036E924 /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = Carthage/Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
 		1808B1AA1C4581070036E924 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		18601E811C46F19500693A66 /* Generator_r1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r1.swift; sourceTree = "<group>"; };
-		18601E851C46F63300693A66 /* Tokenizer_r1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Tokenizer_r1.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		18601E8B1C47007900693A66 /* FileHeaderHandler_r1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FileHeaderHandler_r1.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		18BFD8E01C6BE10900DFB519 /* Generator_r2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r2.swift; sourceTree = "<group>"; };
 		18E16D461C4593F90084EF54 /* Commandant.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Commandant.framework; path = Carthage/Build/Mac/Commandant.framework; sourceTree = "<group>"; };
 		18E16D4C1C4595FF0084EF54 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		18E16D511C45A6890084EF54 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Utils.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -113,9 +101,7 @@
 		18E16D681C45D8280084EF54 /* CuckooGeneratorFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CuckooGeneratorFramework.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		18E16D6A1C45D8280084EF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18E16D981C45DF7F0084EF54 /* Components.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Components.plist; sourceTree = "<group>"; };
-		18F2BC191C46E6C50015A95F /* CuckooRuntimeVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CuckooRuntimeVersion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		18F2BC1B1C46E8760015A95F /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Generator.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		DC8C4E571CF99222005213F8 /* Generator_r3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator_r3.swift; sourceTree = "<group>"; };
 		DC8C4E701CF99C6B005213F8 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
 		DC8C4E771CF99C89005213F8 /* Commandant.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Commandant.framework.dSYM; path = Carthage/Build/Mac/Commandant.framework.dSYM; sourceTree = "<group>"; };
 		DC8C4E781CF99C89005213F8 /* FileKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FileKit.framework.dSYM; path = Carthage/Build/Mac/FileKit.framework.dSYM; sourceTree = "<group>"; };
@@ -141,8 +127,6 @@
 		DC9EFA801CFC4FCF0034DFE5 /* InstanceVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceVariable.swift; path = Tokens/InstanceVariable.swift; sourceTree = "<group>"; };
 		DCDEE5101CFF124E007F18BC /* CuckooGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CuckooGeneratorError.swift; sourceTree = "<group>"; };
 		DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMocksCommand.swift; sourceTree = "<group>"; };
-		DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuntimeCommand.swift; sourceTree = "<group>"; };
-		DCDEE5131CFF124E007F18BC /* VersionCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,8 +178,6 @@
 				18E16D671C45D8280084EF54 /* CuckooGeneratorFramework */,
 				DCDEE5101CFF124E007F18BC /* CuckooGeneratorError.swift */,
 				DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */,
-				DCDEE5121CFF124E007F18BC /* RuntimeCommand.swift */,
-				DCDEE5131CFF124E007F18BC /* VersionCommand.swift */,
 				1808B1AA1C4581070036E924 /* main.swift */,
 			);
 			path = Source;
@@ -222,32 +204,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		18601E801C46F16D00693A66 /* Generators */ = {
-			isa = PBXGroup;
-			children = (
-				DC8C4E571CF99222005213F8 /* Generator_r3.swift */,
-				18601E811C46F19500693A66 /* Generator_r1.swift */,
-				18BFD8E01C6BE10900DFB519 /* Generator_r2.swift */,
-			);
-			path = Generators;
-			sourceTree = "<group>";
-		};
-		18601E841C46F51C00693A66 /* Tokenizers */ = {
-			isa = PBXGroup;
-			children = (
-				18601E851C46F63300693A66 /* Tokenizer_r1.swift */,
-			);
-			path = Tokenizers;
-			sourceTree = "<group>";
-		};
-		18601E871C46F83D00693A66 /* FileHeaderHandlers */ = {
-			isa = PBXGroup;
-			children = (
-				18601E8B1C47007900693A66 /* FileHeaderHandler_r1.swift */,
-			);
-			path = FileHeaderHandlers;
-			sourceTree = "<group>";
-		};
 		18601E8A1C46FA7400693A66 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,15 +217,11 @@
 			isa = PBXGroup;
 			children = (
 				18601E8A1C46FA7400693A66 /* Supporting Files */,
-				18601E871C46F83D00693A66 /* FileHeaderHandlers */,
-				18601E841C46F51C00693A66 /* Tokenizers */,
-				18601E801C46F16D00693A66 /* Generators */,
 				DC9EFA551CFC4EC10034DFE5 /* Tokens */,
 				18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */,
 				18E16D531C45A6AF0084EF54 /* Tokenizer.swift */,
 				18F2BC1B1C46E8760015A95F /* Generator.swift */,
 				18E16D511C45A6890084EF54 /* Utils.swift */,
-				18F2BC191C46E6C50015A95F /* CuckooRuntimeVersion.swift */,
 			);
 			name = CuckooGeneratorFramework;
 			path = Source/CuckooGeneratorFramework;
@@ -429,10 +381,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCDEE5171CFF124E007F18BC /* VersionCommand.swift in Sources */,
 				DCDEE5141CFF124E007F18BC /* CuckooGeneratorError.swift in Sources */,
 				DCDEE5151CFF124E007F18BC /* GenerateMocksCommand.swift in Sources */,
-				DCDEE5161CFF124E007F18BC /* RuntimeCommand.swift in Sources */,
 				1808B1AB1C4581070036E924 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,22 +393,16 @@
 			files = (
 				18E16D841C45D8B30084EF54 /* Tokenizer.swift in Sources */,
 				DC9EFA911CFC50070034DFE5 /* InstanceVariable.swift in Sources */,
-				DC8C4E591CF99237005213F8 /* Generator_r3.swift in Sources */,
-				18601E821C46F19500693A66 /* Generator_r1.swift in Sources */,
 				DC9EFA7C1CFC4F4D0034DFE5 /* ProtocolMethod.swift in Sources */,
-				18601E8C1C47007900693A66 /* FileHeaderHandler_r1.swift in Sources */,
 				DC9EFA751CFC4F4D0034DFE5 /* Attributes.swift in Sources */,
 				DC9EFA731CFC4F4D0034DFE5 /* Kinds.swift in Sources */,
 				DC9EFA761CFC4F4D0034DFE5 /* FileRepresentation.swift in Sources */,
 				DC9EFA7E1CFC4F4D0034DFE5 /* MethodParameter.swift in Sources */,
 				DC9EFA7D1CFC4F4D0034DFE5 /* Initializer.swift in Sources */,
-				18601E831C46F44A00693A66 /* CuckooRuntimeVersion.swift in Sources */,
 				DC9EFA791CFC4F4D0034DFE5 /* ProtocolDeclaration.swift in Sources */,
 				DC9EFA721CFC4F4D0034DFE5 /* Key.swift in Sources */,
 				18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */,
 				DC9EFA901CFC50070034DFE5 /* ClassMethod.swift in Sources */,
-				18601E861C46F63300693A66 /* Tokenizer_r1.swift in Sources */,
-				18BFD8E21C6BE11900DFB519 /* Generator_r2.swift in Sources */,
 				DC9EFA7A1CFC4F4D0034DFE5 /* ClassDeclaration.swift in Sources */,
 				DC9EFA771CFC4F4D0034DFE5 /* Token.swift in Sources */,
 				18E16D831C45D8B30084EF54 /* Utils.swift in Sources */,
