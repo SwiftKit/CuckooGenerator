@@ -6,10 +6,18 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
+import FileKit
+
 public struct FileHeaderHandler {
     
     public static func getHeader(file: FileRepresentation, withTimestamp timestamp: Bool) -> [String] {
-        let generationInfo = "// MARK: - Mocks generated from file: \(file.sourceFile.path ?? "unknown")" + (timestamp ? " at \(NSDate())\n" : "")
+        let path: String
+        if let absolutePath = file.sourceFile.path {
+            path = getRelativePath(absolutePath)
+        } else {
+            path = "unknown"
+        }
+        let generationInfo = "// MARK: - Mocks generated from file: \(path)" + (timestamp ? " at \(NSDate())\n" : "")
         let headerEnd = minimumIndex(file.sourceFile.contents.unicodeScalars.count, declarations: file.declarations)
         let utf8Header = file.sourceFile.contents.utf8.prefix(headerEnd)
         let header = String(utf8Header) ?? ""
@@ -33,5 +41,18 @@ public struct FileHeaderHandler {
             }
             return min(declarationMinimum, minimum)
         }
+    }
+    
+    private static func getRelativePath(absolutePath: String) -> String {
+        let path = Path(absolutePath)
+        let base = path.commonAncestor(Path.Current)
+        var components = path.components
+        components.removeFirst(base.components.endIndex)
+        var result = components.map { $0.rawValue }.joinWithSeparator(Path.separator)
+        let difference = Path.Current.components.endIndex - base.components.endIndex
+        for _ in 0..<difference {
+            result = "../" + result
+        }
+        return result
     }
 }
