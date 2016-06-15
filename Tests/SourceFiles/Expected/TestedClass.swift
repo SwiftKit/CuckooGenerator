@@ -1,3 +1,13 @@
+// MARK: - Mocks generated from file: ../../Tests/SourceFiles/TestedClass.swift
+//
+//  TestedClass.swift
+//  Cuckoo
+//
+//  Created by Tadeas Kriz on 09/02/16.
+//  Copyright © 2016 Brightify. All rights reserved.
+//
+
+
 import Cuckoo
 
 class MockTestedClass: TestedClass, Cuckoo.Mock {

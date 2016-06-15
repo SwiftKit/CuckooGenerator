@@ -1,15 +1,4 @@
-// MARK: - Mocks generated from file: ../../Tests/SourceFiles/TestedEmptyClass.swift
-//
-//  TestedClass.swift
-//  Cuckoo
-//
-//  Created by Tadeas Kriz on 09/02/16.
-//  Copyright © 2016 Brightify. All rights reserved.
-//
-
-
 import Cuckoo
-@testable import Cuckoo
 
 class MockTestedEmptyClass: TestedEmptyClass, Cuckoo.Mock {
     let manager: Cuckoo.MockManager<__StubbingProxy_TestedEmptyClass, __VerificationProxy_TestedEmptyClass> = Cuckoo.MockManager()
