@@ -22,14 +22,16 @@ public struct FileHeaderHandler {
     
     private static func minimumIndex(currentValue: Int, declarations: [Token]) -> Int {
         return declarations.reduce(currentValue) { minimum, declaration in
+            let declarationMinimum: Int
             switch declaration {
             case let containerToken as ContainerToken:
-                return containerToken.range.startIndex
+                declarationMinimum = containerToken.range.startIndex
             case let method as Method:
-                return method.range.startIndex
+                declarationMinimum = method.range.startIndex
             default:
-                return minimum
+                declarationMinimum = minimum
             }
+            return min(declarationMinimum, minimum)
         }
     }
 }
