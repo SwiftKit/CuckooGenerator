@@ -21,3 +21,6 @@ Feature: Generate command
 	Scenario: with --no-header option
 		When I run `runcuckoo generate --no-header --output Actual.swift ../SourceFiles/TestedEmptyClass.swift`
 		Then the file "../SourceFiles/Expected/NoHeader.swift" should be equal to file "Actual.swift"
+	Scenario: multiple classes in one file
+		When I run `runcuckoo generate  --no-timestamp --output Actual.swift ../SourceFiles/MultipleClasses.swift`
+		Then the file "../SourceFiles/Expected/MultipleClasses.swift" should be equal to file "Actual.swift"
