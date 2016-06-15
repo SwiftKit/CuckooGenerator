@@ -49,6 +49,6 @@ public struct FileHeaderHandler {
         let components = path.components.suffixFrom(base.components.endIndex)
         let result = components.map { $0.rawValue }.joinWithSeparator(Path.separator)
         let difference = Path.Current.components.endIndex - base.components.endIndex
-        return (0..<difference).reduce(result) { acc, _ in "../" + acc }
+        return (0..<difference).reduce(result) { acc, _ in ".." + Path.separator + acc }
     }
 }
