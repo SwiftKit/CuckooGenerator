@@ -8,8 +8,8 @@
 
 public struct FileHeaderHandler {
     
-    public static func getHeader(file: FileRepresentation) -> [String] {
-        let generationInfo = "// MARK: - Mocks generated from file: \(file.sourceFile.path ?? "unknown") at \(NSDate())\n"
+    public static func getHeader(file: FileRepresentation, withTimestamp timestamp: Bool) -> [String] {
+        let generationInfo = "// MARK: - Mocks generated from file: \(file.sourceFile.path ?? "unknown")" + (timestamp ? " at \(NSDate())\n" : "")
         let headerEnd = minimumIndex(file.sourceFile.contents.unicodeScalars.count, declarations: file.declarations)
         let utf8Header = file.sourceFile.contents.utf8.prefix(headerEnd)
         let header = String(utf8Header) ?? ""
