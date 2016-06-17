@@ -7,7 +7,6 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-
 import Cuckoo
 
 class MockTestedClass: TestedClass, Cuckoo.Mock {
@@ -209,7 +208,6 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
 //  Created by Tadeas Kriz on 18/01/16.
 //  Copyright © 2016 Brightify. All rights reserved.
 //
-
 
 import Cuckoo
 

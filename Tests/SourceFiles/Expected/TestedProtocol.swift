@@ -7,7 +7,6 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-
 import Cuckoo
 
 class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {

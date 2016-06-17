@@ -18,9 +18,7 @@ public struct FileHeaderHandler {
             path = "unknown"
         }
         let generationInfo = "// MARK: - Mocks generated from file: \(path)" + (timestamp ? " at \(NSDate())\n" : "")
-        let headerEnd = minimumIndex(file.sourceFile.contents.unicodeScalars.count, declarations: file.declarations)
-        let utf8Header = file.sourceFile.contents.utf8.prefix(headerEnd)
-        let header = String(utf8Header) ?? ""
+        let header = getHeader(file)
         return [generationInfo, header]
     }
     
@@ -28,7 +26,24 @@ public struct FileHeaderHandler {
         return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" }
     }
     
-    private static func minimumIndex(currentValue: Int, declarations: [Token]) -> Int {
+    private static func getRelativePath(absolutePath: String) -> String {
+        let path = Path(absolutePath)
+        let base = path.commonAncestor(Path.Current)
+        let components = path.components.suffixFrom(base.components.endIndex)
+        let result = components.map { $0.rawValue }.joinWithSeparator(Path.separator)
+        let difference = Path.Current.components.endIndex - base.components.endIndex
+        return (0..<difference).reduce(result) { acc, _ in ".." + Path.separator + acc }
+    }
+    
+    private static func getHeader(file: FileRepresentation) -> String {
+        let possibleHeaderEnd = getPossibleHeaderEnd(file.sourceFile.contents.unicodeScalars.count, declarations: file.declarations)
+        let possibleHeader = String(file.sourceFile.contents.utf8.prefix(possibleHeaderEnd)) ?? ""
+        let singleLine = getPrefixToLastSingleLineComment(possibleHeader)
+        let multiLine = getPrefixToLastMultiLineComment(possibleHeader)
+        return singleLine.characters.count > multiLine.characters.count ? singleLine : multiLine
+    }
+    
+    private static func getPossibleHeaderEnd(currentValue: Int, declarations: [Token]) -> Int {
         return declarations.reduce(currentValue) { minimum, declaration in
             let declarationMinimum: Int
             switch declaration {
@@ -43,12 +58,20 @@ public struct FileHeaderHandler {
         }
     }
     
-    private static func getRelativePath(absolutePath: String) -> String {
-        let path = Path(absolutePath)
-        let base = path.commonAncestor(Path.Current)
-        let components = path.components.suffixFrom(base.components.endIndex)
-        let result = components.map { $0.rawValue }.joinWithSeparator(Path.separator)
-        let difference = Path.Current.components.endIndex - base.components.endIndex
-        return (0..<difference).reduce(result) { acc, _ in ".." + Path.separator + acc }
+    private static func getPrefixToLastSingleLineComment(text: String) -> String {
+        if let range = text.rangeOfString("//", options: .BackwardsSearch) {
+            let lastLine = text.lineRangeForRange(range)
+            return text.substringToIndex(lastLine.endIndex)
+        } else {
+            return ""
+        }
+    }
+    
+    private static func getPrefixToLastMultiLineComment(text: String) -> String {
+        if let range = text.rangeOfString("*/", options: .BackwardsSearch) {
+            return text.substringToIndex(range.endIndex) + "\n"
+        } else {
+            return ""
+        }
     }
 }

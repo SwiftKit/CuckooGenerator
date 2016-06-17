@@ -24,3 +24,6 @@ Feature: Generate command
 	Scenario: multiple classes in one file
 		When I run `runcuckoo generate  --no-timestamp --output Actual.swift ../SourceFiles/MultipleClasses.swift`
 		Then the file "../SourceFiles/Expected/MultipleClasses.swift" should be equal to file "Actual.swift"
+	Scenario: class with attributes
+		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/ClassWithAttributes.swift`
+		Then the file "../SourceFiles/Expected/ClassWithAttributes.swift" should be equal to file "Actual.swift"

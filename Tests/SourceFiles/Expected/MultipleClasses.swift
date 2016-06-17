@@ -9,7 +9,6 @@
 
 import UIKit
 
-
 import Cuckoo
 
 class MockA: A, Cuckoo.Mock {
