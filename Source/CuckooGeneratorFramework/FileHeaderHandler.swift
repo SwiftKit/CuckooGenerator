@@ -22,8 +22,9 @@ public struct FileHeaderHandler {
         return [generationInfo, header]
     }
     
-    public static func getImports(testableFrameworks: [String]) -> [String] {
-        return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" }
+    public static func getImports(file: FileRepresentation, testableFrameworks: [String]) -> [String] {
+        let imports = file.declarations.only(Import).map { "import " + $0.library }
+        return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" } + [""] + imports
     }
     
     private static func getRelativePath(absolutePath: String) -> String {
@@ -51,6 +52,8 @@ public struct FileHeaderHandler {
                 declarationMinimum = containerToken.range.startIndex
             case let method as Method:
                 declarationMinimum = method.range.startIndex
+            case let importToken as Import:
+                declarationMinimum = importToken.range.startIndex
             default:
                 declarationMinimum = minimum
             }

@@ -20,7 +20,7 @@ public struct GenerateMocksCommand: CommandType {
     public func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         let parsedFiles = options.files.map { File(path: $0) }.flatMap { $0 }.map { Tokenizer(sourceFile: $0).tokenize() }
         let headers = parsedFiles.map { f in options.noHeader ? [] : FileHeaderHandler.getHeader(f, withTimestamp: !options.noTimestamp) }
-        let imports = parsedFiles.map { f in FileHeaderHandler.getImports(options.testableFrameworks) }
+        let imports = parsedFiles.map { f in FileHeaderHandler.getImports(f, testableFrameworks: options.testableFrameworks) }
         let mocks = parsedFiles.map(Generator.generate)
         let mergedFiles = zip(zip(headers, imports), mocks).map { $0.0 + $0.1 + $1 }.map { $0.joinWithSeparator("\n") }
         

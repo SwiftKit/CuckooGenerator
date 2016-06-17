@@ -27,3 +27,6 @@ Feature: Generate command
 	Scenario: class with attributes
 		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/ClassWithAttributes.swift`
 		Then the file "../SourceFiles/Expected/ClassWithAttributes.swift" should be equal to file "Actual.swift"
+	Scenario: file with imports
+		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/Imports.swift`
+		Then the file "../SourceFiles/Expected/Imports.swift" should be equal to file "Actual.swift"

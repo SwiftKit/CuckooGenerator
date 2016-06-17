@@ -15,6 +15,7 @@
 		18E16D991C45DF7F0084EF54 /* Components.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E16D981C45DF7F0084EF54 /* Components.plist */; };
 		18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC1B1C46E8760015A95F /* Generator.swift */; };
 		DC4094861D140184006FB137 /* ExtensionDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4094651D140180006FB137 /* ExtensionDeclaration.swift */; };
+		DC4094301D13F91F006FB137 /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC40942E1D13F8FA006FB137 /* Import.swift */; };
 		DC5C26E61D0E9DA200630D49 /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5C26E51D0E9DA200630D49 /* VersionCommand.swift */; };
 		DC5E8FD71D0DA57E00EFCA76 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1AB5DB1D0D9F0C00867895 /* FileKit.framework */; };
 		DC5E8FD91D0DA57E00EFCA76 /* SourceKittenFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1AB5ED1D0D9F1600867895 /* SourceKittenFramework.framework */; };
@@ -323,6 +324,7 @@
 		DC1AB60B1D0D9F8600867895 /* SWXMLHash.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SWXMLHash.xcodeproj; path = Dependencies/SourceKitten/Carthage/Checkouts/SWXMLHash/SWXMLHash.xcodeproj; sourceTree = "<group>"; };
 		DC1AB6231D0D9FE500867895 /* Yaml.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Yaml.xcodeproj; path = Dependencies/SourceKitten/Carthage/Checkouts/YamlSwift/Yaml.xcodeproj; sourceTree = "<group>"; };
 		DC4094651D140180006FB137 /* ExtensionDeclaration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionDeclaration.swift; path = Tokens/ExtensionDeclaration.swift; sourceTree = "<group>"; };
+		DC40942E1D13F8FA006FB137 /* Import.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Import.swift; path = Tokens/Import.swift; sourceTree = "<group>"; };
 		DC5C26E51D0E9DA200630D49 /* VersionCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
 		DC8C4EA91CF9A272005213F8 /* CuckooGenerator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CuckooGenerator.xcodeproj; sourceTree = "<group>"; };
 		DC9EFA581CFC4F420034DFE5 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Tokens/Key.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				DC9EFA7F1CFC4FCF0034DFE5 /* ClassMethod.swift */,
 				DC9EFA801CFC4FCF0034DFE5 /* InstanceVariable.swift */,
 				DC9EFA641CFC4F420034DFE5 /* MethodParameter.swift */,
+				DC40942E1D13F8FA006FB137 /* Import.swift */,
 			);
 			name = Tokens;
 			sourceTree = "<group>";
@@ -936,6 +939,7 @@
 				DC9EFA901CFC50070034DFE5 /* ClassMethod.swift in Sources */,
 				DC9EFA7A1CFC4F4D0034DFE5 /* ClassDeclaration.swift in Sources */,
 				DC9EFA771CFC4F4D0034DFE5 /* Token.swift in Sources */,
+				DC4094301D13F91F006FB137 /* Import.swift in Sources */,
 				18E16D831C45D8B30084EF54 /* Utils.swift in Sources */,
 				DC9EFA7B1CFC4F4D0034DFE5 /* Method.swift in Sources */,
 				DC4094861D140184006FB137 /* ExtensionDeclaration.swift in Sources */,
