@@ -81,6 +81,9 @@ public struct Tokenizer {
                 initializers: initializers,
                 children: children)
             
+        case Kinds.ExtensionDeclaration.rawValue:
+            return ExtensionDeclaration()
+            
         case Kinds.InstanceVariable.rawValue:
             let setterAccessibility = (dictionary[Key.SetterAccessibility.rawValue] as? String).flatMap(Accessibility.init)
             
@@ -138,6 +141,10 @@ public struct Tokenizer {
                     nameRange: nameRange!,
                     parameters: parameters)
             }
+
+        case Kinds.Mark.rawValue:
+            // Do not log warning
+            return nil
             
         default:
             fputs("Unknown kind: \(kind)", stderr)

@@ -11,8 +11,11 @@ public enum Kinds: String {
     case InstanceMethod = "source.lang.swift.decl.function.method.instance"
     case MethodParameter = "source.lang.swift.decl.var.parameter"
     case ClassDeclaration = "source.lang.swift.decl.class"
+    case ExtensionDeclaration = "source.lang.swift.decl.extension"
     case InstanceVariable = "source.lang.swift.decl.var.instance"
     
     case NoescapeAttribute = "source.decl.attribute.noescape"
     case AutoclosureAttribute = "source.decl.attribute.autoclosure"
+    
+    case Mark = "source.lang.swift.syntaxtype.comment.mark"
 }
