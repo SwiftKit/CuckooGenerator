@@ -9,9 +9,15 @@
 
 import Cuckoo
 
-import UIKit
-import XCTest
-import Foundation
+import a
+import b
+import c
+import d
+import e
+import f
+import g
+import h
+import i
 
 class MockA: A, Cuckoo.Mock {
     let manager: Cuckoo.MockManager<__StubbingProxy_A, __VerificationProxy_A> = Cuckoo.MockManager()

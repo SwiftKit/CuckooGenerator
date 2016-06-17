@@ -22,8 +22,9 @@ public struct Tokenizer {
         let structure = Structure(file: file)
         
         let declarations = tokenize(structure.dictionary[Key.Substructure.rawValue] as? [SourceKitRepresentable] ?? [])
+        let imports = tokenizeImports(declarations)
         
-        return FileRepresentation(sourceFile: file, declarations: declarations)
+        return FileRepresentation(sourceFile: file, declarations: declarations + imports)
     }
     
     private func tokenize(representables: [SourceKitRepresentable]) -> [Token] {
@@ -82,7 +83,7 @@ public struct Tokenizer {
                 children: children)
             
         case Kinds.ExtensionDeclaration.rawValue:
-            return ExtensionDeclaration()
+            return ExtensionDeclaration(range: range!)
             
         case Kinds.InstanceVariable.rawValue:
             let setterAccessibility = (dictionary[Key.SetterAccessibility.rawValue] as? String).flatMap(Accessibility.init)
@@ -203,6 +204,32 @@ public struct Tokenizer {
         default:
             fputs("Unknown attribute kind: \(kind)", stderr)
             return Attributes.none
+        }
+    }
+    
+    private func tokenizeImports(otherTokens: [Token]) -> [Token] {
+        let rangesToIgnore: [Range<Int>] = otherTokens.flatMap { token in
+            switch token {
+            case let container as ContainerToken:
+                return container.range
+            case let extensionToken as ExtensionDeclaration:
+                return extensionToken.range
+            default:
+                return nil
+            }
+        }
+        do {
+            let regex = try NSRegularExpression(pattern: "(?:\\b|;)import(?:\\s|(?:\\/\\/.*\\n)|(?:\\/\\*.*\\*\\/))+([^\\s;\\/]+)", options: [])
+            let results = regex.matchesInString(source, options: [], range: NSMakeRange(0, source.characters.count))
+            return results.filter { result in
+                    rangesToIgnore.filter { $0 ~= result.range.location }.count == 0
+                }.map {
+                    let range = $0.range.toRange()!
+                    let library = (source as NSString).substringWithRange($0.rangeAtIndex(1))
+                    return Import(range: range, library: library)
+                }
+        } catch let error as NSError {
+            fatalError("Invalid regex:" + error.description)
         }
     }
 }

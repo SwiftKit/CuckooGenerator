@@ -6,21 +6,31 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-import UIKit; import XCTest
+import c;import d
+import a; import b
+
+import     e
+import 
+f
+
+import //aaa
+g
+import /* aaa */h
 
 // Class A
 class A {
-    let text = "import x"
+    let text = " import x "
 }
 
 protocol B {
 	var text: String { get }
 }
 
-import Foundation
+import i
+import i
 
 extension B {
 	var text: String {
-		return "import y"
+		return " import y "
 	}
 }

@@ -1,5 +1,7 @@
 import Cuckoo
 
+import Foundation
+
 class MockTestedEmptyClass: TestedEmptyClass, Cuckoo.Mock {
     let manager: Cuckoo.MockManager<__StubbingProxy_TestedEmptyClass, __VerificationProxy_TestedEmptyClass> = Cuckoo.MockManager()
 

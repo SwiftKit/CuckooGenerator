@@ -23,8 +23,12 @@ public struct FileHeaderHandler {
     }
     
     public static func getImports(file: FileRepresentation, testableFrameworks: [String]) -> [String] {
-        let imports = file.declarations.only(Import).map { "import " + $0.library }
-        return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" } + [""] + imports
+        var imports = Array(Set(file.declarations.only(Import).map { "import " + $0.library })).sort()
+        if imports.count != 0 {
+            // Add new line before code imports
+            imports = [""] + imports
+        }
+        return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" } + imports
     }
     
     private static func getRelativePath(absolutePath: String) -> String {

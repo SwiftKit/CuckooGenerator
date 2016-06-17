@@ -7,9 +7,9 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-import UIKit
-
 import Cuckoo
+
+import UIKit
 
 class MockA: A, Cuckoo.Mock {
     let manager: Cuckoo.MockManager<__StubbingProxy_A, __VerificationProxy_A> = Cuckoo.MockManager()
