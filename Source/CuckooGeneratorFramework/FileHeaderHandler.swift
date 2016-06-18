@@ -24,7 +24,7 @@ public struct FileHeaderHandler {
     
     public static func getImports(file: FileRepresentation, testableFrameworks: [String]) -> [String] {
         var imports = Array(Set(file.declarations.only(Import).map { "import " + $0.library })).sort()
-        if imports.count != 0 {
+        if imports.isEmpty == false {
             // Add new line before code imports
             imports = [""] + imports
         }

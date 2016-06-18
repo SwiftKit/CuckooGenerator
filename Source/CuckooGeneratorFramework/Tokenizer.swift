@@ -222,8 +222,9 @@ public struct Tokenizer {
             let regex = try NSRegularExpression(pattern: "(?:\\b|;)import(?:\\s|(?:\\/\\/.*\\n)|(?:\\/\\*.*\\*\\/))+([^\\s;\\/]+)", options: [])
             let results = regex.matchesInString(source, options: [], range: NSMakeRange(0, source.characters.count))
             return results.filter { result in
-                    rangesToIgnore.filter { $0 ~= result.range.location }.count == 0
+                    rangesToIgnore.filter { $0 ~= result.range.location }.isEmpty
                 }.map {
+                    // This NSRange is always a valid Range
                     let range = $0.range.toRange()!
                     let library = (source as NSString).substringWithRange($0.rangeAtIndex(1))
                     return Import(range: range, library: library)
