@@ -61,7 +61,7 @@ public struct GenerateMocksCommand: CommandType {
         
         public static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
             return create
-                <*> m <| Option(key: "output", defaultValue: "GeneratedMocks.swift", usage: "Where to put the generated mocks.\nIf a path to a directory is supplied, each input file will have a respective output file with mocks.\nIf a path to a Swift file is supplied, all mocks will be in a single file.")
+                <*> m <| Option(key: "output", defaultValue: "GeneratedMocks.swift", usage: "Where to put the generated mocks.\nIf a path to a directory is supplied, each input file will have a respective output file with mocks.\nIf a path to a Swift file is supplied, all mocks will be in a single file.\nDefault value is `GeneratedMocks.swift`.")
                 <*> m <| Option(key: "testable", defaultValue: "", usage: "A comma separated list of frameworks that should be imported as @testable in the mock files.")
                 <*> m <| Option(key: "no-header", defaultValue: false, usage: "Do not generate file headers.")
                 <*> m <| Option(key: "no-timestamp", defaultValue: false, usage: "Do not generate timestamp.")
