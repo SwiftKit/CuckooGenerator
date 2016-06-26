@@ -25,10 +25,10 @@ class MockA: A, Cuckoo.Mock {
     
     override var readWriteProperty: Int {
         get {
-            return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })()
+            return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })
         }
         set {
-            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })(newValue)
+            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })
         }
     }
 
@@ -71,7 +71,7 @@ class MockB: B, Cuckoo.Mock {
     
     override var readOnlyProperty: Int {
         get {
-            return manager.getter("readOnlyProperty", original: observed.map { o in return { () -> Int in o.readOnlyProperty } })()
+            return manager.getter("readOnlyProperty", original: observed.map { o in return { () -> Int in o.readOnlyProperty } })
         }
     }
 

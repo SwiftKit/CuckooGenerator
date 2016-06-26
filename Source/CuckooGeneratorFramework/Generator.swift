@@ -70,12 +70,12 @@ public struct Generator {
         output += ""
         output += "\(getAccessibilitySourceName(token.accessibility))\(token.overriding ? "override " : "")var \(token.name): \(token.type) {"
         output += "    get {"
-        output += "        return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })()"
+        output += "        return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })"
         output += "    }"
         
         if token.readOnly == false {
             output += "    set {"
-            output += "        manager.setter(\"\(token.name)\", value: newValue, original: { self.observed?.\(token.name) = $0 })(newValue)"
+            output += "        manager.setter(\"\(token.name)\", value: newValue, original: { self.observed?.\(token.name) = $0 })"
             output += "    }"
         }
         
@@ -109,10 +109,9 @@ public struct Generator {
             tryIfThrowing = ""
         }
         
-        managerCall += ", parameters: \(prepareEscapingParametersForParameters(parameters))"
+        managerCall += ", parameters: \(prepareEscapingParameters(parameters))"
         
         managerCall += ", original: observed.map { o in return { (\(parametersSignature))\(returnSignature) in \(tryIfThrowing)o.\(rawName)(\(methodForwardingCallParameters(parameters))) } })"
-        managerCall += prepareEscapingParametersForMethodCall(parameters)
         
         output += ""
         output += "\(getAccessibilitySourceName(accessibility))\(isOverriding ? "override " : "")\(isInitializer ? "" : "func " )\(rawName)(\(parametersSignature))\(returnSignature) {"
@@ -120,7 +119,6 @@ public struct Generator {
         output += "}"
         return output
     }
-    
     
     private static func generateStubbingWithIndentation(indentation: String = "", tokens: [Token]) -> [String] {
         return tokens.flatMap { t in generateStubbingWithIndentation(indentation, token: t) }
@@ -346,23 +344,10 @@ public struct Generator {
         return returnSignature.trimmed.takeAfterStringOccurs("->")
     }
     
-    private static func prepareEscapingParametersForParameters(parameters: [MethodParameter]) -> String {
-        let result = prepareEscapingParameters(parameters) {
-            $0.contains(Attributes.noescape) || ($0.contains(Attributes.autoclosure) && !$0.contains(Attributes.escaping))
-        }
-        return result == "()" ? "Void()" : result
-    }
-    
-    private static func prepareEscapingParametersForMethodCall(parameters: [MethodParameter]) -> String {
-        return prepareEscapingParameters(parameters) {
-            $0.contains(Attributes.noescape)
-        }
-    }
-    
-    private static func prepareEscapingParameters(parameters: [MethodParameter], condition: Attributes -> Bool) -> String {
-        guard parameters.isEmpty == false else { return "()" }
+    private static func prepareEscapingParameters(parameters: [MethodParameter]) -> String {
+        guard parameters.isEmpty == false else { return "Void()" }
         let escapingParameters: [String] = parameters.map {
-            if condition($0.attributes) {
+            if $0.attributes.contains(Attributes.noescape) || ($0.attributes.contains(Attributes.autoclosure) && !$0.attributes.contains(Attributes.escaping)) {
                 return "Cuckoo.markerFunction()"
             } else {
                 return $0.name

@@ -23,58 +23,58 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
     
     override var readOnlyProperty: String {
         get {
-            return manager.getter("readOnlyProperty", original: observed.map { o in return { () -> String in o.readOnlyProperty } })()
+            return manager.getter("readOnlyProperty", original: observed.map { o in return { () -> String in o.readOnlyProperty } })
         }
     }
     
     override var readWriteProperty: Int {
         get {
-            return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })()
+            return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })
         }
         set {
-            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })(newValue)
+            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })
         }
     }
     
     override var optionalProperty: Int? {
         get {
-            return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })()
+            return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })
         }
         set {
-            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })(newValue)
+            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })
         }
     }
     
     override func noParameter() {
-        return manager.call("noParameter()", parameters: Void(), original: observed.map { o in return { () in o.noParameter() } })()
+        return manager.call("noParameter()", parameters: Void(), original: observed.map { o in return { () in o.noParameter() } })
     }
     
     override func countCharacters(test: String)-> Int {
-        return manager.call("countCharacters(_:String)-> Int", parameters: (test), original: observed.map { o in return { (test: String)-> Int in o.countCharacters(test) } })(test)
+        return manager.call("countCharacters(_:String)-> Int", parameters: (test), original: observed.map { o in return { (test: String)-> Int in o.countCharacters(test) } })
     }
     
     override func withReturn()-> String {
-        return manager.call("withReturn()-> String", parameters: Void(), original: observed.map { o in return { ()-> String in o.withReturn() } })()
+        return manager.call("withReturn()-> String", parameters: Void(), original: observed.map { o in return { ()-> String in o.withReturn() } })
     }
     
     override func withThrows()throws {
-        return try manager.callThrows("withThrows()throws", parameters: Void(), original: observed.map { o in return { ()throws in try o.withThrows() } })()
+        return try manager.callThrows("withThrows()throws", parameters: Void(), original: observed.map { o in return { ()throws in try o.withThrows() } })
     }
     
     override func withClosure(closure: String -> Int) {
-        return manager.call("withClosure(_:String -> Int)", parameters: (closure), original: observed.map { o in return { (closure: String -> Int) in o.withClosure(closure) } })(closure)
+        return manager.call("withClosure(_:String -> Int)", parameters: (closure), original: observed.map { o in return { (closure: String -> Int) in o.withClosure(closure) } })
     }
     
     override func withMultipleParameters(a: String, b: Int, c: Float) {
-        return manager.call("withMultipleParameters(_:String, b:Int, c:Float)", parameters: (a, b: b, c: c), original: observed.map { o in return { (a: String, b: Int, c: Float) in o.withMultipleParameters(a, b: b, c: c) } })(a, b: b, c: c)
+        return manager.call("withMultipleParameters(_:String, b:Int, c:Float)", parameters: (a, b: b, c: c), original: observed.map { o in return { (a: String, b: Int, c: Float) in o.withMultipleParameters(a, b: b, c: c) } })
     }
     
     override func withNoescape(a: String, @noescape closure: String -> Void) {
-        return manager.call("withNoescape(_:String, closure:String -> Void)", parameters: (a, closure: Cuckoo.markerFunction()), original: observed.map { o in return { (a: String, @noescape closure: String -> Void) in o.withNoescape(a, closure: closure) } })(a, closure: Cuckoo.markerFunction())
+        return manager.call("withNoescape(_:String, closure:String -> Void)", parameters: (a, closure: Cuckoo.markerFunction()), original: observed.map { o in return { (a: String, @noescape closure: String -> Void) in o.withNoescape(a, closure: closure) } })
     }
     
     override func withOptionalClosure(a: String, closure: (String -> Void)?) {
-        return manager.call("withOptionalClosure(_:String, closure:(String -> Void)?)", parameters: (a, closure: closure), original: observed.map { o in return { (a: String, closure: (String -> Void)?) in o.withOptionalClosure(a, closure: closure) } })(a, closure: closure)
+        return manager.call("withOptionalClosure(_:String, closure:(String -> Void)?)", parameters: (a, closure: closure), original: observed.map { o in return { (a: String, closure: (String -> Void)?) in o.withOptionalClosure(a, closure: closure) } })
     }
 
     struct __StubbingProxy_TestedClass: Cuckoo.StubbingProxy {
@@ -225,58 +225,58 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
     
     var readOnlyProperty: String {
         get {
-            return manager.getter("readOnlyProperty", original: observed.map { o in return { () -> String in o.readOnlyProperty } })()
+            return manager.getter("readOnlyProperty", original: observed.map { o in return { () -> String in o.readOnlyProperty } })
         }
     }
     
     var readWriteProperty: Int {
         get {
-            return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })()
+            return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })
         }
         set {
-            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })(newValue)
+            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })
         }
     }
     
     var optionalProperty: Int? {
         get {
-            return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })()
+            return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })
         }
         set {
-            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })(newValue)
+            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })
         }
     }
     
     func noParameter() -> Void {
-        return manager.call("noParameter() -> Void", parameters: Void(), original: observed.map { o in return { () -> Void in o.noParameter() } })()
+        return manager.call("noParameter() -> Void", parameters: Void(), original: observed.map { o in return { () -> Void in o.noParameter() } })
     }
     
     func countCharacters(test: String)-> Int {
-        return manager.call("countCharacters(_:String)-> Int", parameters: (test), original: observed.map { o in return { (test: String)-> Int in o.countCharacters(test) } })(test)
+        return manager.call("countCharacters(_:String)-> Int", parameters: (test), original: observed.map { o in return { (test: String)-> Int in o.countCharacters(test) } })
     }
     
     func withReturn()-> String {
-        return manager.call("withReturn()-> String", parameters: Void(), original: observed.map { o in return { ()-> String in o.withReturn() } })()
+        return manager.call("withReturn()-> String", parameters: Void(), original: observed.map { o in return { ()-> String in o.withReturn() } })
     }
     
     func withThrows() throws -> Void {
-        return try manager.callThrows("withThrows() throws -> Void", parameters: Void(), original: observed.map { o in return { () throws -> Void in try o.withThrows() } })()
+        return try manager.callThrows("withThrows() throws -> Void", parameters: Void(), original: observed.map { o in return { () throws -> Void in try o.withThrows() } })
     }
     
     func withClosure(closure: String -> Int) -> Void {
-        return manager.call("withClosure(_:String -> Int) -> Void", parameters: (closure), original: observed.map { o in return { (closure: String -> Int) -> Void in o.withClosure(closure) } })(closure)
+        return manager.call("withClosure(_:String -> Int) -> Void", parameters: (closure), original: observed.map { o in return { (closure: String -> Int) -> Void in o.withClosure(closure) } })
     }
     
     func withMultipleParameters(a: String, b: Int, c: Float) -> Void {
-        return manager.call("withMultipleParameters(_:String, b:Int, c:Float) -> Void", parameters: (a, b: b, c: c), original: observed.map { o in return { (a: String, b: Int, c: Float) -> Void in o.withMultipleParameters(a, b: b, c: c) } })(a, b: b, c: c)
+        return manager.call("withMultipleParameters(_:String, b:Int, c:Float) -> Void", parameters: (a, b: b, c: c), original: observed.map { o in return { (a: String, b: Int, c: Float) -> Void in o.withMultipleParameters(a, b: b, c: c) } })
     }
     
     func withNoescape(a: String, @noescape closure: String -> Void) -> Void {
-        return manager.call("withNoescape(_:String, closure:String -> Void) -> Void", parameters: (a, closure: Cuckoo.markerFunction()), original: observed.map { o in return { (a: String, @noescape closure: String -> Void) -> Void in o.withNoescape(a, closure: closure) } })(a, closure: Cuckoo.markerFunction())
+        return manager.call("withNoescape(_:String, closure:String -> Void) -> Void", parameters: (a, closure: Cuckoo.markerFunction()), original: observed.map { o in return { (a: String, @noescape closure: String -> Void) -> Void in o.withNoescape(a, closure: closure) } })
     }
     
     func withOptionalClosure(a: String, closure: (String -> Void)?) -> Void {
-        return manager.call("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameters: (a, closure: closure), original: observed.map { o in return { (a: String, closure: (String -> Void)?) -> Void in o.withOptionalClosure(a, closure: closure) } })(a, closure: closure)
+        return manager.call("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameters: (a, closure: closure), original: observed.map { o in return { (a: String, closure: (String -> Void)?) -> Void in o.withOptionalClosure(a, closure: closure) } })
     }
 
     struct __StubbingProxy_TestedProtocol: Cuckoo.StubbingProxy {

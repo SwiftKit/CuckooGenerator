@@ -62,7 +62,7 @@ class MockB: B, Cuckoo.Mock {
     
     var text: String {
         get {
-            return manager.getter("text", original: observed.map { o in return { () -> String in o.text } })()
+            return manager.getter("text", original: observed.map { o in return { () -> String in o.text } })
         }
     }
 
