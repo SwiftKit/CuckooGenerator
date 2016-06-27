@@ -65,6 +65,10 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         return manager.call("withClosure(_:String -> Int)", parameters: (closure), original: observed.map { o in return { (closure: String -> Int) in o.withClosure(closure) } })
     }
     
+    override func withClosureReturningInt(closure: String -> Int)-> Int {
+        return manager.call("withClosureReturningInt(_:String -> Int)-> Int", parameters: (closure), original: observed.map { o in return { (closure: String -> Int)-> Int in o.withClosureReturningInt(closure) } })
+    }
+    
     override func withMultipleParameters(a: String, b: Int, c: Float) {
         return manager.call("withMultipleParameters(_:String, b:Int, c:Float)", parameters: (a, b: b, c: c), original: observed.map { o in return { (a: String, b: Int, c: Float) in o.withMultipleParameters(a, b: b, c: c) } })
     }
@@ -121,6 +125,12 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.ToBeStubbedFunction<(String -> Int), Void> {
             let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
             return handler.stub("withClosure(_:String -> Int)", parameterMatchers: matchers)
+        }
+        
+        @warn_unused_result
+        func withClosureReturningInt<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.ToBeStubbedFunction<(String -> Int),  Int> {
+            let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
+            return handler.stub("withClosureReturningInt(_:String -> Int)-> Int", parameterMatchers: matchers)
         }
         
         @warn_unused_result
@@ -181,6 +191,11 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse<Void>{
             let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
             return handler.verify("withClosure(_:String -> Int)", parameterMatchers: matchers)
+        }
+        
+        func withClosureReturningInt<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse< Int>{
+            let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
+            return handler.verify("withClosureReturningInt(_:String -> Int)-> Int", parameterMatchers: matchers)
         }
         
         func withMultipleParameters<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (Int), M3.MatchedType == (Float)>(a: M1, b: M2, c: M3) -> Cuckoo.__DoNotUse<Void>{

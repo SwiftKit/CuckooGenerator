@@ -23,6 +23,8 @@ protocol TestedProtocol {
     
     func withClosure(closure: String -> Int)
     
+    func withClosureReturningInt(closure: String -> Int) -> Int
+    
     func withMultipleParameters(a: String, b: Int, c: Float)
     
     func withNoescape(a: String, @noescape closure: String -> Void)
