@@ -73,8 +73,8 @@ class MockB: B, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var text: ToBeStubbedReadOnlyProperty<String> {
-            return handler.stubReadOnlyProperty("text")
+        var text: Cuckoo.ToBeStubbedReadOnlyProperty<String> {
+            return Cuckoo.ToBeStubbedReadOnlyProperty(handler: handler, name: "text")
         }
     }
 

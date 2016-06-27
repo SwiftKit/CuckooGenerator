@@ -169,12 +169,11 @@ public struct Generator {
         
         var output: [String] = []
         
-        let propertyType = token.readOnly ? "ToBeStubbedReadOnlyProperty" : "ToBeStubbedProperty"
-        let stubbingFunction = token.readOnly ? "stubReadOnlyProperty" : "stubProperty"
+        let propertyType = token.readOnly ? "Cuckoo.ToBeStubbedReadOnlyProperty" : "Cuckoo.ToBeStubbedProperty"
         
         output += ""
         output += "var \(token.name): \(propertyType)<\(token.type)> {"
-        output += "    return handler.\(stubbingFunction)(\"\(token.name)\")"
+        output += "    return \(propertyType)(handler: handler, name: \"\(token.name)\")"
         output += "}"
         
         return output
@@ -194,19 +193,31 @@ public struct Generator {
         let parametersSignature = prepareMatchableParameterSignature(parameters)
         let throwing = returnSignature.containsString("throws")
         
-        var returnType: String
+        let returnType = extractReturnType(returnSignature) ?? "Void"
+        var stubFunction: String
         if throwing {
-            returnType = "Cuckoo.ToBeStubbedThrowingFunction"
+            if returnType == "Void" {
+                stubFunction = "Cuckoo.StubNoReturnThrowingFunction"
+            } else {
+                stubFunction = "Cuckoo.StubThrowingFunction"
+            }
         } else {
-            returnType = "Cuckoo.ToBeStubbedFunction"
+            if returnType == "Void" {
+                stubFunction = "Cuckoo.StubNoReturnFunction"
+            } else {
+                stubFunction = "Cuckoo.StubFunction"
+            }
         }
-        returnType += "<"
-        returnType += "(\(parametersTupleType(parameters)))"
-        returnType += ", "
-        returnType += extractReturnType(returnSignature) ?? "Void"
-        returnType += ">"
+        var stubbingMethodReturnType = stubFunction
+        stubbingMethodReturnType += "<"
+        stubbingMethodReturnType += "(\(parametersTupleType(parameters)))"
+        if returnType != "Void" {
+            stubbingMethodReturnType += ", "
+            stubbingMethodReturnType += returnType
+        }
+        stubbingMethodReturnType += ">"
         
-        var stubCall: String
+        /*var stubCall: String
         if throwing {
             stubCall = "handler.stubThrowing(\"\(fullyQualifiedName)\""
         } else {
@@ -215,15 +226,19 @@ public struct Generator {
         if !parameters.isEmpty {
             stubCall += ", parameterMatchers: matchers"
         }
-        stubCall += ")"
+        stubCall += ")"*/
         
         output += ""
         output += "@warn_unused_result"
-        output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType) {"
-        if !parameters.isEmpty {
+        output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(stubbingMethodReturnType) {"
+        var matchers: String
+        if parameters.isEmpty {
+            matchers = "[]"
+        } else {
             output += "    \(prepareParameterMatchers(parameters))"
+            matchers = "matchers"
         }
-        output += "    return \(stubCall)"
+        output += "    return \(stubFunction)(stub: handler.createStub(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers)))"
         output += "}"
         
         return output
@@ -341,7 +356,7 @@ public struct Generator {
     }
     
     private static func extractReturnType(returnSignature: String) -> String? {
-        return returnSignature.trimmed.takeAfterStringOccurs("->")
+        return returnSignature.takeAfterStringOccurs("->")?.trimmed
     }
     
     private static func prepareEscapingParameters(parameters: [MethodParameter]) -> String {

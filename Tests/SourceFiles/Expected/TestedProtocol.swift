@@ -88,67 +88,67 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var readOnlyProperty: ToBeStubbedReadOnlyProperty<String> {
-            return handler.stubReadOnlyProperty("readOnlyProperty")
+        var readOnlyProperty: Cuckoo.ToBeStubbedReadOnlyProperty<String> {
+            return Cuckoo.ToBeStubbedReadOnlyProperty(handler: handler, name: "readOnlyProperty")
         }
         
-        var readWriteProperty: ToBeStubbedProperty<Int> {
-            return handler.stubProperty("readWriteProperty")
+        var readWriteProperty: Cuckoo.ToBeStubbedProperty<Int> {
+            return Cuckoo.ToBeStubbedProperty(handler: handler, name: "readWriteProperty")
         }
         
-        var optionalProperty: ToBeStubbedProperty<Int?> {
-            return handler.stubProperty("optionalProperty")
-        }
-        
-        @warn_unused_result
-        func noParameter() -> Cuckoo.ToBeStubbedFunction<(),  Void> {
-            return handler.stub("noParameter() -> Void")
+        var optionalProperty: Cuckoo.ToBeStubbedProperty<Int?> {
+            return Cuckoo.ToBeStubbedProperty(handler: handler, name: "optionalProperty")
         }
         
         @warn_unused_result
-        func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.ToBeStubbedFunction<(String),  Int> {
+        func noParameter() -> Cuckoo.StubNoReturnFunction<()> {
+            return Cuckoo.StubNoReturnFunction(stub: handler.createStub("noParameter() -> Void", parameterMatchers: []))
+        }
+        
+        @warn_unused_result
+        func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.StubFunction<(String), Int> {
             let matchers: [Cuckoo.AnyMatcher<(String)>] = [parameterMatcher(test.matcher) { $0 }]
-            return handler.stub("countCharacters(_:String)-> Int", parameterMatchers: matchers)
+            return Cuckoo.StubFunction(stub: handler.createStub("countCharacters(_:String)-> Int", parameterMatchers: matchers))
         }
         
         @warn_unused_result
-        func withReturn() -> Cuckoo.ToBeStubbedFunction<(),  String> {
-            return handler.stub("withReturn()-> String")
+        func withReturn() -> Cuckoo.StubFunction<(), String> {
+            return Cuckoo.StubFunction(stub: handler.createStub("withReturn()-> String", parameterMatchers: []))
         }
         
         @warn_unused_result
-        func withThrows() -> Cuckoo.ToBeStubbedThrowingFunction<(),  Void> {
-            return handler.stubThrowing("withThrows() throws -> Void")
+        func withThrows() -> Cuckoo.StubNoReturnThrowingFunction<()> {
+            return Cuckoo.StubNoReturnThrowingFunction(stub: handler.createStub("withThrows() throws -> Void", parameterMatchers: []))
         }
         
         @warn_unused_result
-        func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.ToBeStubbedFunction<(String -> Int),  Void> {
+        func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.StubNoReturnFunction<(String -> Int)> {
             let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
-            return handler.stub("withClosure(_:String -> Int) -> Void", parameterMatchers: matchers)
+            return Cuckoo.StubNoReturnFunction(stub: handler.createStub("withClosure(_:String -> Int) -> Void", parameterMatchers: matchers))
         }
         
         @warn_unused_result
-        func withClosureReturningInt<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.ToBeStubbedFunction<(String -> Int),  Int> {
+        func withClosureReturningInt<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.StubFunction<(String -> Int), Int> {
             let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
-            return handler.stub("withClosureReturningInt(_:String -> Int)-> Int", parameterMatchers: matchers)
+            return Cuckoo.StubFunction(stub: handler.createStub("withClosureReturningInt(_:String -> Int)-> Int", parameterMatchers: matchers))
         }
         
         @warn_unused_result
-        func withMultipleParameters<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (Int), M3.MatchedType == (Float)>(a: M1, b: M2, c: M3) -> Cuckoo.ToBeStubbedFunction<(String, b: Int, c: Float),  Void> {
+        func withMultipleParameters<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (Int), M3.MatchedType == (Float)>(a: M1, b: M2, c: M3) -> Cuckoo.StubNoReturnFunction<(String, b: Int, c: Float)> {
             let matchers: [Cuckoo.AnyMatcher<(String, b: Int, c: Float)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(b.matcher) { $0.b }, parameterMatcher(c.matcher) { $0.c }]
-            return handler.stub("withMultipleParameters(_:String, b:Int, c:Float) -> Void", parameterMatchers: matchers)
+            return Cuckoo.StubNoReturnFunction(stub: handler.createStub("withMultipleParameters(_:String, b:Int, c:Float) -> Void", parameterMatchers: matchers))
         }
         
         @warn_unused_result
-        func withNoescape<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (String -> Void)>(a: M1, closure: M2) -> Cuckoo.ToBeStubbedFunction<(String, closure: String -> Void),  Void> {
+        func withNoescape<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (String -> Void)>(a: M1, closure: M2) -> Cuckoo.StubNoReturnFunction<(String, closure: String -> Void)> {
             let matchers: [Cuckoo.AnyMatcher<(String, closure: String -> Void)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
-            return handler.stub("withNoescape(_:String, closure:String -> Void) -> Void", parameterMatchers: matchers)
+            return Cuckoo.StubNoReturnFunction(stub: handler.createStub("withNoescape(_:String, closure:String -> Void) -> Void", parameterMatchers: matchers))
         }
         
         @warn_unused_result
-        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.ToBeStubbedFunction<(String, closure: (String -> Void)?),  Void> {
+        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.StubNoReturnFunction<(String, closure: (String -> Void)?)> {
             let matchers: [Cuckoo.AnyMatcher<(String, closure: (String -> Void)?)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
-            return handler.stub("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameterMatchers: matchers)
+            return Cuckoo.StubNoReturnFunction(stub: handler.createStub("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameterMatchers: matchers))
         }
     }
 
@@ -171,44 +171,44 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
             return handler.verifyProperty("optionalProperty")
         }
         
-        func noParameter() -> Cuckoo.__DoNotUse< Void>{
+        func noParameter() -> Cuckoo.__DoNotUse<Void>{
             return handler.verify("noParameter() -> Void")
         }
         
-        func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.__DoNotUse< Int>{
+        func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.__DoNotUse<Int>{
             let matchers: [Cuckoo.AnyMatcher<(String)>] = [parameterMatcher(test.matcher) { $0 }]
             return handler.verify("countCharacters(_:String)-> Int", parameterMatchers: matchers)
         }
         
-        func withReturn() -> Cuckoo.__DoNotUse< String>{
+        func withReturn() -> Cuckoo.__DoNotUse<String>{
             return handler.verify("withReturn()-> String")
         }
         
-        func withThrows() -> Cuckoo.__DoNotUse< Void>{
+        func withThrows() -> Cuckoo.__DoNotUse<Void>{
             return handler.verify("withThrows() throws -> Void")
         }
         
-        func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse< Void>{
+        func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse<Void>{
             let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
             return handler.verify("withClosure(_:String -> Int) -> Void", parameterMatchers: matchers)
         }
         
-        func withClosureReturningInt<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse< Int>{
+        func withClosureReturningInt<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse<Int>{
             let matchers: [Cuckoo.AnyMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
             return handler.verify("withClosureReturningInt(_:String -> Int)-> Int", parameterMatchers: matchers)
         }
         
-        func withMultipleParameters<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (Int), M3.MatchedType == (Float)>(a: M1, b: M2, c: M3) -> Cuckoo.__DoNotUse< Void>{
+        func withMultipleParameters<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (Int), M3.MatchedType == (Float)>(a: M1, b: M2, c: M3) -> Cuckoo.__DoNotUse<Void>{
             let matchers: [Cuckoo.AnyMatcher<(String, b: Int, c: Float)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(b.matcher) { $0.b }, parameterMatcher(c.matcher) { $0.c }]
             return handler.verify("withMultipleParameters(_:String, b:Int, c:Float) -> Void", parameterMatchers: matchers)
         }
         
-        func withNoescape<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (String -> Void)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse< Void>{
+        func withNoescape<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (String -> Void)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse<Void>{
             let matchers: [Cuckoo.AnyMatcher<(String, closure: String -> Void)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
             return handler.verify("withNoescape(_:String, closure:String -> Void) -> Void", parameterMatchers: matchers)
         }
         
-        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse< Void>{
+        func withOptionalClosure<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == ((String -> Void)?)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse<Void>{
             let matchers: [Cuckoo.AnyMatcher<(String, closure: (String -> Void)?)>] = [parameterMatcher(a.matcher) { $0.0 }, parameterMatcher(closure.matcher) { $0.closure }]
             return handler.verify("withOptionalClosure(_:String, closure:(String -> Void)?) -> Void", parameterMatchers: matchers)
         }

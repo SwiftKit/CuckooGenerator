@@ -39,8 +39,8 @@ class MockA: A, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var readWriteProperty: ToBeStubbedProperty<Int> {
-            return handler.stubProperty("readWriteProperty")
+        var readWriteProperty: Cuckoo.ToBeStubbedProperty<Int> {
+            return Cuckoo.ToBeStubbedProperty(handler: handler, name: "readWriteProperty")
         }
     }
 
@@ -82,8 +82,8 @@ class MockB: B, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var readOnlyProperty: ToBeStubbedReadOnlyProperty<Int> {
-            return handler.stubReadOnlyProperty("readOnlyProperty")
+        var readOnlyProperty: Cuckoo.ToBeStubbedReadOnlyProperty<Int> {
+            return Cuckoo.ToBeStubbedReadOnlyProperty(handler: handler, name: "readOnlyProperty")
         }
     }
 
