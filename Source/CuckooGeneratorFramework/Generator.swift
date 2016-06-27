@@ -217,17 +217,6 @@ public struct Generator {
         }
         stubbingMethodReturnType += ">"
         
-        /*var stubCall: String
-        if throwing {
-            stubCall = "handler.stubThrowing(\"\(fullyQualifiedName)\""
-        } else {
-            stubCall = "handler.stub(\"\(fullyQualifiedName)\""
-        }
-        if !parameters.isEmpty {
-            stubCall += ", parameterMatchers: matchers"
-        }
-        stubCall += ")"*/
-        
         output += ""
         output += "@warn_unused_result"
         output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(stubbingMethodReturnType) {"
