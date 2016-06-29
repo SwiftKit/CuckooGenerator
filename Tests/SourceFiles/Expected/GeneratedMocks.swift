@@ -32,7 +32,7 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
             return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })
         }
         set {
-            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })
+            manager.setter("readWriteProperty", value: newValue, original: observed != nil ? { self.observed?.readWriteProperty = $0 } : nil)
         }
     }
     
@@ -41,7 +41,7 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
             return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })
         }
         set {
-            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })
+            manager.setter("optionalProperty", value: newValue, original: observed != nil ? { self.observed?.optionalProperty = $0 } : nil)
         }
     }
     
@@ -249,7 +249,7 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
             return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })
         }
         set {
-            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })
+            manager.setter("readWriteProperty", value: newValue, original: observed != nil ? { self.observed?.readWriteProperty = $0 } : nil)
         }
     }
     
@@ -258,7 +258,7 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
             return manager.getter("optionalProperty", original: observed.map { o in return { () -> Int? in o.optionalProperty } })
         }
         set {
-            manager.setter("optionalProperty", value: newValue, original: { self.observed?.optionalProperty = $0 })
+            manager.setter("optionalProperty", value: newValue, original: observed != nil ? { self.observed?.optionalProperty = $0 } : nil)
         }
     }
     

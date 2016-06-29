@@ -72,10 +72,10 @@ public struct Generator {
         output += "    get {"
         output += "        return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })"
         output += "    }"
-        
+
         if token.readOnly == false {
             output += "    set {"
-            output += "        manager.setter(\"\(token.name)\", value: newValue, original: { self.observed?.\(token.name) = $0 })"
+            output += "        manager.setter(\"\(token.name)\", value: newValue, original: observed != nil ? { self.observed?.\(token.name) = $0 } : nil)"
             output += "    }"
         }
         
@@ -194,7 +194,7 @@ public struct Generator {
         let throwing = returnSignature.containsString("throws")
         
         let returnType = extractReturnType(returnSignature) ?? "Void"
-        var stubFunction: String
+        let stubFunction: String
         if throwing {
             if returnType == "Void" {
                 stubFunction = "Cuckoo.StubNoReturnThrowingFunction"

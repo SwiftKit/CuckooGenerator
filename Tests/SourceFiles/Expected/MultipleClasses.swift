@@ -28,7 +28,7 @@ class MockA: A, Cuckoo.Mock {
             return manager.getter("readWriteProperty", original: observed.map { o in return { () -> Int in o.readWriteProperty } })
         }
         set {
-            manager.setter("readWriteProperty", value: newValue, original: { self.observed?.readWriteProperty = $0 })
+            manager.setter("readWriteProperty", value: newValue, original: observed != nil ? { self.observed?.readWriteProperty = $0 } : nil)
         }
     }
 
