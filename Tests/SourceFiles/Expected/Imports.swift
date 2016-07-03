@@ -85,8 +85,8 @@ class MockB: B, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var text: VerifyReadOnlyProperty<String> {
-            return handler.verifyReadOnlyProperty("text")
+        var text: Cuckoo.VerifyReadOnlyProperty<String> {
+            return Cuckoo.VerifyReadOnlyProperty(name: "text", handler: handler)
         }
     }
 }

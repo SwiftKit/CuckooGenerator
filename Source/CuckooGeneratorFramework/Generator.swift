@@ -220,7 +220,7 @@ public struct Generator {
         output += ""
         output += "@warn_unused_result"
         output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(stubbingMethodReturnType) {"
-        var matchers: String
+        let matchers: String
         if parameters.isEmpty {
             matchers = "[]"
         } else {
@@ -280,12 +280,11 @@ public struct Generator {
         
         var output: [String] = []
         
-        let propertyType = token.readOnly ? "VerifyReadOnlyProperty" : "VerifyProperty"
-        let verificationFunction = token.readOnly ? "verifyReadOnlyProperty" : "verifyProperty"
+        let propertyType = token.readOnly ? "Cuckoo.VerifyReadOnlyProperty" : "Cuckoo.VerifyProperty"
         
         output += ""
         output += "var \(token.name): \(propertyType)<\(token.type)> {"
-        output += "    return handler.\(verificationFunction)(\"\(token.name)\")"
+        output += "    return \(propertyType)(name: \"\(token.name)\", handler: handler)"
         output += "}"
         
         return output
@@ -306,18 +305,16 @@ public struct Generator {
         
         let returnType = "Cuckoo.__DoNotUse<" + (extractReturnType(returnSignature) ?? "Void") + ">"
         
-        var verifyCall = "handler.verify(\"\(fullyQualifiedName)\""
-        if !parameters.isEmpty {
-            verifyCall += ", parameterMatchers: matchers"
-        }
-        verifyCall += ")"
-        
         output += ""
         output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType){"
-        if !parameters.isEmpty {
+        let matchers: String
+        if parameters.isEmpty {
+            matchers = "[] as [Cuckoo.AnyMatcher<Void>]"
+        } else {
             output += "    \(prepareParameterMatchers(parameters))"
+            matchers = "matchers"
         }
-        output += "    return \(verifyCall)"
+        output += "    return handler.verify(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers))"
         output += "}"
         return output
     }

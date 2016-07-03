@@ -159,20 +159,20 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var readOnlyProperty: VerifyReadOnlyProperty<String> {
-            return handler.verifyReadOnlyProperty("readOnlyProperty")
+        var readOnlyProperty: Cuckoo.VerifyReadOnlyProperty<String> {
+            return Cuckoo.VerifyReadOnlyProperty(name: "readOnlyProperty", handler: handler)
         }
         
-        var readWriteProperty: VerifyProperty<Int> {
-            return handler.verifyProperty("readWriteProperty")
+        var readWriteProperty: Cuckoo.VerifyProperty<Int> {
+            return Cuckoo.VerifyProperty(name: "readWriteProperty", handler: handler)
         }
         
-        var optionalProperty: VerifyProperty<Int?> {
-            return handler.verifyProperty("optionalProperty")
+        var optionalProperty: Cuckoo.VerifyProperty<Int?> {
+            return Cuckoo.VerifyProperty(name: "optionalProperty", handler: handler)
         }
         
         func noParameter() -> Cuckoo.__DoNotUse<Void>{
-            return handler.verify("noParameter() -> Void")
+            return handler.verify("noParameter() -> Void", parameterMatchers: [] as [Cuckoo.AnyMatcher<Void>])
         }
         
         func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.__DoNotUse<Int>{
@@ -181,11 +181,11 @@ class MockTestedProtocol: TestedProtocol, Cuckoo.Mock {
         }
         
         func withReturn() -> Cuckoo.__DoNotUse<String>{
-            return handler.verify("withReturn()-> String")
+            return handler.verify("withReturn()-> String", parameterMatchers: [] as [Cuckoo.AnyMatcher<Void>])
         }
         
         func withThrows() -> Cuckoo.__DoNotUse<Void>{
-            return handler.verify("withThrows() throws -> Void")
+            return handler.verify("withThrows() throws -> Void", parameterMatchers: [] as [Cuckoo.AnyMatcher<Void>])
         }
         
         func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse<Void>{

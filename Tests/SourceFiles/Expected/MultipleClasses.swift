@@ -51,8 +51,8 @@ class MockA: A, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var readWriteProperty: VerifyProperty<Int> {
-            return handler.verifyProperty("readWriteProperty")
+        var readWriteProperty: Cuckoo.VerifyProperty<Int> {
+            return Cuckoo.VerifyProperty(name: "readWriteProperty", handler: handler)
         }
     }
 }
@@ -94,8 +94,8 @@ class MockB: B, Cuckoo.Mock {
             self.handler = handler
         }
         
-        var readOnlyProperty: VerifyReadOnlyProperty<Int> {
-            return handler.verifyReadOnlyProperty("readOnlyProperty")
+        var readOnlyProperty: Cuckoo.VerifyReadOnlyProperty<Int> {
+            return Cuckoo.VerifyReadOnlyProperty(name: "readOnlyProperty", handler: handler)
         }
     }
 }
