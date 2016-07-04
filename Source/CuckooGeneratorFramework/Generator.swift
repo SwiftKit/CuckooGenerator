@@ -34,24 +34,26 @@ public struct Generator {
     }
     
     private static func generateMockingClass(token: ContainerToken) -> [String] {
+        guard token.accessibility != .Private else { return [] }
+        
         let name = token.name
-        let accessibility = token.accessibility
+        let accessibility = getAccessibilitySourceName(token.accessibility)
         let implementation = token.implementation
         let children = token.children
         
-        guard accessibility != .Private else { return [] }
-        
         var output: [String] = []
         output += ""
-        output += "\(getAccessibilitySourceName(accessibility))class \(mockClassName(name)): \(name), Cuckoo.Mock {"
-        output += "    \(getAccessibilitySourceName(accessibility))let manager: Cuckoo.MockManager<\(stubbingProxyName(name)), \(verificationProxyName(name))> = Cuckoo.MockManager()"
+        output += "\(accessibility)class \(mockClassName(name)): \(name), Cuckoo.Mock {"
+        output += "    \(accessibility)typealias Stubbing = \(stubbingProxyName(name))"
+        output += "    \(accessibility)typealias Verification = \(verificationProxyName(name))"
+        output += "    \(accessibility)let manager = Cuckoo.MockManager()"
         output += ""
         output += "    private var observed: \(name)?"
         output += ""
-        output += "    \(getAccessibilitySourceName(accessibility))required\(implementation ? " override" : "") init() {"
+        output += "    \(accessibility)required\(implementation ? " override" : "") init() {"
         output += "    }"
         output += ""
-        output += "    \(getAccessibilitySourceName(accessibility))required init(spyOn victim: \(name)) {"
+        output += "    \(accessibility)required init(spyOn victim: \(name)) {"
         output += "        observed = victim"
         output += "    }"
         output += generateWithIndentation("    ", tokens: children)
@@ -153,10 +155,10 @@ public struct Generator {
         var output: [String] = []
         
         output += "\(getAccessibilitySourceName(accessibility))struct \(stubbingProxyName(name)): Cuckoo.StubbingProxy {"
-        output += "    let handler: Cuckoo.StubbingHandler"
+        output += "    let manager: Cuckoo.MockManager"
         output += ""
-        output += "    \(getAccessibilitySourceName(accessibility))init(handler: Cuckoo.StubbingHandler) {"
-        output += "        self.handler = handler"
+        output += "    \(getAccessibilitySourceName(accessibility))init(manager: Cuckoo.MockManager) {"
+        output += "        self.manager = manager"
         output += "    }"
         output += generateStubbingWithIndentation("    ", tokens: children)
         output += "}"
@@ -173,7 +175,7 @@ public struct Generator {
         
         output += ""
         output += "var \(token.name): \(propertyType)<\(token.type)> {"
-        output += "    return \(propertyType)(handler: handler, name: \"\(token.name)\")"
+        output += "    return \(propertyType)(manager: manager, name: \"\(token.name)\")"
         output += "}"
         
         return output
@@ -227,7 +229,7 @@ public struct Generator {
             output += "    \(prepareParameterMatchers(parameters))"
             matchers = "matchers"
         }
-        output += "    return \(stubFunction)(stub: handler.createStub(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers)))"
+        output += "    return \(stubFunction)(stub: manager.createStub(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers)))"
         output += "}"
         
         return output
@@ -265,10 +267,14 @@ public struct Generator {
         guard accessibility != .Private else { return [] }
         var output: [String] = []
         output += "\(getAccessibilitySourceName(accessibility))struct \(verificationProxyName(name)): Cuckoo.VerificationProxy {"
-        output += "    let handler: Cuckoo.VerificationHandler"
+        output += "    let manager: Cuckoo.MockManager"
+        output += "    let callMatcher: Cuckoo.CallMatcher"
+        output += "    let sourceLocation: Cuckoo.SourceLocation"
         output += ""
-        output += "    \(getAccessibilitySourceName(accessibility))init(handler: Cuckoo.VerificationHandler) {"
-        output += "        self.handler = handler"
+        output += "    \(getAccessibilitySourceName(accessibility))init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {"
+        output += "        self.manager = manager"
+        output += "        self.callMatcher = callMatcher"
+        output += "        self.sourceLocation = sourceLocation"
         output += "    }"
         output += generateVerificationWithIndentation("    ", tokens: children)
         output += "}"
@@ -284,7 +290,7 @@ public struct Generator {
         
         output += ""
         output += "var \(token.name): \(propertyType)<\(token.type)> {"
-        output += "    return \(propertyType)(name: \"\(token.name)\", handler: handler)"
+        output += "    return \(propertyType)(manager: manager, name: \"\(token.name)\", callMatcher: callMatcher, sourceLocation: sourceLocation)"
         output += "}"
         
         return output
@@ -314,7 +320,7 @@ public struct Generator {
             output += "    \(prepareParameterMatchers(parameters))"
             matchers = "matchers"
         }
-        output += "    return handler.verify(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers))"
+        output += "    return manager.verify(\"\(fullyQualifiedName)\", callMatcher: callMatcher, parameterMatchers: \(matchers), sourceLocation: sourceLocation)"
         output += "}"
         return output
     }

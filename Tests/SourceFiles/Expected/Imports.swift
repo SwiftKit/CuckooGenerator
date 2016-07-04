@@ -20,7 +20,9 @@ import h
 import i
 
 class MockA: A, Cuckoo.Mock {
-    let manager: Cuckoo.MockManager<__StubbingProxy_A, __VerificationProxy_A> = Cuckoo.MockManager()
+    typealias Stubbing = __StubbingProxy_A
+    typealias Verification = __VerificationProxy_A
+    let manager = Cuckoo.MockManager()
 
     private var observed: A?
 
@@ -32,24 +34,30 @@ class MockA: A, Cuckoo.Mock {
     }
 
     struct __StubbingProxy_A: Cuckoo.StubbingProxy {
-        let handler: Cuckoo.StubbingHandler
+        let manager: Cuckoo.MockManager
     
-        init(handler: Cuckoo.StubbingHandler) {
-            self.handler = handler
+        init(manager: Cuckoo.MockManager) {
+            self.manager = manager
         }
     }
 
     struct __VerificationProxy_A: Cuckoo.VerificationProxy {
-        let handler: Cuckoo.VerificationHandler
+        let manager: Cuckoo.MockManager
+        let callMatcher: Cuckoo.CallMatcher
+        let sourceLocation: Cuckoo.SourceLocation
     
-        init(handler: Cuckoo.VerificationHandler) {
-            self.handler = handler
+        init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+            self.manager = manager
+            self.callMatcher = callMatcher
+            self.sourceLocation = sourceLocation
         }
     }
 }
 
 class MockB: B, Cuckoo.Mock {
-    let manager: Cuckoo.MockManager<__StubbingProxy_B, __VerificationProxy_B> = Cuckoo.MockManager()
+    typealias Stubbing = __StubbingProxy_B
+    typealias Verification = __VerificationProxy_B
+    let manager = Cuckoo.MockManager()
 
     private var observed: B?
 
@@ -67,26 +75,30 @@ class MockB: B, Cuckoo.Mock {
     }
 
     struct __StubbingProxy_B: Cuckoo.StubbingProxy {
-        let handler: Cuckoo.StubbingHandler
+        let manager: Cuckoo.MockManager
     
-        init(handler: Cuckoo.StubbingHandler) {
-            self.handler = handler
+        init(manager: Cuckoo.MockManager) {
+            self.manager = manager
         }
         
         var text: Cuckoo.ToBeStubbedReadOnlyProperty<String> {
-            return Cuckoo.ToBeStubbedReadOnlyProperty(handler: handler, name: "text")
+            return Cuckoo.ToBeStubbedReadOnlyProperty(manager: manager, name: "text")
         }
     }
 
     struct __VerificationProxy_B: Cuckoo.VerificationProxy {
-        let handler: Cuckoo.VerificationHandler
+        let manager: Cuckoo.MockManager
+        let callMatcher: Cuckoo.CallMatcher
+        let sourceLocation: Cuckoo.SourceLocation
     
-        init(handler: Cuckoo.VerificationHandler) {
-            self.handler = handler
+        init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+            self.manager = manager
+            self.callMatcher = callMatcher
+            self.sourceLocation = sourceLocation
         }
         
         var text: Cuckoo.VerifyReadOnlyProperty<String> {
-            return Cuckoo.VerifyReadOnlyProperty(name: "text", handler: handler)
+            return Cuckoo.VerifyReadOnlyProperty(manager: manager, name: "text", callMatcher: callMatcher, sourceLocation: sourceLocation)
         }
     }
 }

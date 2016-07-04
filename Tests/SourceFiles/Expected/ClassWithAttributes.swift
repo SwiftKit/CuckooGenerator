@@ -6,7 +6,9 @@
 import Cuckoo
 
 public class MockClassWithAttributes: ClassWithAttributes, Cuckoo.Mock {
-    public let manager: Cuckoo.MockManager<__StubbingProxy_ClassWithAttributes, __VerificationProxy_ClassWithAttributes> = Cuckoo.MockManager()
+    public typealias Stubbing = __StubbingProxy_ClassWithAttributes
+    public typealias Verification = __VerificationProxy_ClassWithAttributes
+    public let manager = Cuckoo.MockManager()
 
     private var observed: ClassWithAttributes?
 
@@ -18,18 +20,22 @@ public class MockClassWithAttributes: ClassWithAttributes, Cuckoo.Mock {
     }
 
     public struct __StubbingProxy_ClassWithAttributes: Cuckoo.StubbingProxy {
-        let handler: Cuckoo.StubbingHandler
+        let manager: Cuckoo.MockManager
     
-        public init(handler: Cuckoo.StubbingHandler) {
-            self.handler = handler
+        public init(manager: Cuckoo.MockManager) {
+            self.manager = manager
         }
     }
 
     public struct __VerificationProxy_ClassWithAttributes: Cuckoo.VerificationProxy {
-        let handler: Cuckoo.VerificationHandler
+        let manager: Cuckoo.MockManager
+        let callMatcher: Cuckoo.CallMatcher
+        let sourceLocation: Cuckoo.SourceLocation
     
-        public init(handler: Cuckoo.VerificationHandler) {
-            self.handler = handler
+        public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+            self.manager = manager
+            self.callMatcher = callMatcher
+            self.sourceLocation = sourceLocation
         }
     }
 }

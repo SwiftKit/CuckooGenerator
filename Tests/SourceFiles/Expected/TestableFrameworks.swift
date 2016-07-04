@@ -13,7 +13,9 @@ import Cuckoo
 import Foundation
 
 class MockTestedEmptyClass: TestedEmptyClass, Cuckoo.Mock {
-    let manager: Cuckoo.MockManager<__StubbingProxy_TestedEmptyClass, __VerificationProxy_TestedEmptyClass> = Cuckoo.MockManager()
+    typealias Stubbing = __StubbingProxy_TestedEmptyClass
+    typealias Verification = __VerificationProxy_TestedEmptyClass
+    let manager = Cuckoo.MockManager()
 
     private var observed: TestedEmptyClass?
 
@@ -25,18 +27,22 @@ class MockTestedEmptyClass: TestedEmptyClass, Cuckoo.Mock {
     }
 
     struct __StubbingProxy_TestedEmptyClass: Cuckoo.StubbingProxy {
-        let handler: Cuckoo.StubbingHandler
+        let manager: Cuckoo.MockManager
     
-        init(handler: Cuckoo.StubbingHandler) {
-            self.handler = handler
+        init(manager: Cuckoo.MockManager) {
+            self.manager = manager
         }
     }
 
     struct __VerificationProxy_TestedEmptyClass: Cuckoo.VerificationProxy {
-        let handler: Cuckoo.VerificationHandler
+        let manager: Cuckoo.MockManager
+        let callMatcher: Cuckoo.CallMatcher
+        let sourceLocation: Cuckoo.SourceLocation
     
-        init(handler: Cuckoo.VerificationHandler) {
-            self.handler = handler
+        init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+            self.manager = manager
+            self.callMatcher = callMatcher
+            self.sourceLocation = sourceLocation
         }
     }
 }
