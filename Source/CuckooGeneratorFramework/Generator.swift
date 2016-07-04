@@ -315,7 +315,7 @@ public struct Generator {
         output += "\(getAccessibilitySourceName(accessibility))func \(rawName)\(prepareMatchableGenerics(parameters))(\(parametersSignature)) -> \(returnType){"
         let matchers: String
         if parameters.isEmpty {
-            matchers = "[] as [Cuckoo.AnyMatcher<Void>]"
+            matchers = "[] as [Cuckoo.ParameterMatcher<Void>]"
         } else {
             output += "    \(prepareParameterMatchers(parameters))"
             matchers = "matchers"
@@ -395,7 +395,7 @@ public struct Generator {
             "parameterMatcher(\($1.name).matcher) { \(parameters.count > 1 ? "$0.\($1.labelNameOrPositionAtPosition($0))" : "$0") }"
         }
         
-        return "let matchers: [Cuckoo.AnyMatcher<(\(parametersTupleType(parameters)))>] = [\(matchers.joinWithSeparator(", "))]"
+        return "let matchers: [Cuckoo.ParameterMatcher<(\(parametersTupleType(parameters)))>] = [\(matchers.joinWithSeparator(", "))]"
     }
     
     private static func getAccessibilitySourceName(accessibility: Accessibility) -> String {
