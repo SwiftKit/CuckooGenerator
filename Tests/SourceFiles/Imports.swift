@@ -22,15 +22,11 @@ class A {
     let text = " import x "
 }
 
-protocol B {
-	var text: String { get }
-}
-
 import i
 import i
 
-extension B {
-	var text: String {
+extension A {
+	var text2: String {
 		return " import y "
 	}
 }

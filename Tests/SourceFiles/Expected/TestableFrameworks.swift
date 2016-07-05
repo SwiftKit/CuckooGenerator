@@ -1,6 +1,6 @@
-// MARK: - Mocks generated from file: ../../Tests/SourceFiles/TestedEmptyClass.swift
+// MARK: - Mocks generated from file: ../../Tests/SourceFiles/EmptyClass.swift
 //
-//  TestedClass.swift
+//  EmptyClass.swift
 //  Cuckoo
 //
 //  Created by Tadeas Kriz on 09/02/16.
@@ -12,21 +12,21 @@ import Cuckoo
 
 import Foundation
 
-class MockTestedEmptyClass: TestedEmptyClass, Cuckoo.Mock {
-    typealias Stubbing = __StubbingProxy_TestedEmptyClass
-    typealias Verification = __VerificationProxy_TestedEmptyClass
+class MockEmptyClass: EmptyClass, Cuckoo.Mock {
+    typealias Stubbing = __StubbingProxy_EmptyClass
+    typealias Verification = __VerificationProxy_EmptyClass
     let manager = Cuckoo.MockManager()
 
-    private var observed: TestedEmptyClass?
+    private var observed: EmptyClass?
 
     required override init() {
     }
 
-    required init(spyOn victim: TestedEmptyClass) {
+    required init(spyOn victim: EmptyClass) {
         observed = victim
     }
 
-    struct __StubbingProxy_TestedEmptyClass: Cuckoo.StubbingProxy {
+    struct __StubbingProxy_EmptyClass: Cuckoo.StubbingProxy {
         let manager: Cuckoo.MockManager
     
         init(manager: Cuckoo.MockManager) {
@@ -34,7 +34,7 @@ class MockTestedEmptyClass: TestedEmptyClass, Cuckoo.Mock {
         }
     }
 
-    struct __VerificationProxy_TestedEmptyClass: Cuckoo.VerificationProxy {
+    struct __VerificationProxy_EmptyClass: Cuckoo.VerificationProxy {
         let manager: Cuckoo.MockManager
         let callMatcher: Cuckoo.CallMatcher
         let sourceLocation: Cuckoo.SourceLocation

@@ -6,14 +6,8 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-import UIKit
-
 class A {
-    lazy var readWriteProperty: Int = 0
 }
 
 class B {
-    var readOnlyProperty: Int {
-        return 0
-    }
 }

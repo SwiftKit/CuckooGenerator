@@ -1,5 +1,5 @@
 //
-//  TestedClass.swift
+//  EmptyClass.swift
 //  Cuckoo
 //
 //  Created by Tadeas Kriz on 09/02/16.
@@ -8,5 +8,5 @@
 
 import Foundation
 
-class TestedEmptyClass {
+class EmptyClass {
 }
