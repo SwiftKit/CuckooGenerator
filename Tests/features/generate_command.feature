@@ -30,3 +30,6 @@ Feature: Generate command
 	Scenario: file with imports
 		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/Imports.swift`
 		Then the file "../SourceFiles/Expected/Imports.swift" should be equal to file "Actual.swift"
+	Scenario: struct
+		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/EmptyStruct.swift`
+		Then the file "../SourceFiles/Expected/EmptyStruct.swift" should be equal to file "Actual.swift"
