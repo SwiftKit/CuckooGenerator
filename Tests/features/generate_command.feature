@@ -33,3 +33,10 @@ Feature: Generate command
 	Scenario: struct
 		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/EmptyStruct.swift`
 		Then the file "../SourceFiles/Expected/EmptyStruct.swift" should be equal to file "Actual.swift"
+	Scenario: in file with file-prefix
+		When I run `runcuckoo generate --no-timestamp --file-prefix Mock --output Actual.swift ../SourceFiles/TestedClass.swift ../SourceFiles/TestedProtocol.swift`
+		Then the file "../SourceFiles/Expected/GeneratedMocks.swift" should be equal to file "Actual.swift"
+	Scenario: in directory with file-prefix
+		When I run `runcuckoo generate --no-timestamp --file-prefix Mock --output . ../SourceFiles/ClassWithAttributes.swift ../SourceFiles/Imports.swift`
+		Then the file "../SourceFiles/Expected/ClassWithAttributes.swift" should be equal to file "MockClassWithAttributes.swift"
+		And the file "../SourceFiles/Expected/Imports.swift" should be equal to file "MockImports.swift"

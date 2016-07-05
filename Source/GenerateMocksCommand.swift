@@ -30,8 +30,8 @@ public struct GenerateMocksCommand: CommandType {
             if outputPath.isDirectory {
                 let inputPaths = options.files.map { Path($0) }
                 for (inputPath, outputText) in zip(inputPaths, mergedFiles) {
-                    let outputFile = TextFile(path: outputPath + inputPath.fileName)
-                    print(outputText, outputFile)
+                    let fileName = options.filePrefix + inputPath.fileName
+                    let outputFile = TextFile(path: outputPath + fileName)
                     try outputText |> outputFile
                 }
             } else {
@@ -54,9 +54,10 @@ public struct GenerateMocksCommand: CommandType {
         let noHeader: Bool
         let noTimestamp: Bool
         let testableFrameworks: [String]
+        let filePrefix: String
         
-        public static func create(output: String)(testableFrameworks: String)(noHeader: Bool)(noTimestamp: Bool)(files: [String]) -> Options {
-            return Options(files: files, output: output, noHeader: noHeader, noTimestamp: noTimestamp, testableFrameworks: testableFrameworks.componentsSeparatedByString(",").filter { !$0.isEmpty })
+        public static func create(output: String)(testableFrameworks: String)(noHeader: Bool)(noTimestamp: Bool)(filePrefix: String)(files: [String]) -> Options {
+            return Options(files: files, output: output, noHeader: noHeader, noTimestamp: noTimestamp, testableFrameworks: testableFrameworks.componentsSeparatedByString(",").filter { !$0.isEmpty }, filePrefix: filePrefix)
         }
         
         public static func evaluate(m: CommandMode) -> Result<Options, CommandantError<CuckooGeneratorError>> {
@@ -65,6 +66,7 @@ public struct GenerateMocksCommand: CommandType {
                 <*> m <| Option(key: "testable", defaultValue: "", usage: "A comma separated list of frameworks that should be imported as @testable in the mock files.")
                 <*> m <| Option(key: "no-header", defaultValue: false, usage: "Do not generate file headers.")
                 <*> m <| Option(key: "no-timestamp", defaultValue: false, usage: "Do not generate timestamp.")
+                <*> m <| Option(key: "file-prefix", defaultValue: "", usage: "Names of generated files in directory will start with this prefix. Only works when output path is directory.")
                 <*> m <| Argument(usage: "Files to parse and generate mocks for.")
         }
     }
