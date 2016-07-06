@@ -23,29 +23,29 @@ class MockA: A, Cuckoo.Mock {
     typealias Stubbing = __StubbingProxy_A
     typealias Verification = __VerificationProxy_A
     let manager = Cuckoo.MockManager()
-
+    
     private var observed: A?
-
+    
     required override init() {
     }
-
+    
     required init(spyOn victim: A) {
         observed = victim
     }
-
+    
     struct __StubbingProxy_A: Cuckoo.StubbingProxy {
         let manager: Cuckoo.MockManager
-    
+        
         init(manager: Cuckoo.MockManager) {
             self.manager = manager
         }
     }
-
+    
     struct __VerificationProxy_A: Cuckoo.VerificationProxy {
         let manager: Cuckoo.MockManager
         let callMatcher: Cuckoo.CallMatcher
         let sourceLocation: Cuckoo.SourceLocation
-    
+        
         init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
             self.manager = manager
             self.callMatcher = callMatcher

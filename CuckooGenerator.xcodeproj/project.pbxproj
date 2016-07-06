@@ -14,6 +14,7 @@
 		18E16D871C45D8B30084EF54 /* FileHeaderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */; };
 		18E16D991C45DF7F0084EF54 /* Components.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E16D981C45DF7F0084EF54 /* Components.plist */; };
 		18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F2BC1B1C46E8760015A95F /* Generator.swift */; };
+		DC1A82B21D2CF45500A217F0 /* CodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1A82911D2CF07800A217F0 /* CodeBuilder.swift */; };
 		DC4094301D13F91F006FB137 /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC40942E1D13F8FA006FB137 /* Import.swift */; };
 		DC4094861D140184006FB137 /* ExtensionDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4094651D140180006FB137 /* ExtensionDeclaration.swift */; };
 		DC5C26E61D0E9DA200630D49 /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5C26E51D0E9DA200630D49 /* VersionCommand.swift */; };
@@ -319,6 +320,7 @@
 		18E16D6A1C45D8280084EF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18E16D981C45DF7F0084EF54 /* Components.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Components.plist; sourceTree = "<group>"; };
 		18F2BC1B1C46E8760015A95F /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Generator.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		DC1A82911D2CF07800A217F0 /* CodeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodeBuilder.swift; path = ../../../../Brightify/CuckooGenerator/Source/CuckooGeneratorFramework/CodeBuilder.swift; sourceTree = "<group>"; };
 		DC1AB5D21D0D9F0B00867895 /* FileKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FileKit.xcodeproj; path = Dependencies/FileKit/FileKit.xcodeproj; sourceTree = "<group>"; };
 		DC1AB5E41D0D9F1600867895 /* sourcekitten.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sourcekitten.xcodeproj; path = Dependencies/SourceKitten/sourcekitten.xcodeproj; sourceTree = "<group>"; };
 		DC1AB60B1D0D9F8600867895 /* SWXMLHash.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SWXMLHash.xcodeproj; path = Dependencies/SourceKitten/Carthage/Checkouts/SWXMLHash/SWXMLHash.xcodeproj; sourceTree = "<group>"; };
@@ -394,12 +396,12 @@
 		1808B1621C4575AA0036E924 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				18E16D971C45DF600084EF54 /* Supporting Files */,
-				18E16D671C45D8280084EF54 /* CuckooGeneratorFramework */,
 				DCDEE5101CFF124E007F18BC /* CuckooGeneratorError.swift */,
 				DCDEE5111CFF124E007F18BC /* GenerateMocksCommand.swift */,
 				1808B1AA1C4581070036E924 /* main.swift */,
 				DC5C26E51D0E9DA200630D49 /* VersionCommand.swift */,
+				18E16D671C45D8280084EF54 /* CuckooGeneratorFramework */,
+				18E16D971C45DF600084EF54 /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -421,8 +423,8 @@
 		18601E8A1C46FA7400693A66 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				18E16D6A1C45D8280084EF54 /* Info.plist */,
 				18E16D681C45D8280084EF54 /* CuckooGeneratorFramework.h */,
+				18E16D6A1C45D8280084EF54 /* Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -430,12 +432,13 @@
 		18E16D671C45D8280084EF54 /* CuckooGeneratorFramework */ = {
 			isa = PBXGroup;
 			children = (
+				DC1A82911D2CF07800A217F0 /* CodeBuilder.swift */,
+				18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */,
+				18F2BC1B1C46E8760015A95F /* Generator.swift */,
+				18E16D531C45A6AF0084EF54 /* Tokenizer.swift */,
+				18E16D511C45A6890084EF54 /* Utils.swift */,
 				18601E8A1C46FA7400693A66 /* Supporting Files */,
 				DC9EFA551CFC4EC10034DFE5 /* Tokens */,
-				18E16D591C45A85E0084EF54 /* FileHeaderHandler.swift */,
-				18E16D531C45A6AF0084EF54 /* Tokenizer.swift */,
-				18F2BC1B1C46E8760015A95F /* Generator.swift */,
-				18E16D511C45A6890084EF54 /* Utils.swift */,
 			);
 			name = CuckooGeneratorFramework;
 			path = Source/CuckooGeneratorFramework;
@@ -507,23 +510,23 @@
 		DC9EFA551CFC4EC10034DFE5 /* Tokens */ = {
 			isa = PBXGroup;
 			children = (
-				DC4094651D140180006FB137 /* ExtensionDeclaration.swift */,
-				DC9EFA581CFC4F420034DFE5 /* Key.swift */,
-				DC9EFA591CFC4F420034DFE5 /* Kinds.swift */,
 				DC9EFA5A1CFC4F420034DFE5 /* Accessibility.swift */,
 				DC9EFA5B1CFC4F420034DFE5 /* Attributes.swift */,
-				DC9EFA5C1CFC4F420034DFE5 /* FileRepresentation.swift */,
-				DC9EFA5D1CFC4F420034DFE5 /* Token.swift */,
-				DC9EFA5E1CFC4F420034DFE5 /* ContainerToken.swift */,
-				DC9EFA5F1CFC4F420034DFE5 /* ProtocolDeclaration.swift */,
 				DC9EFA601CFC4F420034DFE5 /* ClassDeclaration.swift */,
-				DC9EFA611CFC4F420034DFE5 /* Method.swift */,
-				DC9EFA621CFC4F420034DFE5 /* ProtocolMethod.swift */,
-				DC9EFA631CFC4F420034DFE5 /* Initializer.swift */,
 				DC9EFA7F1CFC4FCF0034DFE5 /* ClassMethod.swift */,
-				DC9EFA801CFC4FCF0034DFE5 /* InstanceVariable.swift */,
-				DC9EFA641CFC4F420034DFE5 /* MethodParameter.swift */,
+				DC9EFA5E1CFC4F420034DFE5 /* ContainerToken.swift */,
+				DC4094651D140180006FB137 /* ExtensionDeclaration.swift */,
+				DC9EFA5C1CFC4F420034DFE5 /* FileRepresentation.swift */,
 				DC40942E1D13F8FA006FB137 /* Import.swift */,
+				DC9EFA631CFC4F420034DFE5 /* Initializer.swift */,
+				DC9EFA801CFC4FCF0034DFE5 /* InstanceVariable.swift */,
+				DC9EFA581CFC4F420034DFE5 /* Key.swift */,
+				DC9EFA591CFC4F420034DFE5 /* Kinds.swift */,
+				DC9EFA611CFC4F420034DFE5 /* Method.swift */,
+				DC9EFA641CFC4F420034DFE5 /* MethodParameter.swift */,
+				DC9EFA5F1CFC4F420034DFE5 /* ProtocolDeclaration.swift */,
+				DC9EFA621CFC4F420034DFE5 /* ProtocolMethod.swift */,
+				DC9EFA5D1CFC4F420034DFE5 /* Token.swift */,
 			);
 			name = Tokens;
 			sourceTree = "<group>";
@@ -935,6 +938,7 @@
 				DC9EFA7D1CFC4F4D0034DFE5 /* Initializer.swift in Sources */,
 				DC9EFA791CFC4F4D0034DFE5 /* ProtocolDeclaration.swift in Sources */,
 				DC9EFA721CFC4F4D0034DFE5 /* Key.swift in Sources */,
+				DC1A82B21D2CF45500A217F0 /* CodeBuilder.swift in Sources */,
 				18F2BC1D1C46E8E30015A95F /* Generator.swift in Sources */,
 				DC9EFA901CFC50070034DFE5 /* ClassMethod.swift in Sources */,
 				DC9EFA7A1CFC4F4D0034DFE5 /* ClassDeclaration.swift in Sources */,

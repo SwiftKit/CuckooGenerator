@@ -19,11 +19,12 @@ public struct GenerateMocksCommand: CommandType {
     
     public func run(options: Options) -> Result<Void, CuckooGeneratorError> {
         let parsedFiles = options.files.map { File(path: $0) }.flatMap { $0 }.map { Tokenizer(sourceFile: $0).tokenize() }
-        let headers = parsedFiles.map { f in options.noHeader ? [] : FileHeaderHandler.getHeader(f, withTimestamp: !options.noTimestamp) }
-        let imports = parsedFiles.map { f in FileHeaderHandler.getImports(f, testableFrameworks: options.testableFrameworks) }
-        let mocks = parsedFiles.map(Generator.generate)
-        let mergedFiles = zip(zip(headers, imports), mocks).map { $0.0 + $0.1 + $1 }.map { $0.joinWithSeparator("\n") }
         
+        let headers = parsedFiles.map { options.noHeader ? "" : FileHeaderHandler.getHeader($0, withTimestamp: !options.noTimestamp) }
+        let imports = parsedFiles.map { FileHeaderHandler.getImports($0, testableFrameworks: options.testableFrameworks) }
+        let mocks = parsedFiles.map { Generator(file: $0).generate() }
+        
+        let mergedFiles = zip(zip(headers, imports), mocks).map { $0.0 + $0.1 + $1 }
         let outputPath = Path(options.output)
         
         do {
@@ -36,17 +37,15 @@ public struct GenerateMocksCommand: CommandType {
                 }
             } else {
                 let outputFile = TextFile(path: outputPath)
-                try mergedFiles.joinWithSeparator("\n\n") |> outputFile
+                try mergedFiles.joinWithSeparator("\n") |> outputFile
             }
         } catch let error as FileKitError {
             return .Failure(.IOError(error))
         } catch let error {
             return .Failure(.UnknownError(error))
         }
-        
         return .Success()
     }
-    
     
     public struct Options: OptionsType {
         let files: [String]

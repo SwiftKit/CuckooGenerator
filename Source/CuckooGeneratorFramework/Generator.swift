@@ -10,80 +10,87 @@ import Foundation
 
 public struct Generator {
     
-    public static func generate(file: FileRepresentation) -> [String] {
-        return generateWithIndentation("", tokens: file.declarations)
+    private let declarations: [Token]
+    private let code = CodeBuilder()
+    
+    public init(file: FileRepresentation) {
+        declarations = file.declarations
     }
     
-    private static func generateWithIndentation(indentation: String, tokens: [Token]) -> [String] {
-        return tokens.flatMap { generateWithIndentation(indentation, token: $0) }
+    public func generate() -> String {
+        code.clear()
+        generate(declarations)
+        return code.code
     }
     
-    private static func generateWithIndentation(indentation: String, token: Token) -> [String] {
-        var output: [String] = []
+    private func generate(tokens: [Token]) {
+        tokens.forEach { generate($0) }
+    }
+    
+    private func generate(token: Token) {
         switch token {
         case let containerToken as ContainerToken:
-            output += generateMockingClass(containerToken)
+            generateMockingClass(containerToken)
         case let property as InstanceVariable:
-            output += generateMockingProperty(property)
+            generateMockingProperty(property)
         case let method as Method:
-            output += generateMockingMethod(method)
+            generateMockingMethod(method)
         default:
             break
         }
-        return output.map { "\(indentation)\($0)" }
     }
     
-    private static func generateMockingClass(token: ContainerToken) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateMockingClass(token: ContainerToken) {
+        guard token.accessibility != .Private else { return }
         
         let accessibility = getAccessibilitySourceName(token.accessibility)
         
-        var output: [String] = []
-        output += ""
-        output += "\(accessibility)class \(mockClassName(token.name)): \(token.name), Cuckoo.Mock {"
-        output += "    \(accessibility)typealias Stubbing = \(stubbingProxyName(token.name))"
-        output += "    \(accessibility)typealias Verification = \(verificationProxyName(token.name))"
-        output += "    \(accessibility)let manager = Cuckoo.MockManager()"
-        output += ""
-        output += "    private var observed: \(token.name)?"
-        output += ""
-        output += "    \(accessibility)required\(token.implementation ? " override" : "") init() {"
-        output += "    }"
-        output += ""
-        output += "    \(accessibility)required init(spyOn victim: \(token.name)) {"
-        output += "        observed = victim"
-        output += "    }"
-        output += generateWithIndentation("    ", tokens: token.children)
-        output += ""
-        output += generateStubbingWithIndentation("    ", token: token)
-        output += ""
-        output += generateVerificationWithIndentation("    ", token: token)
-        output += "}"
-        return output
-    }
-    
-    private static func generateMockingProperty(token: InstanceVariable) -> [String] {
-        guard token.accessibility != .Private else { return [] }
-        
-        let accessibility = getAccessibilitySourceName(token.accessibility)
-        
-        var output: [String] = []
-        output += ""
-        output += "\(accessibility)\(token.overriding ? "override " : "")var \(token.name): \(token.type) {"
-        output += "    get {"
-        output += "        return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })"
-        output += "    }"
-        if token.readOnly == false {
-            output += "    set {"
-            output += "        manager.setter(\"\(token.name)\", value: newValue, original: observed != nil ? { self.observed?.\(token.name) = $0 } : nil)"
-            output += "    }"
+        code += ""
+        code += "\(accessibility)class \(mockClassName(token.name)): \(token.name), Cuckoo.Mock {"
+        code.nest {
+            code += "\(accessibility)typealias Stubbing = \(stubbingProxyName(token.name))"
+            code += "\(accessibility)typealias Verification = \(verificationProxyName(token.name))"
+            code += "\(accessibility)let manager = Cuckoo.MockManager()"
+            code += ""
+            code += "private var observed: \(token.name)?"
+            code += ""
+            code += "\(accessibility)required\(token.implementation ? " override" : "") init() {"
+            code += "}"
+            code += ""
+            code += "\(accessibility)required init(spyOn victim: \(token.name)) {"
+            code.nest("observed = victim")
+            code += "}"
+            token.children.forEach { generate($0) }
+            code += ""
+            generateStubbing(token)
+            code += ""
+            generateVerification(token)
         }
-        output += "}"
-        return output
+        code += "}"
     }
     
-    private static func generateMockingMethod(token: Method) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateMockingProperty(token: InstanceVariable) {
+        guard token.accessibility != .Private else { return }
+        
+        let accessibility = getAccessibilitySourceName(token.accessibility)
+        
+        code += ""
+        code += "\(accessibility)\(token.overriding ? "override " : "")var \(token.name): \(token.type) {"
+        code.nest {
+            code += "get {"
+            code.nest("return manager.getter(\"\(token.name)\", original: observed.map { o in return { () -> \(token.type) in o.\(token.name) } })")
+            code += "}"
+            if token.readOnly == false {
+                code += "set {"
+                code.nest("manager.setter(\"\(token.name)\", value: newValue, original: observed != nil ? { self.observed?.\(token.name) = $0 } : nil)")
+                code += "}"
+            }
+        }
+        code += "}"
+    }
+    
+    private func generateMockingMethod(token: Method) {
+        guard token.accessibility != .Private else { return }
         
         let accessibility = getAccessibilitySourceName(token.accessibility)
         let isOverriding = token is ClassMethod
@@ -104,61 +111,55 @@ public struct Generator {
         managerCall += ", parameters: \(prepareEscapingParameters(token.parameters))"
         managerCall += ", original: observed.map { o in return { (\(parametersSignature))\(token.returnSignature) in \(tryIfThrowing)o.\(rawName)(\(methodForwardingCallParameters(token.parameters))) } })"
         
-        var output: [String] = []
-        output += ""
-        output += "\(accessibility)\(isOverriding ? "override " : "")\(isInitializer ? "" : "func " )\(rawName)(\(parametersSignature))\(token.returnSignature) {"
-        output += "    return \(managerCall)"
-        output += "}"
-        return output
+        code += ""
+        code += "\(accessibility)\(isOverriding ? "override " : "")\(isInitializer ? "" : "func " )\(rawName)(\(parametersSignature))\(token.returnSignature) {"
+        code.nest("return \(managerCall)")
+        code += "}"
     }
     
-    private static func generateStubbingWithIndentation(indentation: String = "", token: Token) -> [String] {
-        var output: [String] = []
+    private func generateStubbing(token: Token) {
         switch token {
         case let containerToken as ContainerToken:
-            output += generateStubbingClass(containerToken)
+            generateStubbingClass(containerToken)
         case let property as InstanceVariable:
-            output += generateStubbingProperty(property)
+            generateStubbingProperty(property)
         case let method as Method:
-            output += generateStubbingMethod(method)
+            generateStubbingMethod(method)
         default:
             break
         }
-        return output.map { "\(indentation)\($0)" }
     }
     
-    private static func generateStubbingClass(token: ContainerToken) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateStubbingClass(token: ContainerToken) {
+        guard token.accessibility != .Private else { return }
         
         let accessibility = getAccessibilitySourceName(token.accessibility)
-
-        var output: [String] = []
-        output += "\(accessibility)struct \(stubbingProxyName(token.name)): Cuckoo.StubbingProxy {"
-        output += "    let manager: Cuckoo.MockManager"
-        output += ""
-        output += "    \(accessibility)init(manager: Cuckoo.MockManager) {"
-        output += "        self.manager = manager"
-        output += "    }"
-        output += token.children.flatMap { generateStubbingWithIndentation("    ", token: $0) }
-        output += "}"
-        return output
+        
+        code += "\(accessibility)struct \(stubbingProxyName(token.name)): Cuckoo.StubbingProxy {"
+        code.nest {
+            code += "let manager: Cuckoo.MockManager"
+            code += ""
+            code += "\(accessibility)init(manager: Cuckoo.MockManager) {"
+            code.nest("self.manager = manager")
+            code += "}"
+            token.children.forEach { generateStubbing($0) }
+        }
+        code += "}"
     }
     
-    private static func generateStubbingProperty(token: InstanceVariable) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateStubbingProperty(token: InstanceVariable) {
+        guard token.accessibility != .Private else { return }
         
         let propertyType = token.readOnly ? "Cuckoo.ToBeStubbedReadOnlyProperty" : "Cuckoo.ToBeStubbedProperty"
         
-        var output: [String] = []
-        output += ""
-        output += "var \(token.name): \(propertyType)<\(token.type)> {"
-        output += "    return \(propertyType)(manager: manager, name: \"\(token.name)\")"
-        output += "}"
-        return output
+        code += ""
+        code += "var \(token.name): \(propertyType)<\(token.type)> {"
+        code.nest("return \(propertyType)(manager: manager, name: \"\(token.name)\")")
+        code += "}"
     }
     
-    private static func generateStubbingMethod(token: Method) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateStubbingMethod(token: Method) {
+        guard token.accessibility != .Private else { return }
         
         let accessibility = getAccessibilitySourceName(token.accessibility)
         let rawName = token.name.takeUntilStringOccurs("(") ?? ""
@@ -190,74 +191,69 @@ public struct Generator {
         }
         stubbingMethodReturnType += ">"
         
-        
-        var output: [String] = []
-        output += ""
-        output += "@warn_unused_result"
-        output += "\(accessibility)func \(rawName)\(prepareMatchableGenerics(token.parameters))(\(parametersSignature)) -> \(stubbingMethodReturnType) {"
+        code += ""
+        code += "@warn_unused_result"
+        code += "\(accessibility)func \(rawName)\(prepareMatchableGenerics(token.parameters))(\(parametersSignature)) -> \(stubbingMethodReturnType) {"
         let matchers: String
         if token.parameters.isEmpty {
             matchers = "[]"
         } else {
-            output += "    \(prepareParameterMatchers(token.parameters))"
+            code.nest("\(prepareParameterMatchers(token.parameters))")
             matchers = "matchers"
         }
-        output += "    return \(stubFunction)(stub: manager.createStub(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers)))"
-        output += "}"
-        return output
+        code.nest("return \(stubFunction)(stub: manager.createStub(\"\(fullyQualifiedName)\", parameterMatchers: \(matchers)))")
+        code += "}"
     }
     
-    private static func generateVerificationWithIndentation(indentation: String = "", token: Token) -> [String] {
-        var output: [String] = []
+    private func generateVerification(token: Token) {
         switch token {
         case let containerToken as ContainerToken:
-            output += generateVerificationClass(containerToken)
+            generateVerificationClass(containerToken)
         case let property as InstanceVariable:
-            output += generateVerificationProperty(property)
+            generateVerificationProperty(property)
         case let method as Method:
-            output += generateVerificationMethod(method)
+            generateVerificationMethod(method)
         default:
             break
         }
-        return output.map { "\(indentation)\($0)" }
     }
     
-    private static func generateVerificationClass(token: ContainerToken) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateVerificationClass(token: ContainerToken) {
+        guard token.accessibility != .Private else { return }
         
         let accessibility = getAccessibilitySourceName(token.accessibility)
         
-        var output: [String] = []
-        output += "\(accessibility)struct \(verificationProxyName(token.name)): Cuckoo.VerificationProxy {"
-        output += "    let manager: Cuckoo.MockManager"
-        output += "    let callMatcher: Cuckoo.CallMatcher"
-        output += "    let sourceLocation: Cuckoo.SourceLocation"
-        output += ""
-        output += "    \(accessibility)init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {"
-        output += "        self.manager = manager"
-        output += "        self.callMatcher = callMatcher"
-        output += "        self.sourceLocation = sourceLocation"
-        output += "    }"
-        output += token.children.flatMap { generateVerificationWithIndentation("    ", token: $0) }
-        output += "}"
-        return output
+        code += "\(accessibility)struct \(verificationProxyName(token.name)): Cuckoo.VerificationProxy {"
+        code.nest {
+            code += "let manager: Cuckoo.MockManager"
+            code += "let callMatcher: Cuckoo.CallMatcher"
+            code += "let sourceLocation: Cuckoo.SourceLocation"
+            code += ""
+            code += "\(accessibility)init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {"
+            code.nest {
+                code += "self.manager = manager"
+                code += "self.callMatcher = callMatcher"
+                code += "self.sourceLocation = sourceLocation"
+            }
+            code += "}"
+            token.children.forEach { generateVerification($0) }
+        }
+        code += "}"
     }
     
-    private static func generateVerificationProperty(token: InstanceVariable) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateVerificationProperty(token: InstanceVariable) {
+        guard token.accessibility != .Private else { return }
         
         let propertyType = token.readOnly ? "Cuckoo.VerifyReadOnlyProperty" : "Cuckoo.VerifyProperty"
         
-        var output: [String] = []
-        output += ""
-        output += "var \(token.name): \(propertyType)<\(token.type)> {"
-        output += "    return \(propertyType)(manager: manager, name: \"\(token.name)\", callMatcher: callMatcher, sourceLocation: sourceLocation)"
-        output += "}"
-        return output
+        code += ""
+        code += "var \(token.name): \(propertyType)<\(token.type)> {"
+        code.nest("return \(propertyType)(manager: manager, name: \"\(token.name)\", callMatcher: callMatcher, sourceLocation: sourceLocation)")
+        code += "}"
     }
     
-    private static func generateVerificationMethod(token: Method) -> [String] {
-        guard token.accessibility != .Private else { return [] }
+    private func generateVerificationMethod(token: Method) {
+        guard token.accessibility != .Private else { return }
         
         let accessibility = getAccessibilitySourceName(token.accessibility)
         let rawName = token.name.takeUntilStringOccurs("(") ?? ""
@@ -265,48 +261,46 @@ public struct Generator {
         let parametersSignature = prepareMatchableParameterSignature(token.parameters)
         let returnType = "Cuckoo.__DoNotUse<" + (extractReturnType(token.returnSignature) ?? "Void") + ">"
         
-        var output: [String] = []
-        output += ""
-        output += "\(accessibility)func \(rawName)\(prepareMatchableGenerics(token.parameters))(\(parametersSignature)) -> \(returnType){"
+        code += ""
+        code += "\(accessibility)func \(rawName)\(prepareMatchableGenerics(token.parameters))(\(parametersSignature)) -> \(returnType){"
         let matchers: String
         if token.parameters.isEmpty {
             matchers = "[] as [Cuckoo.ParameterMatcher<Void>]"
         } else {
-            output += "    \(prepareParameterMatchers(token.parameters))"
+            code.nest("\(prepareParameterMatchers(token.parameters))")
             matchers = "matchers"
         }
-        output += "    return manager.verify(\"\(fullyQualifiedName)\", callMatcher: callMatcher, parameterMatchers: \(matchers), sourceLocation: sourceLocation)"
-        output += "}"
-        return output
+        code.nest("return manager.verify(\"\(fullyQualifiedName)\", callMatcher: callMatcher, parameterMatchers: \(matchers), sourceLocation: sourceLocation)")
+        code += "}"
     }
     
-    private static func mockClassName(originalName: String) -> String {
+    private func mockClassName(originalName: String) -> String {
         return "Mock" + originalName
     }
     
-    private static func stubbingProxyName(originalName: String) -> String {
+    private func stubbingProxyName(originalName: String) -> String {
         return "__StubbingProxy_" + originalName
     }
     
-    private static func verificationProxyName(originalName: String) -> String {
+    private func verificationProxyName(originalName: String) -> String {
         return "__VerificationProxy_" + originalName
     }
     
-    private static func fullyQualifiedMethodName(name: String, parameters: [MethodParameter], returnSignature: String) -> String {
+    private func fullyQualifiedMethodName(name: String, parameters: [MethodParameter], returnSignature: String) -> String {
         let parameterTypes = parameters.map { $0.type }
         let nameParts = name.componentsSeparatedByString(":")
         let lastNamePart = nameParts.last ?? ""
         
         return zip(nameParts.dropLast(), parameterTypes)
-            .map { $0 + ":" + $1 }
+            .map { $0 + ": " + $1 }
             .joinWithSeparator(", ") + lastNamePart + returnSignature
     }
     
-    private static func extractReturnType(returnSignature: String) -> String? {
+    private func extractReturnType(returnSignature: String) -> String? {
         return returnSignature.takeAfterStringOccurs("->")?.trimmed
     }
     
-    private static func prepareEscapingParameters(parameters: [MethodParameter]) -> String {
+    private func prepareEscapingParameters(parameters: [MethodParameter]) -> String {
         guard parameters.isEmpty == false else { return "Void()" }
         
         let escapingParameters: [String] = parameters.map {
@@ -324,7 +318,7 @@ public struct Generator {
         return "(" + methodCall(parameters, andValues: escapingParameters) + ")"
     }
     
-    private static func prepareMatchableGenerics(parameters: [MethodParameter]) -> String {
+    private func prepareMatchableGenerics(parameters: [MethodParameter]) -> String {
         guard parameters.isEmpty == false else { return "" }
         
         let genericParameters = (1...parameters.count).map { "M\($0): Cuckoo.Matchable" }.joinWithSeparator(", ")
@@ -332,13 +326,13 @@ public struct Generator {
         return "<\(genericParameters) where \(whereClause)>"
     }
     
-    private static func prepareMatchableParameterSignature(parameters: [MethodParameter]) -> String {
+    private func prepareMatchableParameterSignature(parameters: [MethodParameter]) -> String {
         guard parameters.isEmpty == false else { return "" }
         
         return parameters.enumerate().map { "\($1.labelAndNameAtPosition($0)): M\($0 + 1)" }.joinWithSeparator(", ")
     }
     
-    private static func prepareParameterMatchers(parameters: [MethodParameter]) -> String {
+    private func prepareParameterMatchers(parameters: [MethodParameter]) -> String {
         guard parameters.isEmpty == false else { return "" }
         
         let matchers = parameters.enumerate().map {
@@ -347,7 +341,7 @@ public struct Generator {
         return "let matchers: [Cuckoo.ParameterMatcher<(\(parametersTupleType(parameters)))>] = [\(matchers)]"
     }
     
-    private static func getAccessibilitySourceName(accessibility: Accessibility) -> String {
+    private func getAccessibilitySourceName(accessibility: Accessibility) -> String {
         if accessibility == .Internal {
             return ""
         } else {
@@ -355,7 +349,7 @@ public struct Generator {
         }
     }
     
-    private static func methodForwardingCallParameters(parameters: [MethodParameter], ignoreSingleLabel: Bool = false) -> String {
+    private func methodForwardingCallParameters(parameters: [MethodParameter], ignoreSingleLabel: Bool = false) -> String {
         if let firstParameter = parameters.first where parameters.count == 1 && ignoreSingleLabel {
             return firstParameter.name
         } else {
@@ -363,18 +357,18 @@ public struct Generator {
         }
     }
     
-    private static func methodCall(parameters: [MethodParameter], andValues values: [String]) -> String {
+    private func methodCall(parameters: [MethodParameter], andValues values: [String]) -> String {
         let labels = parameters.enumerate().map { $1.labelOrNameAtPosition($0) }
         return zip(labels, values).map { $0.isEmpty ? $1 : "\($0): \($1)" }.joinWithSeparator(", ")
     }
     
-    private static func methodParametersSignature(parameters: [MethodParameter]) -> String {
+    private func methodParametersSignature(parameters: [MethodParameter]) -> String {
         return parameters.enumerate().map {
             "\($1.attributes.sourceRepresentation)\($1.labelAndNameAtPosition($0)): \($1.type)"
             }.joinWithSeparator(", ")
     }
     
-    private static func parametersTupleType(parameters: [MethodParameter]) -> String {
+    private func parametersTupleType(parameters: [MethodParameter]) -> String {
         if let firstParameter = parameters.first where parameters.count == 1 {
             return firstParameter.type
         } else {

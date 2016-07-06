@@ -10,7 +10,7 @@ import FileKit
 
 public struct FileHeaderHandler {
     
-    public static func getHeader(file: FileRepresentation, withTimestamp timestamp: Bool) -> [String] {
+    public static func getHeader(file: FileRepresentation, withTimestamp timestamp: Bool) -> String {
         let path: String
         if let absolutePath = file.sourceFile.path {
             path = getRelativePath(absolutePath)
@@ -19,16 +19,16 @@ public struct FileHeaderHandler {
         }
         let generationInfo = "// MARK: - Mocks generated from file: \(path)" + (timestamp ? " at \(NSDate())\n" : "")
         let header = getHeader(file)
-        return [generationInfo, header]
+        return generationInfo + "\n" + header + "\n"
     }
     
-    public static func getImports(file: FileRepresentation, testableFrameworks: [String]) -> [String] {
-        var imports = Array(Set(file.declarations.only(Import).map { "import " + $0.library })).sort()
+    public static func getImports(file: FileRepresentation, testableFrameworks: [String]) -> String {
+        var frameworks = testableFrameworks.map { "@testable import \($0)\n" }.joinWithSeparator("")
+        let imports = Array(Set(file.declarations.only(Import).map { "import " + $0.library + "\n" })).sort().joinWithSeparator("")
         if imports.isEmpty == false {
-            // Add new line before code imports
-            imports = [""] + imports
+            frameworks += "\n"
         }
-        return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" } + imports
+        return "import Cuckoo\n" + frameworks + imports
     }
     
     private static func getRelativePath(absolutePath: String) -> String {
