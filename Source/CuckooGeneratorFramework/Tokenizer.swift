@@ -88,8 +88,7 @@ public struct Tokenizer {
         case Kinds.InstanceVariable.rawValue:
             let setterAccessibility = (dictionary[Key.SetterAccessibility.rawValue] as? String).flatMap(Accessibility.init)
             
-            let constant = String(source.utf8.dropFirst(range!.startIndex)).takeUntilStringOccurs(name)?.containsWord("let")
-            if constant == true {
+            if String(source.utf8.dropFirst(range!.startIndex)).takeUntilStringOccurs(name)?.trimmed.hasPrefix("let") == true {
                 return nil
             }
             
@@ -108,22 +107,19 @@ public struct Tokenizer {
             var returnSignature: String
             if let bodyRange = bodyRange {
                 returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].takeUntilStringOccurs("{")?.trimmed ?? ""
-                if returnSignature.isEmpty == false {
-                    returnSignature = " " + returnSignature
-                }
             } else {
                 returnSignature = source[nameRange!.endIndex..<range!.endIndex].trimmed
                 if returnSignature.isEmpty {
-                    let returns = " -> Void"
                     let untilThrows = String(source.utf8.dropFirst(nameRange!.endIndex))?
                         .takeUntilStringOccurs("throws").map { $0 + "throws" }?
                         .trimmed
-                    
                     if let untilThrows = untilThrows where untilThrows == "throws" || untilThrows == "rethrows" {
-                        returnSignature = " \(untilThrows)"
+                        returnSignature = "\(untilThrows)"
                     }
-                    returnSignature += returns
                 }
+            }
+            if returnSignature.isEmpty == false {
+                returnSignature = " " + returnSignature
             }
             
             // When bodyRange != nil, we need to create .ClassMethod instead of .ProtocolMethod
@@ -196,7 +192,7 @@ public struct Tokenizer {
         
         switch kind {
         case Kinds.AutoclosureAttribute.rawValue:
-            let autoclosure = "@autoclosure" + source[0..<range!.startIndex].lookBackUntilStringOccurs("@autoclosure")!
+            let autoclosure = "@autoclosure" + source[0..<range!.startIndex].componentsSeparatedByString("@autoclosure").last!
             let escaping = autoclosure.containsString("escaping")
             
             return escaping ? Attributes.escapingAutoclosure : Attributes.autoclosure

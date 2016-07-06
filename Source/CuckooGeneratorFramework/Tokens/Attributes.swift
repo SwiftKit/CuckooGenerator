@@ -29,15 +29,15 @@ public struct Attributes: OptionSetType {
         var representation: [String] = []
         
         if let _ = mutableCopy.remove(Attributes.escapingAutoclosure) {
-            representation += "@autoclosure(escaping)"
+            representation.append("@autoclosure(escaping)")
         }
         
         if let _ = mutableCopy.remove(Attributes.autoclosure) {
-            representation += "@autoclosure"
+            representation.append("@autoclosure")
         }
         
         if let _ = mutableCopy.remove(Attributes.noescape) {
-            representation += "@noescape"
+            representation.append("@noescape")
         }
         
         if !mutableCopy.isEmpty {

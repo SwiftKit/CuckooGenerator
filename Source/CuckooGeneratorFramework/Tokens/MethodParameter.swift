@@ -33,9 +33,4 @@ public struct MethodParameter: Token {
             return name
         }
     }
-    
-    public func labelNameOrPositionAtPosition(position: Int) -> String {
-        let label = labelOrNameAtPosition(position)
-        return label.isEmpty ? "\(position)" : label
-    }
 }

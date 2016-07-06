@@ -20,7 +20,7 @@ public class MockClassWithAttributes: ClassWithAttributes, Cuckoo.Mock {
     }
     
     public struct __StubbingProxy_ClassWithAttributes: Cuckoo.StubbingProxy {
-        let manager: Cuckoo.MockManager
+        private let manager: Cuckoo.MockManager
         
         public init(manager: Cuckoo.MockManager) {
             self.manager = manager
@@ -28,9 +28,9 @@ public class MockClassWithAttributes: ClassWithAttributes, Cuckoo.Mock {
     }
     
     public struct __VerificationProxy_ClassWithAttributes: Cuckoo.VerificationProxy {
-        let manager: Cuckoo.MockManager
-        let callMatcher: Cuckoo.CallMatcher
-        let sourceLocation: Cuckoo.SourceLocation
+        private let manager: Cuckoo.MockManager
+        private let callMatcher: Cuckoo.CallMatcher
+        private let sourceLocation: Cuckoo.SourceLocation
         
         public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
             self.manager = manager

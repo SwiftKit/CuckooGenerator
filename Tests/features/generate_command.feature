@@ -9,7 +9,7 @@ Feature: Generate command
 	Scenario: output not specified
 		When I run `runcuckoo generate --no-timestamp ../SourceFiles/TestedClass.swift ../SourceFiles/TestedProtocol.swift`
 		Then the file "../SourceFiles/Expected/GeneratedMocks.swift" should be equal to file "GeneratedMocks.swift"
-	Scenario: with testableFrameworks
+	Scenario: testableFrameworks
 		When I run `runcuckoo generate --no-timestamp --testable Cuckoo --output Actual.swift ../SourceFiles/EmptyClass.swift`
 		Then the file "../SourceFiles/Expected/TestableFrameworks.swift" should be equal to file "Actual.swift"
 	Scenario: non existing input file
@@ -18,7 +18,7 @@ Feature: Generate command
 		"""
 		Could not read contents of `non_existing_file.swift`
 		"""
-	Scenario: with --no-header option
+	Scenario: no header
 		When I run `runcuckoo generate --no-header --output Actual.swift ../SourceFiles/EmptyClass.swift`
 		Then the file "../SourceFiles/Expected/NoHeader.swift" should be equal to file "Actual.swift"
 	Scenario: multiple classes in one file
@@ -27,12 +27,12 @@ Feature: Generate command
 	Scenario: class with attributes
 		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/ClassWithAttributes.swift`
 		Then the file "../SourceFiles/Expected/ClassWithAttributes.swift" should be equal to file "Actual.swift"
-	Scenario: file with imports
+	Scenario: imports
 		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/Imports.swift`
 		Then the file "../SourceFiles/Expected/Imports.swift" should be equal to file "Actual.swift"
 	Scenario: struct
-		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/EmptyStruct.swift`
-		Then the file "../SourceFiles/Expected/EmptyStruct.swift" should be equal to file "Actual.swift"
+		When I run `runcuckoo generate --no-timestamp --output Actual.swift ../SourceFiles/Struct.swift`
+		Then the file "../SourceFiles/Expected/Struct.swift" should be equal to file "Actual.swift"
 	Scenario: in file with file-prefix
 		When I run `runcuckoo generate --no-timestamp --file-prefix Mock --output Actual.swift ../SourceFiles/TestedClass.swift ../SourceFiles/TestedProtocol.swift`
 		Then the file "../SourceFiles/Expected/GeneratedMocks.swift" should be equal to file "Actual.swift"

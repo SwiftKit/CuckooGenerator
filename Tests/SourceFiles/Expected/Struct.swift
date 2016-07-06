@@ -1,6 +1,6 @@
-// MARK: - Mocks generated from file: ../../Tests/SourceFiles/EmptyStruct.swift
+// MARK: - Mocks generated from file: ../../Tests/SourceFiles/Struct.swift
 //
-//  EmptyStruct.swift
+//  Struct.swift
 //  Cuckoo
 //
 //  Created by Tadeas Kriz on 09/02/16.
@@ -8,5 +8,3 @@
 //
 
 import Cuckoo
-
-import Foundation

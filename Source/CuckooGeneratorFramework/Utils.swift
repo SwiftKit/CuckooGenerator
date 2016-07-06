@@ -6,42 +6,15 @@
 //  Copyright © 2016 Brightify. All rights reserved.
 //
 
-import Foundation
 import SourceKittenFramework
 
-func += <T>(inout lhs: [T], rhs: T) {
-    lhs.append(rhs)
-}
-
 extension String {
-    var first: String {
-        return String(characters.prefix(1))
-    }
-    
-    var last: String {
-        return String(characters.suffix(1))
-    }
-    
     var trimmed: String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
     }
     
-    func containsWord(word: String) -> Bool {
-        let separated = componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        return separated.contains(word)
-    }
-    
     func takeUntilStringOccurs(occurence: String) -> String? {
         return self.componentsSeparatedByString(occurence).first
-    }
-    
-    func takeAfterStringOccurs(occurence: String) -> String? {
-        let output = self.componentsSeparatedByString(occurence).dropFirst().joinWithSeparator(occurence)
-        return output.isEmpty ? nil : output
-    }
-    
-    func lookBackUntilStringOccurs(occurence: String) -> String? {
-        return self.componentsSeparatedByString(occurence).last
     }
     
     subscript(range: Range<Int>) -> String {

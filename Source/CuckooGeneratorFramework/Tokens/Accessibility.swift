@@ -14,11 +14,11 @@ public enum Accessibility: String {
     public var sourceName: String {
         switch self {
         case .Public:
-            return "public"
+            return "public "
         case .Internal:
-            return "internal"
+            return ""
         case .Private:
-            return "private"
+            return "private "
         }
     }
 }
