@@ -51,20 +51,20 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         return manager.call("noReturn()", parameters: Void(), original: observed.map { o in return { () in o.noReturn() } })
     }
     
-    override func countCharacters(test: String)-> Int {
-        return manager.call("countCharacters(_:String)-> Int", parameters: (test), original: observed.map { o in return { (test: String)-> Int in o.countCharacters(test) } })
+    override func countCharacters(test: String) -> Int {
+        return manager.call("countCharacters(_:String) -> Int", parameters: (test), original: observed.map { o in return { (test: String) -> Int in o.countCharacters(test) } })
     }
     
-    override func withThrows()throws -> Int {
-        return try manager.callThrows("withThrows()throws -> Int", parameters: Void(), original: observed.map { o in return { ()throws -> Int in try o.withThrows() } })
+    override func withThrows() throws -> Int {
+        return try manager.callThrows("withThrows() throws -> Int", parameters: Void(), original: observed.map { o in return { () throws -> Int in try o.withThrows() } })
     }
     
-    override func withNoReturnThrows()throws {
-        return try manager.callThrows("withNoReturnThrows()throws", parameters: Void(), original: observed.map { o in return { ()throws in try o.withNoReturnThrows() } })
+    override func withNoReturnThrows() throws {
+        return try manager.callThrows("withNoReturnThrows() throws", parameters: Void(), original: observed.map { o in return { () throws in try o.withNoReturnThrows() } })
     }
     
-    override func withClosure(closure: String -> Int)-> Int {
-        return manager.call("withClosure(_:String -> Int)-> Int", parameters: (closure), original: observed.map { o in return { (closure: String -> Int)-> Int in o.withClosure(closure) } })
+    override func withClosure(closure: String -> Int) -> Int {
+        return manager.call("withClosure(_:String -> Int) -> Int", parameters: (closure), original: observed.map { o in return { (closure: String -> Int) -> Int in o.withClosure(closure) } })
     }
     
     override func withNoescape(a: String, @noescape closure: String -> Void) {
@@ -102,23 +102,23 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         @warn_unused_result
         func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.StubFunction<(String), Int> {
             let matchers: [Cuckoo.ParameterMatcher<(String)>] = [parameterMatcher(test.matcher) { $0 }]
-            return Cuckoo.StubFunction(stub: manager.createStub("countCharacters(_:String)-> Int", parameterMatchers: matchers))
+            return Cuckoo.StubFunction(stub: manager.createStub("countCharacters(_:String) -> Int", parameterMatchers: matchers))
         }
         
         @warn_unused_result
         func withThrows() -> Cuckoo.StubThrowingFunction<(), Int> {
-            return Cuckoo.StubThrowingFunction(stub: manager.createStub("withThrows()throws -> Int", parameterMatchers: []))
+            return Cuckoo.StubThrowingFunction(stub: manager.createStub("withThrows() throws -> Int", parameterMatchers: []))
         }
         
         @warn_unused_result
         func withNoReturnThrows() -> Cuckoo.StubNoReturnThrowingFunction<()> {
-            return Cuckoo.StubNoReturnThrowingFunction(stub: manager.createStub("withNoReturnThrows()throws", parameterMatchers: []))
+            return Cuckoo.StubNoReturnThrowingFunction(stub: manager.createStub("withNoReturnThrows() throws", parameterMatchers: []))
         }
         
         @warn_unused_result
         func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.StubFunction<(String -> Int), Int> {
             let matchers: [Cuckoo.ParameterMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
-            return Cuckoo.StubFunction(stub: manager.createStub("withClosure(_:String -> Int)-> Int", parameterMatchers: matchers))
+            return Cuckoo.StubFunction(stub: manager.createStub("withClosure(_:String -> Int) -> Int", parameterMatchers: matchers))
         }
         
         @warn_unused_result
@@ -163,20 +163,20 @@ class MockTestedClass: TestedClass, Cuckoo.Mock {
         
         func countCharacters<M1: Cuckoo.Matchable where M1.MatchedType == (String)>(test: M1) -> Cuckoo.__DoNotUse<Int>{
             let matchers: [Cuckoo.ParameterMatcher<(String)>] = [parameterMatcher(test.matcher) { $0 }]
-            return manager.verify("countCharacters(_:String)-> Int", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+            return manager.verify("countCharacters(_:String) -> Int", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
         }
         
         func withThrows() -> Cuckoo.__DoNotUse<Int>{
-            return manager.verify("withThrows()throws -> Int", callMatcher: callMatcher, parameterMatchers: [] as [Cuckoo.ParameterMatcher<Void>], sourceLocation: sourceLocation)
+            return manager.verify("withThrows() throws -> Int", callMatcher: callMatcher, parameterMatchers: [] as [Cuckoo.ParameterMatcher<Void>], sourceLocation: sourceLocation)
         }
         
         func withNoReturnThrows() -> Cuckoo.__DoNotUse<Void>{
-            return manager.verify("withNoReturnThrows()throws", callMatcher: callMatcher, parameterMatchers: [] as [Cuckoo.ParameterMatcher<Void>], sourceLocation: sourceLocation)
+            return manager.verify("withNoReturnThrows() throws", callMatcher: callMatcher, parameterMatchers: [] as [Cuckoo.ParameterMatcher<Void>], sourceLocation: sourceLocation)
         }
         
         func withClosure<M1: Cuckoo.Matchable where M1.MatchedType == (String -> Int)>(closure: M1) -> Cuckoo.__DoNotUse<Int>{
             let matchers: [Cuckoo.ParameterMatcher<(String -> Int)>] = [parameterMatcher(closure.matcher) { $0 }]
-            return manager.verify("withClosure(_:String -> Int)-> Int", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+            return manager.verify("withClosure(_:String -> Int) -> Int", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
         }
         
         func withNoescape<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable where M1.MatchedType == (String), M2.MatchedType == (String -> Void)>(a: M1, closure: M2) -> Cuckoo.__DoNotUse<Void>{

@@ -108,6 +108,9 @@ public struct Tokenizer {
             var returnSignature: String
             if let bodyRange = bodyRange {
                 returnSignature = source[nameRange!.endIndex..<bodyRange.startIndex].takeUntilStringOccurs("{")?.trimmed ?? ""
+                if returnSignature.isEmpty == false {
+                    returnSignature = " " + returnSignature
+                }
             } else {
                 returnSignature = source[nameRange!.endIndex..<range!.endIndex].trimmed
                 if returnSignature.isEmpty {
