@@ -283,7 +283,7 @@ public struct Generator {
         guard parameters.isEmpty == false else { return "" }
         
         let tupleType = parameters.map { $0.type }.joinWithSeparator(", ")
-        let matchers = parameters.enumerate().map { "parameterMatcher(\($1.name).matcher) { $0\(parameters.count > 1 ? ".\($0)" : "") }" }.joinWithSeparator(", ")
+        let matchers = parameters.enumerate().map { "wrapMatchable(\($1.name)) { $0\(parameters.count > 1 ? ".\($0)" : "") }" }.joinWithSeparator(", ")
         return "let matchers: [Cuckoo.ParameterMatcher<(\(tupleType))>] = [\(matchers)]"
     }
 }
