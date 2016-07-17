@@ -28,7 +28,7 @@ public struct FileHeaderHandler {
             // Add new line before code imports
             imports = [""] + imports
         }
-        return ["import Cuckoo"] + testableFrameworks.map { "@testable import \($0)" } + imports
+        return ["import Cuckoo"] + getTestableImports(testableFrameworks) + imports
     }
     
     private static func getRelativePath(absolutePath: String) -> String {
@@ -80,5 +80,16 @@ public struct FileHeaderHandler {
         } else {
             return ""
         }
+    }
+    
+    private static func getTestableImports(testableFrameworks: [String]) -> [String] {
+        func replaceIllegalCharacters(char: UnicodeScalar) -> Character {
+            if NSCharacterSet.letterCharacterSet().longCharacterIsMember(char.value) || NSCharacterSet.decimalDigitCharacterSet().longCharacterIsMember(char.value) {
+                return Character(char)
+            } else {
+                return "_"
+            }
+        }
+        return testableFrameworks.map { String($0.unicodeScalars.map(replaceIllegalCharacters)) }.map { "@testable import \($0)" }
     }
 }

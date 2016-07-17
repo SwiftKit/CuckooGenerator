@@ -9,6 +9,9 @@
 
 import Cuckoo
 @testable import Cuckoo
+@testable import A_b
+@testable import A_c
+@testable import A_d
 
 import Foundation
 

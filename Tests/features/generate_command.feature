@@ -10,7 +10,7 @@ Feature: Generate command
 		When I run `runcuckoo generate --no-timestamp ../SourceFiles/TestedClass.swift ../SourceFiles/TestedProtocol.swift`
 		Then the file "../SourceFiles/Expected/GeneratedMocks.swift" should be equal to file "GeneratedMocks.swift"
 	Scenario: with testableFrameworks
-		When I run `runcuckoo generate --no-timestamp --testable Cuckoo --output Actual.swift ../SourceFiles/TestedEmptyClass.swift`
+		When I run `runcuckoo generate --no-timestamp --testable "Cuckoo,A b,A-c,A.d" --output Actual.swift ../SourceFiles/TestedEmptyClass.swift`
 		Then the file "../SourceFiles/Expected/TestableFrameworks.swift" should be equal to file "Actual.swift"
 	Scenario: non existing input file
 		When I run `runcuckoo generate non_existing_file.swift`
